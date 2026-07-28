@@ -1,0 +1,39 @@
+Category,Hazard Level,Step,Operation,Details / Requirements
+Category X,Major Hazard,1,Strip tank,Strip cargo to the maximum extent as per regulations.
+,,2,Mandatory Prewash,"• Prewash is always required.
+• Use the minimum quantity of water as per the calculation formula.
+• For solidifying cargo, wash immediately after unloading.
+• Heat the tank if possible before washing.
+• Remove residues from hatches and manholes before prewash if possible.
+• For solidifying or highly viscous cargo, use hot water (≥60°C) unless unsuitable.
+• Discharge all prewash residue to a shore reception facility."
+,,3,Commercial Tank Wash,"Wash the tank to commercial standards. Wash water may be discharged into the sea only if:
+• Distance from land > 12 nautical miles
+• Ship speed > 7 knots
+• Water depth > 25 metres
+• Using an underwater discharge outlet within the permitted discharge rate."
+,,4,Final Rinse Water,Any water introduced after commercial cleaning may be discharged into the sea without restrictions.
+Category Y,Hazard,1,Strip tank,Strip cargo to the maximum extent as per regulations.
+,,2A,No Prewash Required,"If the cargo is not solidifying or highly viscous, skip the prewash and proceed directly to commercial washing."
+,,2B,Mandatory Prewash (Conditional),"If the cargo is solidifying or highly viscous:
+• Prewash is mandatory.
+• Use the minimum required water.
+• Wash immediately after unloading.
+• Heat the tank if possible.
+• Use hot water (≥60°C) when appropriate.
+• Remove residues from hatches/manholes before washing if possible.
+• Discharge prewash residue to a shore reception facility."
+,,3,Commercial Tank Wash,"Wash to commercial standards. Wash water may be discharged into the sea only if:
+• Distance from land > 12 nautical miles
+• Ship speed > 7 knots
+• Water depth > 25 metres
+• Using an underwater discharge outlet within the permitted discharge rate."
+,,4,Final Rinse Water,Any water introduced after commercial cleaning may be discharged into the sea without restrictions.
+Category Z,Minor Hazard,1,Strip tank,Strip cargo to the maximum extent as per regulations.
+,,2,Commercial Tank Wash,"No prewash is required. Wash the tank to commercial standards. Wash water may be discharged into the sea only if:
+• Distance from land > 12 nautical miles
+• Ship speed > 7 knots
+• Water depth > 25 metres
+• Underwater discharge outlet required only for ships with keel laid on or after 1 January 2007."
+,,3,Final Rinse Water,Any water introduced after commercial cleaning may be discharged into the sea without restrictions.
+Category OS,Other Substances (No Hazard),—,No Special Requirements,Residues or mixtures containing only Other Substances (OS) are not subject to MARPOL Annex II discharge or tank washing requirements.

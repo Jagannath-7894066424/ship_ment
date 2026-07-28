@@ -1,0 +1,766 @@
+Group ID,Group Name,Chemical Name
+0,Unassigned Cargoes,Acetone cyanohydrin
+0,Unassigned Cargoes,Alkylbenzenesulfonic acid
+0,Unassigned Cargoes,"Aluminium chloride, Hydrochloric acid solution"
+0,Unassigned Cargoes,Ammonium hydrogen phosphate solution
+0,Unassigned Cargoes,Ammonium nitrate solution
+0,Unassigned Cargoes,"Ammonium thiocyanate, Ammonium thiosulfate solution"
+0,Unassigned Cargoes,Benzenesulfonyl chloride
+0,Unassigned Cargoes,γ-Butyrolactone
+0,Unassigned Cargoes,Chlorine
+0,Unassigned Cargoes,Chlorosulfonic acid
+0,Unassigned Cargoes,"2,4-Dichlorophenoxyacetic acid, Dimethylamine salt solution"
+0,Unassigned Cargoes,"Dimethylamine salt of 2,4-Dichlorophenoxyacetic acid solution"
+0,Unassigned Cargoes,Diphenylol propane–Epichlorohydrin resins
+0,Unassigned Cargoes,Dodecylbenzenesulfonic acid
+0,Unassigned Cargoes,Ethyl chlorothioformate
+0,Unassigned Cargoes,Ethylene oxide
+0,Unassigned Cargoes,2-Hydroxyethyl acrylate
+0,Unassigned Cargoes,Magnesium chloride solution
+0,Unassigned Cargoes,Molasses residue
+0,Unassigned Cargoes,Motor fuel antiknock compounds containing Lead alkyls
+0,Unassigned Cargoes,"Naphthalene sulfonic acid-formaldehyde copolymer, sodium salt solution"
+0,Unassigned Cargoes,Nitrating acid
+0,Unassigned Cargoes,Oleum
+0,Unassigned Cargoes,Phosphorus
+0,Unassigned Cargoes,Sodium chlorate solution
+0,Unassigned Cargoes,Sodium dichromate solution
+0,Unassigned Cargoes,"Sodium hydrogen sulfide, Sodium carbonate solution"
+0,Unassigned Cargoes,"Sodium sulfide, Hydrosulfide solution"
+0,Unassigned Cargoes,Sodium thiocyanate solution
+0,Unassigned Cargoes,Sulfur
+0,Unassigned Cargoes,"Urea, Ammonium mono- and di-hydrogen phosphate, Potassium chloride solution"
+1,Non-Oxidizing Mineral Acids,Di-(2-ethylhexyl) phosphoric acid
+1,Non-Oxidizing Mineral Acids,Ferric chloride solution
+1,Non-Oxidizing Mineral Acids,Hydrochloric acid
+1,Non-Oxidizing Mineral Acids,"Hydrochloric acid, spent"
+1,Non-Oxidizing Mineral Acids,Hydrofluorosilicic acid
+1,Non-Oxidizing Mineral Acids,Phosphoric acid
+2,Sulfuric Acids,Sulfuric acid
+2,Sulfuric Acids,"Sulfuric acid, spent"
+2,Sulfuric Acids,Titanium tetrachloride
+3,Nitric Acid,"Ferric nitrate, Nitric acid solution"
+3,Nitric Acid,Nitric acid (70% or less)
+4,Organic Acids,Acetic acid
+4,Organic Acids,Acrylic acid
+4,Organic Acids,Butyric acid
+4,Organic Acids,Cashew nut shell oil (untreated)
+4,Organic Acids,Chloroacetic acid solution
+4,Organic Acids,Chloropropionic acid
+4,Organic Acids,Cyclohexane oxidation product acid water
+4,Organic Acids,Decanoic acid
+4,Organic Acids,"2,2-Dichloropropionic acid"
+4,Organic Acids,"2,2-Dimethyloctanoic acid"
+4,Organic Acids,2-Ethylhexanoic acid
+4,Organic Acids,Formic acid
+4,Organic Acids,Heptanoic acid (n-Heptanoic acid)
+4,Organic Acids,Hexanoic acid
+4,Organic Acids,2-Hydroxy-4-(methylthio)butanoic acid
+4,Organic Acids,Methacrylic acid
+4,Organic Acids,Naphthenic acid
+4,Organic Acids,Neodecanoic acid
+4,Organic Acids,Nonanoic acid
+4,Organic Acids,Octanoic acid
+4,Organic Acids,Propionic acid
+4,Organic Acids,Trimethylacetic acid
+4,Organic Acids,Undecanoic acid
+5,Caustics,Ammonium sulfide solution
+5,Caustics,Calcium hypochlorite solutions
+5,Caustics,Caustic potash solution ²
+5,Caustics,Caustic soda solution ²
+5,Caustics,Cresylate spent caustic
+5,Caustics,"Cresylic acid, sodium salt solution"
+5,Caustics,Kraft black liquor
+5,Caustics,Kraft pulping liquors
+5,Caustics,"Mercaptobenzothiazol, sodium salt solution"
+5,Caustics,Potassium hydroxide solution ²
+5,Caustics,Sodium aluminate solution
+5,Caustics,"Sodium borohydride, Sodium hydroxide solution"
+5,Caustics,Sodium carbonate solutions
+5,Caustics,Sodium cyanide solution
+5,Caustics,Sodium hydrosulfide solution ²
+5,Caustics,"Sodium hydrosulfide, Ammonium sulfide solution ²"
+5,Caustics,Sodium hydroxide solution ²
+5,Caustics,Sodium hypochlorite solution
+5,Caustics,Sodium 2-mercaptobenzothiazol solution
+5,Caustics,Sodium nitrite solution
+5,Caustics,Vanillin black liquor
+6,Ammonia,"Ammonia, anhydrous"
+6,Ammonia,Ammonium hydroxide (28% or less Ammonia)
+6,Ammonia,"Ammonium nitrate, Urea solution (containing Ammonia)"
+6,Ammonia,"Urea, Ammonium nitrate solution (containing Ammonia)"
+7,Aliphatic Amines,N-Aminoethylpiperazine
+7,Aliphatic Amines,Butylamine
+7,Aliphatic Amines,Cyclohexylamine
+7,Aliphatic Amines,Dibutylamine
+7,Aliphatic Amines,Diethylamine ²
+7,Aliphatic Amines,Diethylenetriamine
+7,Aliphatic Amines,Diisobutylamine
+7,Aliphatic Amines,Diisopropylamine
+7,Aliphatic Amines,Dimethylamine
+7,Aliphatic Amines,Dimethylamine solution
+7,Aliphatic Amines,"N,N-Dimethylcyclohexylamine"
+7,Aliphatic Amines,Di-n-Propylamine
+7,Aliphatic Amines,"Dodecylamine, Tetradecylamine mixture ²"
+7,Aliphatic Amines,Ethylamine ²
+7,Aliphatic Amines,Ethylamine solution
+7,Aliphatic Amines,N-Ethyl-n-butylamine
+7,Aliphatic Amines,N-Ethyl cyclohexylamine
+7,Aliphatic Amines,Ethylenediamine ²
+7,Aliphatic Amines,2-Ethyl hexylamine
+7,Aliphatic Amines,Hexamethylenediamine solution
+7,Aliphatic Amines,Hexamethylenetetramine
+7,Aliphatic Amines,Hexamethylenetetramine solutions
+7,Aliphatic Amines,Hexamethylenimine
+7,Aliphatic Amines,Isophorone diamine
+7,Aliphatic Amines,Metam sodium solution
+7,Aliphatic Amines,Methylamine
+7,Aliphatic Amines,Methylamine solutions
+7,Aliphatic Amines,Morpholine ²
+7,Aliphatic Amines,"Pentaethylenehexamine, Tetraethylenepentamine mixture"
+7,Aliphatic Amines,Polyethylene polyamines ²
+7,Aliphatic Amines,Propylamine
+7,Aliphatic Amines,Tetraethylenepentamine
+7,Aliphatic Amines,Triethylamine
+7,Aliphatic Amines,Triethylenetetramine ²
+7,Aliphatic Amines,"Trimethylhexamethylene diamine (2,2,4- and 2,4,4-)"
+7,Aliphatic Amines,N-Aminoethylpiperazine
+7,Aliphatic Amines,Butylamine
+7,Aliphatic Amines,Cyclohexylamine
+7,Aliphatic Amines,Dibutylamine
+7,Aliphatic Amines,Diethylamine ²
+7,Aliphatic Amines,Diethylenetriamine
+7,Aliphatic Amines,Diisobutylamine
+7,Aliphatic Amines,Diisopropylamine
+7,Aliphatic Amines,Dimethylamine
+7,Aliphatic Amines,Dimethylamine solution
+7,Aliphatic Amines,"N,N-Dimethylcyclohexylamine"
+7,Aliphatic Amines,Di-n-Propylamine
+7,Aliphatic Amines,"Dodecylamine, Tetradecylamine mixture ²"
+7,Aliphatic Amines,Ethylamine ²
+7,Aliphatic Amines,Ethylamine solution
+7,Aliphatic Amines,N-Ethyl-n-butylamine
+7,Aliphatic Amines,N-Ethyl cyclohexylamine
+7,Aliphatic Amines,Ethylenediamine ²
+7,Aliphatic Amines,2-Ethyl hexylamine
+7,Aliphatic Amines,Hexamethylenediamine solution
+7,Aliphatic Amines,Hexamethylenetetramine
+7,Aliphatic Amines,Hexamethylenetetramine solutions
+7,Aliphatic Amines,Hexamethylenimine
+7,Aliphatic Amines,Isophorone diamine
+7,Aliphatic Amines,Metam sodium solution
+7,Aliphatic Amines,Methylamine
+7,Aliphatic Amines,Methylamine solutions
+7,Aliphatic Amines,Morpholine ²
+7,Aliphatic Amines,"Pentaethylenehexamine, Tetraethylenepentamine mixture"
+7,Aliphatic Amines,Polyethylene polyamines ²
+7,Aliphatic Amines,Propylamine
+7,Aliphatic Amines,Tetraethylenepentamine
+7,Aliphatic Amines,Triethylamine
+7,Aliphatic Amines,Triethylenetetramine ²
+7,Aliphatic Amines,"Trimethylhexamethylene diamine (2,2,4- and 2,4,4-)"
+8,Alkanolamines,2-(2-Aminoethoxy)ethanol
+8,Alkanolamines,"Aminoethyldiethanolamine, Aminoethylethanolamine solution"
+8,Alkanolamines,Aminoethylethanolamine
+8,Alkanolamines,2-Amino-2-methyl-1-propanol
+8,Alkanolamines,Diethanolamine
+8,Alkanolamines,Diethylaminoethanol
+8,Alkanolamines,Diethylethanolamine
+8,Alkanolamines,Diisopropanolamine
+8,Alkanolamines,Dimethylethanolamine
+8,Alkanolamines,Ethanolamine
+8,Alkanolamines,Propanolamine
+8,Alkanolamines,Triethanolamine ²
+8,Alkanolamines,Triisopropanolamine
+9,Aromatic Amines,Aniline
+9,Aromatic Amines,"4-Chloro-2-methylphenoxyacetic acid, Dimethylamine salt solution"
+9,Aromatic Amines,"2,6-Diethylaniline"
+9,Aromatic Amines,Dimethylamine salt of 4-Chloro-2-methylphenoxyacetic acid solution
+9,Aromatic Amines,"2,6-Dimethylaniline"
+9,Aromatic Amines,2-Ethyl-6-methyl-N-(1'-methyl-2-methoxyethyl)aniline
+9,Aromatic Amines,"4,4'-Methylene dianiline (43% or less), Polymethylene polyphenylamine, o-Dichlorobenzene mixtures"
+9,Aromatic Amines,2-Methyl-6-ethyl aniline
+9,Aromatic Amines,2-Methyl-5-ethyl pyridine
+9,Aromatic Amines,Methyl pyridine
+9,Aromatic Amines,3-Methylpyridine
+9,Aromatic Amines,N-Methyl pyrrolidone
+9,Aromatic Amines,Pyridine
+9,Aromatic Amines,Pyridine bases
+9,Aromatic Amines,Toluenediamine
+9,Aromatic Amines,p-Toluidine
+10,Amides,Acrylamide solution
+10,Amides,"N,N-Dimethylacetamide"
+10,Amides,"N,N-Dimethylacetamide solution"
+10,Amides,Dimethylformamide
+10,Amides,Formamide
+10,Amides,Octadecenoamide
+11,Organic Anhydrides,Acetic anhydride
+11,Organic Anhydrides,Maleic anhydride
+11,Organic Anhydrides,Phthalic anhydride
+11,Organic Anhydrides,Propionic anhydride
+12,Isocyanates,Diphenylmethane diisocyanate
+12,Isocyanates,Isophorone diisocyanate
+12,Isocyanates,Polymethylene polyphenyl isocyanate
+12,Isocyanates,Toluene diisocyanate
+12,Isocyanates,"Trimethylhexamethylene diisocyanate (2,2,4- and 2,4,4-)"
+13,Vinyl Acetate,Vinyl acetate
+13,Vinyl Acetate,Vinyl ethyl ether
+13,Vinyl Acetate,Vinyl neodecanate
+13,Vinyl Acetate,Vinyl toluene
+14,Acrylates,Butyl acrylate
+14,Acrylates,Butyl methacrylate
+14,Acrylates,"Butyl methacrylate, Decyl methacrylate, Cetyl-Eicosyl methacrylate mixture"
+14,Acrylates,Cetyl-Eicosyl methacrylate mixture
+14,Acrylates,Decyl acrylate
+14,Acrylates,Dodecyl methacrylate
+14,Acrylates,Dodecyl-Pentadecyl methacrylate mixture
+14,Acrylates,Ethyl acrylate
+14,Acrylates,2-Ethylhexyl acrylate
+14,Acrylates,Ethyl methacrylate
+14,Acrylates,Methyl acrylate
+14,Acrylates,Methyl methacrylate
+14,Acrylates,Nonyl methacrylate
+14,Acrylates,Polyalkyl(C18 - C22) acrylate in Xylene
+15,Substituted Allyls,Acrylonitrile ²
+15,Substituted Allyls,Allyl alcohol ²
+15,Substituted Allyls,Allyl chloride
+15,Substituted Allyls,"1,3-Dichloropropene"
+15,Substituted Allyls,"Dichloropropene, Dichloropropane mixtures"
+15,Substituted Allyls,Methacrylonitrile
+16,Alkylene Oxides,Butylene oxide
+16,Alkylene Oxides,"Ethylene oxide, Propylene oxide mixtures"
+16,Alkylene Oxides,Propylene oxide
+17,Epichlorohydrin,Epichlorohydrin
+18,Ketones,Acetone ²
+18,Ketones,Acetophenone
+18,Ketones,Amyl methyl ketone
+18,Ketones,Butyl heptyl ketone
+18,Ketones,Camphor oil
+18,Ketones,Cyclohexanone
+18,Ketones,"Cyclohexanone, Cyclohexanol mixtures ²"
+18,Ketones,Diisobutyl ketone
+18,Ketones,Ethyl amyl ketone
+18,Ketones,Epoxy resin
+18,Ketones,Ketone residue
+18,Ketones,Isophorone ²
+18,Ketones,Mesityl oxide ²
+18,Ketones,Methyl amyl ketone
+18,Ketones,Methyl butyl ketone
+18,Ketones,Methyl diethanolamine
+18,Ketones,Methyl ethyl ketone ²
+18,Ketones,Methyl heptyl ketone
+18,Ketones,Methyl isoamyl ketone
+18,Ketones,Methyl isobutyl ketone ²
+19,Aldehydes,Acetaldehyde
+19,Aldehydes,Acrolein ²
+19,Aldehydes,Butyraldehyde
+19,Aldehydes,Crotonaldehyde ²
+19,Aldehydes,Decaldehyde
+19,Aldehydes,Ethylhexaldehyde
+19,Aldehydes,2-Ethyl-3-propylacrolein ²
+19,Aldehydes,"Formaldehyde, Methanol mixtures ²"
+19,Aldehydes,Formaldehyde solution ²
+19,Aldehydes,Furfural
+19,Aldehydes,Glutaraldehyde solution
+19,Aldehydes,Glyoxal solutions
+19,Aldehydes,3-Methyl butyraldehyde
+19,Aldehydes,Methylolureas
+19,Aldehydes,Octyl aldehyde
+19,Aldehydes,Paraldehyde
+19,Aldehydes,Pentyl aldehyde
+19,Aldehydes,Propionaldehyde
+19,Aldehydes,Salicylaldehyde
+19,Aldehydes,Valeraldehyde
+20,"Alcohols, Glycols",Acrylonitrile-Styrene copolymer dispersion in Polyether polyol
+20,"Alcohols, Glycols",Alcoholic beverages
+20,"Alcohols, Glycols",Alcohol polyethoxylates
+20,"Alcohols, Glycols","Alcohol polyethoxylates, secondary"
+20,"Alcohols, Glycols",Alcohols (C13 and above)
+20,"Alcohols, Glycols",Amyl alcohol
+20,"Alcohols, Glycols",Behenyl alcohol
+20,"Alcohols, Glycols",Brake fluid base mixtures
+20,"Alcohols, Glycols",Butyl alcohol ²
+20,"Alcohols, Glycols",Butylene glycol ²
+20,"Alcohols, Glycols",Choline chloride solutions
+20,"Alcohols, Glycols",Cyclohexanol
+20,"Alcohols, Glycols",Decyl alcohol ²
+20,"Alcohols, Glycols",Diacetone alcohol ²
+20,"Alcohols, Glycols",Diisobutyl carbinol
+20,"Alcohols, Glycols","2,2-Dimethylpropane-1,3-diol"
+20,"Alcohols, Glycols",Dodecanol
+20,"Alcohols, Glycols",Dodecyl alcohol
+20,"Alcohols, Glycols","Ethoxylated alcohols, C11-C15"
+20,"Alcohols, Glycols",2-Ethoxyethanol
+20,"Alcohols, Glycols",Ethyl alcohol 
+20,"Alcohols, Glycols",Ethyl butanol
+20,"Alcohols, Glycols",Ethylene chlorohydrin
+20,"Alcohols, Glycols",Ethylene cyanohydrin
+20,"Alcohols, Glycols",Ethylene glycol 
+20,"Alcohols, Glycols",2-Ethylhexanol
+20,"Alcohols, Glycols",Furfuryl alcohol 
+20,"Alcohols, Glycols",Glycerine 
+20,"Alcohols, Glycols",Heptanol
+20,"Alcohols, Glycols",Hexanol
+20,"Alcohols, Glycols",Hexylene glycol
+20,"Alcohols, Glycols",3-Methoxy-1-butanol
+20,"Alcohols, Glycols",Methyl alcohol 
+20,"Alcohols, Glycols",Methyl amyl alcohol
+20,"Alcohols, Glycols",Methyl butenol
+20,"Alcohols, Glycols",Methylbutynol
+20,"Alcohols, Glycols",2-Methyl-2-hydroxy-3-butyne
+20,"Alcohols, Glycols",Methyl isobutyl carbinol
+20,"Alcohols, Glycols",3-Methyl-3-methoxybutanol
+20,"Alcohols, Glycols",Molasses
+20,"Alcohols, Glycols",Nonyl alcohol ²
+20,"Alcohols, Glycols",Octyl alcohol ²
+20,"Alcohols, Glycols",Pentadecanol
+20,"Alcohols, Glycols",Polyalkylene oxide polyol
+20,"Alcohols, Glycols","Polybutadiene, hydroxyl terminated"
+20,"Alcohols, Glycols",Polyglycerol
+20,"Alcohols, Glycols",Propyl alcohol ²
+20,"Alcohols, Glycols",Propylene glycol ²
+20,"Alcohols, Glycols",Rum
+20,"Alcohols, Glycols",Sorbitol solutions
+20,"Alcohols, Glycols",Tallow fatty alcohol
+20,"Alcohols, Glycols",Tetradecanol
+20,"Alcohols, Glycols",Tridecanol
+20,"Alcohols, Glycols",Trimethylol propane polyethoxylate
+20,"Alcohols, Glycols",Undecanol
+20,"Alcohols, Glycols",Undecyl alcohol
+21,"Phenols, Cresols",Benzyl alcohol
+21,"Phenols, Cresols",Carbolic oil
+21,"Phenols, Cresols",Creosote ²
+21,"Phenols, Cresols",Cresols
+21,"Phenols, Cresols",Cresylic acid
+21,"Phenols, Cresols","2,4-Dichlorophenol"
+21,"Phenols, Cresols",Dodecyl phenol
+21,"Phenols, Cresols",o-Ethylphenol
+21,"Phenols, Cresols",Nonyl phenol
+21,"Phenols, Cresols",Octyl phenol
+21,"Phenols, Cresols",Phenol
+21,"Phenols, Cresols",Xylenols
+22,Caprolactam Solutions,Caprolactam solution
+30,Olefins,Amylene
+30,Olefins,Butadiene
+30,Olefins,"Butadiene, Butylene mixtures (cont. Acetylenes)"
+30,Olefins,Butene
+30,Olefins,Butene oligomer
+30,Olefins,Butylene
+30,Olefins,"1,5,9-Cyclododecatriene"
+30,Olefins,"1,3-Cyclopentadiene dimer"
+30,Olefins,Cyclopentadiene polymers
+30,Olefins,"Cyclopentadiene, Styrene, Benzene mixture"
+30,Olefins,Cyclopentene
+30,Olefins,Decene
+30,Olefins,Dicyclopentadiene
+30,Olefins,Diisobutylene
+30,Olefins,Dipentene
+30,Olefins,Dodecene
+30,Olefins,Ethylene
+30,Olefins,Ethylidene norbornene ²
+30,Olefins,1-Heptene
+30,Olefins,Hexene
+30,Olefins,Isoprene
+30,Olefins,"Methyl acetylene, Propadiene mixture"
+30,Olefins,Methylcyclopentadiene dimer
+30,Olefins,2-Methyl-1-pentene
+30,Olefins,4-Methyl-1-pentene
+30,Olefins,alpha-Methyl styrene
+30,Olefins,Myrcene
+30,Olefins,Nonene
+30,Olefins,1-Octadecene
+30,Olefins,Octene
+30,Olefins,Olefin mixtures
+30,Olefins,alpha-Olefins (C6 - C18) mixtures
+30,Olefins,alpha-Olefins (C13 and above)
+30,Olefins,"1,3-Pentadiene"
+30,Olefins,Pentene
+30,Olefins,"Pentene, Miscellaneous hydrocarbon mixture ²"
+30,Olefins,Pinene
+30,Olefins,Polybutene
+30,Olefins,Polypropylene
+30,Olefins,Propylene
+30,Olefins,Propylene-butylene copolymer
+30,Olefins,Propylene dimer
+30,Olefins,Propylene tetramer
+30,Olefins,Propylene trimer
+30,Olefins,Styrene
+30,Olefins,Tetradecene
+30,Olefins,Tridecene
+30,Olefins,Triisobutylene
+30,Olefins,Tripropylene
+30,Olefins,Turpentine
+30,Olefins,Undecene
+31,Paraffins,Butane
+31,Paraffins,Cycloaliphatic resins
+31,Paraffins,Cycloheptane
+31,Paraffins,Cyclohexane
+31,Paraffins,Cyclopentane
+31,Paraffins,Decane
+31,Paraffins,Dodecane
+31,Paraffins,Ethane
+31,Paraffins,Heptane
+31,Paraffins,Hexane ²
+31,Paraffins,Methane
+31,Paraffins,Methylcyclohexane
+31,Paraffins,2-Methyl pentane
+31,Paraffins,Nonane
+31,Paraffins,Octane
+31,Paraffins,n-Paraffins (C10 - C20)
+31,Paraffins,Pentane
+31,Paraffins,Propane
+31,Paraffins,iso-Propylcyclohexane
+31,Paraffins,Tridecane
+31,Paraffins,Waxes
+32,Aromatic Hydrocarbons,Alkyl acrylate-Vinyl pyridine copolymer in Toluene
+32,Aromatic Hydrocarbons,Alkyl(C9 - C17) benzenes
+32,Aromatic Hydrocarbons,Benzene
+32,Aromatic Hydrocarbons,Benzene hydrocarbon mixtures (having 10% Benzene or more)
+32,Aromatic Hydrocarbons,"Benzene, Toluene, Xylene mixtures"
+32,Aromatic Hydrocarbons,Butylbenzene
+32,Aromatic Hydrocarbons,"Butyl phenol, Formaldehyde resin in Xylene"
+32,Aromatic Hydrocarbons,Butyl toluene
+32,Aromatic Hydrocarbons,Cumene
+32,Aromatic Hydrocarbons,Cymene
+32,Aromatic Hydrocarbons,Decylbenzene
+32,Aromatic Hydrocarbons,Dialkyl(C10 - C14) benzenes
+32,Aromatic Hydrocarbons,Diethylbenzene
+32,Aromatic Hydrocarbons,Diisopropylbenzene
+32,Aromatic Hydrocarbons,Diisopropyl naphthalene
+32,Aromatic Hydrocarbons,Diphenyl
+32,Aromatic Hydrocarbons,Dodecylbenzene
+32,Aromatic Hydrocarbons,Ethylbenzene
+32,Aromatic Hydrocarbons,Ethyl toluene
+32,Aromatic Hydrocarbons,Isopropylbenzene
+32,Aromatic Hydrocarbons,Methyl naphthalene
+32,Aromatic Hydrocarbons,Naphthalene
+32,Aromatic Hydrocarbons,1-Phenyl-1-xylyl ethane
+32,Aromatic Hydrocarbons,Propylbenzene
+32,Aromatic Hydrocarbons,Pseudocumene
+32,Aromatic Hydrocarbons,Tetradecylbenzene
+32,Aromatic Hydrocarbons,Tetrahydronaphthalene
+32,Aromatic Hydrocarbons,"1,2,3,5-Tetramethylbenzene"
+32,Aromatic Hydrocarbons,Toluene
+32,Aromatic Hydrocarbons,Tridecylbenzene
+32,Aromatic Hydrocarbons,Triethylbenzene
+32,Aromatic Hydrocarbons,Trimethylbenzene
+32,Aromatic Hydrocarbons,Undecylbenzene
+32,Aromatic Hydrocarbons,Xylene
+33,Miscellaneous Hydrocarbon Mixtures,"Alkylbenzenesulfonic acid, sodium salt solutions"
+33,Miscellaneous Hydrocarbon Mixtures,"Asphalt blending stocks, roofers flux"
+33,Miscellaneous Hydrocarbon Mixtures,"Asphalt blending stocks, straight run residue"
+33,Miscellaneous Hydrocarbon Mixtures,Aviation alkylates
+33,Miscellaneous Hydrocarbon Mixtures,"Calcium sulfonate, Calcium carbonate, Hydrocarbon solvent mixture"
+33,Miscellaneous Hydrocarbon Mixtures,Carbon black base
+33,Miscellaneous Hydrocarbon Mixtures,Coal tar
+33,Miscellaneous Hydrocarbon Mixtures,Coal tar pitch
+33,Miscellaneous Hydrocarbon Mixtures,Decahydronaphthalene
+33,Miscellaneous Hydrocarbon Mixtures,"Diphenyl, Diphenyl ether"
+33,Miscellaneous Hydrocarbon Mixtures,"Distillates, flashed feed stocks"
+33,Miscellaneous Hydrocarbon Mixtures,"Distillates, straight run"
+33,Miscellaneous Hydrocarbon Mixtures,Drilling mud (low toxicity) (if flammable or combustible)
+33,Miscellaneous Hydrocarbon Mixtures,Fatty acid amides
+33,Miscellaneous Hydrocarbon Mixtures,"Gas oil, cracked"
+33,Miscellaneous Hydrocarbon Mixtures,"Gasoline blending stock, alkylates"
+33,Miscellaneous Hydrocarbon Mixtures,"Gasoline blending stock, reformates"
+33,Miscellaneous Hydrocarbon Mixtures,Gasolines: Automotive (not over 4.23 grams lead per gal.)
+33,Miscellaneous Hydrocarbon Mixtures,Gasolines: Aviation (not over 4.86 grams lead per gal.)
+33,Miscellaneous Hydrocarbon Mixtures,Gasolines: Casinghead (natural)
+33,Miscellaneous Hydrocarbon Mixtures,Gasolines: Polymer
+33,Miscellaneous Hydrocarbon Mixtures,Gasolines: Straight run
+33,Miscellaneous Hydrocarbon Mixtures,"Glycols, Resins, and Solvents mixture"
+33,Miscellaneous Hydrocarbon Mixtures,Herbicide (C15-H22-NO2-Cl)
+33,Miscellaneous Hydrocarbon Mixtures,Jet Fuels: JP-1
+33,Miscellaneous Hydrocarbon Mixtures,Jet Fuels: JP-3
+33,Miscellaneous Hydrocarbon Mixtures,Jet Fuels: JP-4
+33,Miscellaneous Hydrocarbon Mixtures,Jet Fuels: JP-5
+33,Miscellaneous Hydrocarbon Mixtures,Jet Fuels:
+34,Esters,Acetyl tributyl citrate
+34,Esters,Alkyl phthalates
+34,Esters,Amyl acetate
+34,Esters,Amyl tallate
+34,Esters,Benzene tricarboxylic acid trioctyl ester
+34,Esters,Benzyl acetate
+34,Esters,Butyl acetate
+34,Esters,Butyl benzyl phthalate
+34,Esters,n-Butyl butyrate
+34,Esters,Butyl formate
+34,Esters,iso-Butyl isobutyrate
+34,Esters,Calcium naphthenate in Mineral oil
+34,Esters,"Calcium nitrate, Magnesium nitrate, Potassium chloride solution"
+34,Esters,"Coconut oil, fatty acid"
+34,Esters,"Cottonseed oil, fatty acid"
+34,Esters,Cyclohexyl acetate
+34,Esters,Dialkyl(C7 - C13) phthalates
+34,Esters,Dibutyl phthalate
+34,Esters,Diethylene glycol butyl ether acetate
+34,Esters,Diethylene glycol ethyl ether acetate
+34,Esters,Diethylene glycol methyl ether acetate
+34,Esters,Diethylene glycol phthalate
+34,Esters,Di-(2-ethylhexyl)adipate
+34,Esters,Di-(2-ethylhexyl)phthalate
+34,Esters,Diethyl phthalate
+34,Esters,Diethyl sulfate
+34,Esters,Diheptyl phthalate
+34,Esters,Di-n-hexyl adipate
+34,Esters,Diisobutyl phthalate
+34,Esters,Diisodecyl phthalate
+34,Esters,Diisononyl adipate
+34,Esters,Diisononyl phthalate
+34,Esters,Diisooctyl phthalate
+34,Esters,Dimethyl adipate
+34,Esters,Dimethylcyclicsiloxane hydrolyzate
+34,Esters,Dimethyl glutarate
+34,Esters,Dimethyl hydrogen phosphite ?
+34,Esters,"Dimethyl naphthalene sulfonic acid, sodium salt solution ?"
+34,Esters,Dimethyl phthalate
+34,Esters,Dimethyl polysiloxane
+34,Esters,Dimethyl succinate
+34,Esters,Dinonyl phthalate
+34,Esters,Dioctyl phthalate
+34,Esters,Dipropylene glycol dibenzoate
+34,Esters,Ditridecyl phthalate
+34,Esters,"2-Dodecenylsuccinic acid, dipotassium salt solution"
+34,Esters,Diundecyl phthalate
+34,Esters,2-Ethoxyethyl acetate
+34,Esters,Ethyl acetate
+34,Esters,Ethyl acetoacetate
+34,Esters,Ethyl butyrate
+34,Esters,Ethylene glycol acetate
+34,Esters,Ethylene glycol butyl ether acetate
+34,Esters,Ethylene glycol diacetate
+34,Esters,Ethylene glycol ethyl ether acetate
+34,Esters,Ethylene glycol methyl ether acetate
+34,Esters,Ethyl-3-ethoxypropionate
+34,Esters,Ethyl hexyl phthalate
+34,Esters,Ethyl hexyl tallate
+34,Esters,Ethyl propionate
+34,Esters,"Fatty acids (saturated, C13 and above)"
+34,Esters,Glycerol polyalkoxylate
+34,Esters,Glyceryl triacetate
+34,Esters,Glycidyl ester of tridecylacetic acid
+34,Esters,Glycidyl ester of Versatic acid
+34,Esters,Glycol diacetate
+34,Esters,Heptyl acetate
+34,Esters,Hexyl acetate
+34,Esters,Lauric acid
+34,Esters,Magnesium sulfonate
+34,Esters,3-Methoxybutyl acetate
+34,Esters,1-Methoxy-2-propyl acetate
+34,Esters,Methyl acetate
+34,Esters,Methyl acetoacetate
+34,Esters,Methyl amyl acetate
+34,Esters,Methyl butyrate
+34,Esters,Methyl formate
+34,Esters,3-Methyl-3-methoxybutyl acetate
+34,Esters,Methyl salicylate
+34,Esters,Metolachlor
+34,Esters,"Naphthalene sulfonic acid, sodium salt solution (40% or less)"
+34,Esters,Octyl decyl adipate
+34,Esters,Octyl epoxytallate
+34,Esters,Octyl nitrate ?
+34,Esters,"Oil, edible: Babassu"
+34,Esters,"Oil, edible: Castor"
+34,Esters,"Oil, edible: Coconut ?"
+34,Esters,"Oil, edible: Corn"
+34,Esters,"Oil, edible: Cotton seed"
+34,Esters,"Oil, edible: Fish ?"
+34,Esters,"Oil, edible: Lard"
+34,Esters,"Oil, edible: Olive"
+34,Esters,"Oil, edible: Palm ?"
+34,Esters,"Oil, edible: Palm kernel"
+34,Esters,"Oil, edible: Peanut"
+34,Esters,"Oil, edible: Rapeseed"
+34,Esters,"Oil, edible: Rice bran"
+34,Esters,"Oil, edible: Safflower"
+34,Esters,"Oil, edible: Soya bean"
+34,Esters,"Oil, edible: Sunflower"
+34,Esters,"Oil, edible: Sunflower seed"
+34,Esters,"Oil, edible: Tucum"
+34,Esters,"Oil, edible: Vegetable"
+34,Esters,"Oil, misc: Coconut oil, fatty acid methyl ester"
+34,Esters,"Oil, misc: Cotton seed oil, fatty acid"
+34,Esters,"Oil, misc: Palm oil, fatty acid methyl ester"
+34,Esters,"Oil, misc: Palm oil, methyl ester"
+34,Esters,"Oil, misc: Soapstock"
+34,Esters,"Oil, misc: Tall"
+34,Esters,"Oil, misc: Tall, fatty acid ?"
+34,Esters,"Oil, misc: Tung"
+34,Esters,Oleic acid
+34,Esters,"Palm kernel oil, fatty acid"
+34,Esters,"Palm kernel oil, fatty acid methyl ester"
+34,Esters,Palm stearin
+34,Esters,Polydimethylsiloxane
+34,Esters,Polyferric sulfate solution
+34,Esters,Polymethylsiloxane
+34,Esters,Poly(20)oxyethylene sorbitan monooleate
+34,Esters,Polysiloxane
+34,Esters,Potassium oleate
+34,Esters,Propyl acetate
+34,Esters,Sodium acetate solution
+34,Esters,Sodium benzoate solution
+34,Esters,Sodium dimethyl naphthalene sulfonate solution ?
+34,Esters,Sodium naphthalene sulfonate solution
+34,Esters,Stearic acid
+34,Esters,Tall oil
+34,Esters,Tallow ?
+34,Esters,Tallow fatty acid ?
+34,Esters,Triarylphosphate
+34,Esters,Tributyl phosphate
+34,Esters,Tricresyl phosphate
+34,Esters,Triethylene glycol di-(2-ethylbutyrate)
+34,Esters,Triethyl phosphate
+34,Esters,Triethyl phosphite ?
+34,Esters,Triisooctyl trimellitate ?
+34,Esters,"2,2,4-Trimethyl pentanediol-1,3-diisobutyrate"
+34,Esters,"2,2,4-Trimethyl-1,3-pentanediol-1-isobutyrate"
+34,Esters,"2,2,4-Trimethyl-3-pentanol-1-isobutyrate"
+34,Esters,Trimethyl phosphite ?
+34,Esters,Trisodium nitrilotriacetate
+34,Esters,Trixylenyl phosphate
+34,Esters,Vinyl acetate-Fumarate copolymer
+34,Esters,Waxes: Carnauba
+35,Vinyl Halides,Vinyl chloride
+35,Vinyl Halides,Vinylidene chloride
+36,Halogenated Hydrocarbons,Benzyl chloride
+36,Halogenated Hydrocarbons,Carbon tetrachloride
+36,Halogenated Hydrocarbons,Chlorinated paraffins (C10 - C13)
+36,Halogenated Hydrocarbons,Chlorinated paraffins (C14 - C17)
+36,Halogenated Hydrocarbons,Chlorobenzene
+36,Halogenated Hydrocarbons,Chlorodifluoromethane
+36,Halogenated Hydrocarbons,Chloroform
+36,Halogenated Hydrocarbons,Chlorotoluene
+36,Halogenated Hydrocarbons,Dichlorobenzene
+36,Halogenated Hydrocarbons,Dichlorodifluoromethane
+36,Halogenated Hydrocarbons,"1,1-Dichloroethane"
+36,Halogenated Hydrocarbons,"2,2'-Dichloroisopropyl ether"
+36,Halogenated Hydrocarbons,Dichloromethane
+36,Halogenated Hydrocarbons,Dichloropropane
+36,Halogenated Hydrocarbons,Ethyl chloride
+36,Halogenated Hydrocarbons,Ethylene dibromide
+36,Halogenated Hydrocarbons,Ethylene dichloride ?
+36,Halogenated Hydrocarbons,Methyl bromide
+36,Halogenated Hydrocarbons,Methyl chloride
+36,Halogenated Hydrocarbons,Monochlorodifluoromethane
+36,Halogenated Hydrocarbons,Pentachloroethane
+36,Halogenated Hydrocarbons,Perchloroethylene
+36,Halogenated Hydrocarbons,"1,1,2,2-Tetrachloroethane"
+36,Halogenated Hydrocarbons,"1,2,4-Trichlorobenzene"
+36,Halogenated Hydrocarbons,"1,1,1-Trichloroethane ?"
+36,Halogenated Hydrocarbons,"1,1,2-Trichloroethane"
+36,Halogenated Hydrocarbons,Trichloroethylene ?
+36,Halogenated Hydrocarbons,"1,2,3-Trichloropropane"
+36,Halogenated Hydrocarbons,"1,1,2-Trichloro-1,2,2-trifluoroethane"
+37,Nitriles,Acetonitrile
+37,Nitriles,Adiponitrile
+37,Nitriles,Lactonitrile solution
+37,Nitriles,3-Pentenenitrile
+37,Nitriles,Propionitrile
+37,Nitriles,Tallow nitrile
+38,Carbon Disulfide,Carbon disulfide
+38,Carbon Disulfide,Carbon disulfide
+39,Sulfolane,Sulfolane
+40,Glycol Ethers,Diethylene glycol
+40,Glycol Ethers,Diethylene glycol butyl ether
+40,Glycol Ethers,Diethylene glycol dibutyl ether
+40,Glycol Ethers,Diethylene glycol ethyl ether
+40,Glycol Ethers,Diethylene glycol methyl ether
+40,Glycol Ethers,Diethylene glycol phenyl ether
+40,Glycol Ethers,Dipropylene glycol
+40,Glycol Ethers,Dipropylene glycol methyl ether
+40,Glycol Ethers,Ethoxy triglycol
+40,Glycol Ethers,Ethylene glycol tert-butyl ether
+40,Glycol Ethers,Ethylene glycol butyl ether
+40,Glycol Ethers,Ethylene glycol dibutyl ether
+40,Glycol Ethers,Ethylene glycol ethyl ether
+40,Glycol Ethers,Ethylene glycol isopropyl ether
+40,Glycol Ethers,Ethylene glycol methyl ether
+40,Glycol Ethers,Ethylene glycol phenyl ether
+40,Glycol Ethers,"Ethylene glycol phenyl ether, Diethylene glycol phenyl ether mixture"
+40,Glycol Ethers,Ethylene glycol propyl ether
+40,Glycol Ethers,Methoxy triglycol
+40,Glycol Ethers,Nonyl phenol (ethoxylated)
+40,Glycol Ethers,Nonyl phenol poly(4-12)ethoxylates
+40,Glycol Ethers,"Oil, misc: Soybean (epoxidized)"
+40,Glycol Ethers,"Polyalkylene glycols, Polyalkylene glycol monoalkyl ethers mixtures"
+40,Glycol Ethers,Polyethylene glycols
+40,Glycol Ethers,Polyethylene glycol dimethyl ether
+40,Glycol Ethers,Polyethylene glycol monoalkyl ether
+40,Glycol Ethers,Polypropylene glycol methyl ether
+40,Glycol Ethers,Polypropylene glycols
+40,Glycol Ethers,n-Propoxypropanol
+40,Glycol Ethers,Propylene glycol monoalkyl ether
+40,Glycol Ethers,Propylene glycol ethyl ether
+40,Glycol Ethers,Propylene glycol methyl ether
+40,Glycol Ethers,Tetraethylene glycol
+40,Glycol Ethers,Triethylene glycol
+40,Glycol Ethers,Triethylene glycol butyl ether
+40,Glycol Ethers,Triethylene glycol butyl ether mixture
+40,Glycol Ethers,Triethylene glycol ether mixture
+40,Glycol Ethers,Triethylene glycol ethyl ether
+40,Glycol Ethers,Tripropylene glycol
+40,Glycol Ethers,Tripropylene glycol methyl ether
+41,Ethers,Butyl ether
+41,Ethers,"2,2'-Dichloroethyl ether"
+41,Ethers,Diglycidyl ether of Bisphenol A
+41,Ethers,Diglycidyl ether of Bisphenol F
+41,Ethers,Dimethyl furan
+41,Ethers,"1,4-Dioxane"
+41,Ethers,Diphenyl ether
+41,Ethers,"Diphenyl ether, Diphenyl phenyl ether mixture"
+41,Ethers,Ethyl ether
+41,Ethers,Methyl-tert-butyl ether ?
+41,Ethers,Methyl formal
+41,Ethers,Propyl ether
+41,Ethers,Tetrahydrofuran
+42,Nitrocompounds,Dinitrotoluene
+42,Nitrocompounds,Nitrobenzene
+42,Nitrocompounds,o-Nitrochlorobenzene
+42,Nitrocompounds,Nitroethane
+42,Nitrocompounds,Nitropropane
+42,Nitrocompounds,"Nitropropane, Nitroethane mixture"
+42,Nitrocompounds,Nitrotoluene
+43,Miscellaneous Water Solutions,Aluminum sulfate solution ?
+43,Miscellaneous Water Solutions,"2-Amino-2-hydroxymethyl-1,3-propanediol solution"
+43,Miscellaneous Water Solutions,Ammonium bisulfite solution ?
+43,Miscellaneous Water Solutions,"Ammonium nitrate, Urea solution (not containing Ammonia)"
+43,Miscellaneous Water Solutions,Ammonium polyphosphate solution
+43,Miscellaneous Water Solutions,Ammonium sulfate solution
+43,Miscellaneous Water Solutions,Ammonium thiosulfate solution
+43,Miscellaneous Water Solutions,Calcium bromide solution
+43,Miscellaneous Water Solutions,Calcium chloride solution
+43,Miscellaneous Water Solutions,Corn syrup
+43,Miscellaneous Water Solutions,Dextrose solution
+43,Miscellaneous Water Solutions,Diammonium salt of Zinc EDTA solution
+43,Miscellaneous Water Solutions,"2,4-Dichlorophenoxyacetic acid, Diethanolamine salt solution"
+43,Miscellaneous Water Solutions,"2,4-Dichlorophenoxyacetic acid, Triisopropanolamine salt solution"
+43,Miscellaneous Water Solutions,"Didecyl dimethyl ammonium chloride, Ethanol mixture solution"
+43,Miscellaneous Water Solutions,"Diethanolamine salt of 2,4-Dichlorophenoxyacetic acid solution"
+43,Miscellaneous Water Solutions,Dodecyl diphenyl ether disulfonate solution
+43,Miscellaneous Water Solutions,"Drilling brine (containing Calcium, Potassium, or Sodium salts)"
+43,Miscellaneous Water Solutions,Drilling brine (containing Zinc salts)
+43,Miscellaneous Water Solutions,Drilling mud (low toxicity) (if non-flammable or non-combustible)
+43,Miscellaneous Water Solutions,"Ethylenediaminetetracetic acid, tetrasodium salt solution"
+43,Miscellaneous Water Solutions,Ethylene-Vinyl acetate copolymer emulsion
+43,Miscellaneous Water Solutions,"Ferric hydroxyethylethylenediamine triacetic acid, trisodium salt solution ?"
+43,Miscellaneous Water Solutions,Fish solubles (water based fish meal extracts)
+43,Miscellaneous Water Solutions,Fructose solution
+43,Miscellaneous Water Solutions,"Fumaric adduct of Rosin, water dispersion"
+43,Miscellaneous Water Solutions,"N-(Hydroxyethyl)ethylene diamine triacetic acid, trisodium salt solution"
+43,Miscellaneous Water Solutions,Kaolin clay slurry
+43,Miscellaneous Water Solutions,"Latex, liquid synthetic"
+43,Miscellaneous Water Solutions,Lignin liquor
+43,Miscellaneous Water Solutions,"Naphthenic acid, sodium salt solution"
+43,Miscellaneous Water Solutions,Rosin soap (disproportionated) solution
+43,Miscellaneous Water Solutions,"Sewage sludge, treated"
+43,Miscellaneous Water Solutions,Sodium alkyl sulfonate solution
+43,Miscellaneous Water Solutions,Sodium hydrogen sulfite solution
+43,Miscellaneous Water Solutions,Sodium polyacrylate solution ?
+43,Miscellaneous Water Solutions,Sodium salt of Ferric hydroxyethylethylenediamine triacetic acid solution
+43,Miscellaneous Water Solutions,Sodium silicate solution ²
+43,Miscellaneous Water Solutions,Tall oil soap (disproportionated) solution
+43,Miscellaneous Water Solutions,Tetrasodium salt of EDTA solution
+43,Miscellaneous Water Solutions,"Triisopropanolamine salt of 2,4-Dichlorophenoxyacetic acid solution"
+43,Miscellaneous Water Solutions,"Urea, Ammonium nitrate solution (not containing Ammonia)"
+43,Miscellaneous Water Solutions,"Urea, Ammonium phosphate solution"
+43,Miscellaneous Water Solutions,Vegetable protein solution (hydrolysed)

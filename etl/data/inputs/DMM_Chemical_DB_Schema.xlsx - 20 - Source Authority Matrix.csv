@@ -1,0 +1,20 @@
+Source Authority Matrix (seed),,,,,,
+"1 = highest authority. When two sources disagree on a field, lowest rank wins. Edit these ranks to retune conflict resolution.",,,,,,
+,,,,,,
+,,,,,,
+Source,Edition,rank_regulatory,rank_cleaning,rank_compatibility,rank_physical,rank_health
+IBC Code,2020,1,6,4,6,6
+MARPOL Annex II,consol,1,6,6,6,6
+DOT Hazardous Materials Table (49 CFR 172.101),current,2,6,6,6,5
+USCG CHRIS Chemical Data Guide,7th 1990,3,4,1,1,2
+Sittigs Handbook of Toxic & Hazardous Chemicals,latest,6,6,6,3,1
+Manufacturer MSDS / SDS (per product),latest,5,6,6,2,2
+Dr Verweys Tank Cleaning Guide,11th,6,1,5,5,5
+Drew Ameroid Tank Cleaning Guide (TCG),1992,6,2,5,5,5
+Miracle Tank Cleaning Guide,2008,6,3,5,5,5
+Odfjell Compatibility Chart,1999,6,6,2,6,6
+Stolt commodity table / Produkt info,2000,4,5,3,4,5
+Union Carbide Product Stowage Guide,1999,5,6,4,5,5
+Lars Stole Birkeland — Chemical Cargo specifications,2002,5,6,5,5,5
+INTERTANKO Cargo Tank Cleanliness Standards,Rev 1 2017,4,2,6,6,6
+Manual Entry,—,9,9,9,9,9

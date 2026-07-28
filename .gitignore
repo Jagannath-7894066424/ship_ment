@@ -1,0 +1,13 @@
+node_modules
+# Keep environment variables out of version control
+.env
+
+/generated/prisma
+
+# Python
+__pycache__/
+*.pyc
+
+# ETL input data files are committed so every developer has them on clone.
+# Only the large source PDFs are kept out of the repo (not read by any loader).
+etl/data/inputs/*.pdf
