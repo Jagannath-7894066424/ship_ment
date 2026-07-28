@@ -1,0 +1,829 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  // url      = env("DATABASE_URL")
+}
+
+model source {
+  id                 Int       @id @unique @default(autoincrement())
+  name               String
+  edition            String?
+  publisher          String?
+  file_path          String?
+  rank_regulatory    Int?
+  rank_cleaning      Int?
+  rank_compatibility Int?
+  rank_physical      Int?
+  rank_health        Int?
+  date_published     DateTime? @default(now())
+  date_ingested      DateTime  @default(now())
+  source_type        String?
+  notes              String?
+  created_at         DateTime? @default(now())
+  updated_at         DateTime  @default(now())
+
+  cargo_chemicals     cargo_chemical[]
+  cargoPropertyValues cargo_property_values[]
+
+  cargoSynonyms cargo_synonym[]
+
+  reactiveGroups reactive_groups[]
+
+  cargoReactiveGroups cargo_reactive_group[]
+
+  compatibilities compatibility[]
+
+  compatibilityExceptions compatibility_exception[]
+
+  cleanlinessStandards cleanliness_standards[]
+
+  cargoRequiredCleanlinesses cargo_required_cleanliness[]
+
+  procedureTemplates procedure_templates[]
+
+  marineChemicals marine_chemicals[]
+
+  changelogs changelog[]
+
+  operationalRequirements operational_requirement[]
+
+  // New source-scoped children (replace cleaning_procedures + coatings)
+  cleaningProcesses cleaning_process[]
+  cargoCoatings     cargo_coating[]
+
+  cargoHazardDatas cargo_hazard_data[]
+
+  cargoDotHazmats cargo_dot_hazad[]
+}
+
+model field_definitions {
+  id             Int      @id @default(autoincrement())
+  field_name     String   @unique
+  display_name   String
+  data_type      String
+  unit           String?
+  category       String
+  enum_values    Json?
+  typical_source String?
+  description    String?
+  display_order  Int?
+  created_at     DateTime @default(now())
+  updated_at     DateTime @default(now())
+
+  cargoPropertyValues cargo_property_values[]
+}
+
+model cargo_chemical {
+  id                     Int     @id @unique @default(autoincrement())
+  canonical_name         String
+  source_id              Int?
+  cas_number             String?
+  chris_code             String?
+  ibc_chapter            String?
+  ibc_product_name       String?
+  ibc_pollution_category String?
+
+  hazards                                String?
+  ship_type                              Int?
+  tank_type                              String?
+  tank_vents                             String?
+  tank_environment_control               String?
+  electrical_equipment_temperature_class electrical_equipment_temperature_class?
+
+  electrical_equipment_apparatus_group electrical_equipment_apparatus_group? // IIA,IIB,IIC
+  flashpoint_requirement               String? //Flash Point  requirement Yes/No, 
+  gauging                              gauging?
+  vapour_detection                     String?
+  fire_protection                      String?
+  emergency_equipment                  Boolean?
+
+  marpol_category    String?
+  imdg_class         String?
+  dot_hazmat_id      String?
+  physical_state_20c String?
+
+  molecular_weight_g_mol Float?
+  boiling_point_c        Float?
+  melting_point_c        Float?
+  density_g_cm3          Float? // Density,SpGr
+  vapor_pressure_kpa_20c Float?
+  viscosity_cp_20c       Float?
+  flash_point_c          Float? // Flash point
+  autoignition_temp_c    Float?
+  correction_factor      Float?
+
+  water_solubility String?
+  water_reactive   Boolean?
+
+  ghs_pictograms           String?
+  ghs_signal_word          String?
+  h_statements             String?
+  carcinogen_iarc          String?
+  tlv_twa_ppm              Int?
+  idlh_ppm                 Int?
+  inert_gas_required       Boolean?
+  heating_temp_min_c       Int?
+  heating_temp_max_c       Int?
+  permitted_tank_materials String?
+  permitted_coatings       String? // DEPRECATED: superseded by cargo_coating -> coating_system -> coating_company
+  stowage_notes            String?
+  data_completeness_score  Float?
+  reference_temperature_c  Float?
+  lel                      Float?
+  uel                      Float?
+  colour                   String?
+
+  uscg_compatibility_group String?
+
+  // Identity / descriptive fields (ChemServe + SDS profiles)
+  molecular_formula   String?
+  appearance          String?
+  odour               String?
+  product_description String?
+
+  // Heating requirements. Each source cell is "N" (not required), "Y" (required,
+  // no temperature) or a number (required, with the minimum/maximum temperature
+  // in °C). Stored as a boolean flag + an optional temperature per stage.
+  heat_adjacent_required        Boolean?
+  heat_adjacent_temperature     Decimal? @db.Decimal(5, 2)
+  heating_required_voyage       Boolean?
+  heating_voyage_temperature    Decimal? @db.Decimal(5, 2)
+  heating_required_discharge    Boolean?
+  heating_discharge_temperature Decimal? @db.Decimal(5, 2)
+
+  compliance        String?
+  date_added        DateTime @default(now())
+  date_last_updated DateTime @default(now())
+  notes             String?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @default(now())
+
+  source source? @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  cargoPropertyValues cargo_property_values[]
+
+  cargoSynonyms cargo_synonym[]
+
+  cargoReactiveGroups       cargo_reactive_group[]
+  compatibilityExceptions_a compatibility_exception[] @relation("cargo_a_id")
+  compatibilityExceptions_b compatibility_exception[] @relation("cargo_b_id")
+
+  cargoRequiredCleanlinesses cargo_required_cleanliness[]
+
+  cleaningProcesses     cleaning_process[] @relation("cp_cargo")
+  cleaningProcessesFrom cleaning_process[] @relation("cp_from_cargo")
+  cleaningProcessesTo   cleaning_process[] @relation("cp_to_cargo")
+
+  cargoCoatings cargo_coating[]
+
+  marineChemicalUses marine_chemical_use[] @relation("target_cargo")
+
+  cargoOperationalRequirements cargo_operational_requirement[]
+
+  cargoUnNumbers   cargo_un_number[]
+  cargoHazardDatas cargo_hazard_data[]
+  cargoDotHazmats  cargo_dot_hazad[]
+
+  @@unique([source_id, canonical_name]) // one row per chemical per source (dedup key)
+  @@index([canonical_name])
+  @@index([cas_number])
+  @@index([source_id])
+}
+
+// UN transport numbers for a chemical. A chemical can have several UN numbers,
+// each optionally qualified (e.g. by concentration or physical state), so they
+// live in their own table rather than a single cargo_chemical column.
+model cargo_un_number {
+  id              Int      @id @default(autoincrement())
+  cargo_id        Int
+  un_number       String
+  qualifier_type  String? // e.g. "concentration", "physical_state"
+  qualifier_value String? // e.g. "10-80%", ">80% (Glacial)", "Compressed"
+  remarks         String?
+  created_at      DateTime @default(now())
+  updated_at      DateTime @default(now())
+
+  cargo_chemical cargo_chemical @relation(fields: [cargo_id], references: [id], onDelete: Cascade)
+
+  @@index([cargo_id])
+  @@index([un_number])
+}
+
+model cargo_property_values {
+  id                Int       @id @unique @default(autoincrement())
+  cargo_id          Int
+  source_id         Int
+  field_name        String
+  value             String? // raw value as recorded by the source
+  normalized_value  Float? // numeric form for range/compare queries (nullable for text props)
+  unit              String? // unit the value is expressed in (e.g. kPa, cP, °C)
+  value_type        String? // number | text | boolean | range | enum
+  source_synonym_id Int?
+  source_page_ref   String?
+  as_of_date        DateTime?
+  entered_date      DateTime
+  entered_by        String
+  entry_type        String
+  is_winning        Boolean
+  conflict_flag     Boolean
+  notes             String?
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @default(now())
+
+  synonym          synonyms?         @relation(fields: [source_synonym_id], references: [id], onDelete: SetNull)
+  field_definition field_definitions @relation(fields: [field_name], references: [field_name], onDelete: Cascade)
+  cargo_chemical   cargo_chemical    @relation(fields: [cargo_id], references: [id], onDelete: Cascade)
+  source           source            @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  @@unique([cargo_id, source_id, field_name]) // one value per field per source
+  @@index([cargo_id])
+  @@index([source_id])
+  @@index([field_name])
+  @@index([cargo_id, source_id])
+  @@index([cargo_id, field_name])
+}
+
+model synonyms {
+  id              Int      @id @unique @default(autoincrement())
+  synonym_text    String
+  normalized_text String
+  language        String?
+  date_added      DateTime @default(now())
+  created_at      DateTime @default(now())
+  updated_at      DateTime @default(now())
+
+  cargoPropertyValues cargo_property_values[]
+
+  cargoSynonyms cargo_synonym[]
+}
+
+model cargo_synonym {
+  id                   Int      @id @unique @default(autoincrement())
+  cargo_id             Int
+  synonym_id           Int
+  relationship_type    String
+  ambiguity_flag       Boolean
+  source_id            Int?
+  preferred_for_search Boolean?
+  notes                String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  cargo_chemical cargo_chemical @relation(fields: [cargo_id], references: [id], onDelete: Cascade)
+  synonyms       synonyms       @relation(fields: [synonym_id], references: [id], onDelete: Cascade)
+  source         source?        @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  @@unique([cargo_id, synonym_id]) // link a chemical to a synonym at most once
+}
+
+model reactive_groups {
+  id          Int               @id @unique @default(autoincrement())
+  system      String
+  group_code  String            @unique
+  group_name  String
+  group_type  ReactiveGroupType // groups 1–22 = REACTIVE, 30–43 = CARGO
+  description String?
+  source_id   Int
+  created_at  DateTime          @default(now())
+  updated_at  DateTime          @default(now())
+  source      source            @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  cargoReactiveGroups cargo_reactive_group[]
+
+  compatibilities_a compatibility[] @relation("group_a_id")
+  compatibilities_b compatibility[] @relation("group_b_id")
+
+  // compatibilities compatibility[] @relation("group_b_id")
+
+  compatibilityExceptions_a compatibility_exception[] @relation("group_a_id")
+
+  compatibilityExceptions_b compatibility_exception[] @relation("group_b_id")
+
+  masterCargoChemicalGroupDetails master_cargo_chemical_group_details[]
+}
+
+model master_cargo_chemical_group_details {
+  id         Int      @id @unique @default(autoincrement())
+  group_code String
+  group_name String
+  cargo_name String
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  group reactive_groups @relation(fields: [group_code], references: [group_code], onDelete: Cascade)
+}
+
+model cargo_reactive_group {
+  id                Int             @id @unique @default(autoincrement())
+  cargo_id          Int
+  reactive_group_id Int
+  group_code        Int
+  isPrimary         Boolean         @default(false)
+  source_id         Int
+  notes             String?
+  created_at        DateTime        @default(now())
+  updated_at        DateTime        @default(now())
+  cargo_chemical    cargo_chemical  @relation(fields: [cargo_id], references: [id], onDelete: Cascade)
+  reactive_groups   reactive_groups @relation(fields: [reactive_group_id], references: [id], onDelete: Cascade)
+  source            source          @relation(fields: [source_id], references: [id], onDelete: Cascade)
+}
+
+model compatibility {
+  id                   Int     @id @unique @default(autoincrement())
+  group_a_id           Int
+  group_b_id           Int
+  compatible           Boolean // X in the chart => false, blank => true
+  severity             String?
+  reaction_description String?
+  source_id            Int
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  reactive_group_a reactive_groups @relation("group_a_id", fields: [group_a_id], references: [id], onDelete: Cascade)
+  reactive_group_b reactive_groups @relation("group_b_id", fields: [group_b_id], references: [id], onDelete: Cascade)
+  source           source          @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  // Symmetric pair stored once, in canonical order group_a_id <= group_b_id.
+  @@unique([group_a_id, group_b_id])
+}
+
+// Official chemical-pair exceptions from Appendix I of 46 CFR Part 150.
+// An exception ALWAYS overrides the reactive-group compatibility matrix.
+model compatibility_exception {
+  id             Int                        @id @unique @default(autoincrement())
+  cargo_a_id     Int
+  cargo_b_id     Int?
+  group_a_id     Int?
+  group_b_id     Int?
+  compatible     Boolean // the Appendix outcome for this specific chemical pair
+  exception_type CompatibilityExceptionType
+  appendix       String? // e.g. "I"
+  section        String? // e.g. "I(a)" / "I(b)"
+  reason         String?
+  notes          String?
+  source_id      Int
+  created_at     DateTime                   @default(now())
+  updated_at     DateTime                   @default(now())
+
+  cargo_a cargo_chemical   @relation("cargo_a_id", fields: [cargo_a_id], references: [id], onDelete: Cascade)
+  cargo_b cargo_chemical?  @relation("cargo_b_id", fields: [cargo_b_id], references: [id], onDelete: Cascade)
+  group_a reactive_groups? @relation("group_a_id", fields: [group_a_id], references: [id], onDelete: Cascade)
+  group_b reactive_groups? @relation("group_b_id", fields: [group_b_id], references: [id], onDelete: Cascade)
+  source  source           @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  // One exception per chemical pair, stored in canonical order cargo_a_id <= cargo_b_id.
+  @@unique([cargo_a_id, cargo_b_id])
+  @@index([cargo_a_id])
+  @@index([cargo_b_id])
+}
+
+model cleanliness_standards {
+  id          Int      @id @unique @default(autoincrement())
+  code        String
+  name        String
+  description String?
+  test_method String?
+  source_id   Int
+  notes       String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now())
+  source      source   @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  cargoRequiredCleanlinesses cargo_required_cleanliness[]
+}
+
+model cargo_required_cleanliness {
+  id                       Int                   @id @unique @default(autoincrement())
+  cargo_id                 Int
+  cleanliness_standards_id Int
+  mandatory                Boolean
+  source_id                Int
+  notes                    String?
+  created_at               DateTime              @default(now())
+  updated_at               DateTime              @default(now())
+  cargo_chemical           cargo_chemical        @relation(fields: [cargo_id], references: [id], onDelete: Cascade)
+  cleanliness_standards    cleanliness_standards @relation(fields: [cleanliness_standards_id], references: [id], onDelete: Cascade)
+  source                   source                @relation(fields: [source_id], references: [id], onDelete: Cascade)
+}
+
+model procedure_templates {
+  id                     Int      @id @unique @default(autoincrement())
+  procedure_code         String   @unique // official Dr. Verwey procedure code (A, B, C, D, EE, LL, ...)
+  template_name          String
+  description            String?
+  target_purpose         String?
+  water_type             String?
+  default_temperature_c  Int?
+  default_duration_hours Int?
+  default_chemicals      Json?
+  ventilation_required   Boolean?
+  gas_free_required      Boolean?
+  wall_wash_required     Boolean?
+  inert_gas_required     Boolean?
+  source_id              Int
+  notes                  String?
+  created_at             DateTime @default(now())
+  updated_at             DateTime @default(now())
+  source                 source   @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  procedureTemplateSteps procedure_template_steps[]
+
+  marineChemicalUses marine_chemical_use[]
+}
+
+model procedure_template_steps {
+  id                       Int                 @id @unique @default(autoincrement())
+  procedure_templates_id   Int
+  step_order               Int
+  step_name                String
+  step_description         String?
+  // Free-text values as published in the guide (e.g. "About 2½ hours", "80°C",
+  // "Cold", "Teepol 0.05%") — not always numeric, so stored as text.
+  medium                   String? // e.g. Sea Water, Fresh Water, Steam, Toluene, Methanol, Dry Gas Oil, Nitrogen
+  temperature              String? // e.g. "Cold", "80°C", "Warm (50°C)"
+  duration                 String? // e.g. "1 hour", "About 2½ hours", "Until odour disappears"
+  cleaner                  String? // e.g. "Teepol 0.05%", "0.05% liquid detergent"
+  mandatory                Boolean
+  notes                    String?
+  created_at               DateTime            @default(now())
+  updated_at               DateTime            @default(now())
+  procedure_templates      procedure_templates @relation(fields: [procedure_templates_id], references: [id], onDelete: Cascade)
+}
+
+// Chemical-centric cleaning process (replaces the old from/to cleaning_procedures
+// model, which did not fit ChemServe-style per-chemical cleaning methods).
+// One row = one cleaning method for one chemical, as recorded by one source.
+model cleaning_process {
+  id              Int            @id @default(autoincrement())
+  cargo_id        Int? // cargo-specific procedure (NULL for Verwey template/matrix rows)
+  from_cargo_id   Int? // Verwey matrix: previous cargo
+  to_cargo_id     Int? // Verwey matrix: next cargo
+  procedure_code  String? // Verwey procedure code (A, B, C, D, EE, LL, ...)
+  source_id       Int
+  cleaning_stage  CleaningStage? // NULL for Verwey rows (not stage-based)
+  method_number   Int? // NULL for Verwey rows
+  title           String?
+  recipe_for      String?
+  source_page_ref String?
+  notes           String?
+  created_at      DateTime       @default(now())
+  updated_at      DateTime       @default(now())
+
+  cargo_chemical cargo_chemical? @relation("cp_cargo", fields: [cargo_id], references: [id], onDelete: Cascade)
+  from_cargo     cargo_chemical? @relation("cp_from_cargo", fields: [from_cargo_id], references: [id], onDelete: Cascade)
+  to_cargo       cargo_chemical? @relation("cp_to_cargo", fields: [to_cargo_id], references: [id], onDelete: Cascade)
+  source         source          @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  steps cleaning_process_step[]
+
+  // Idempotency for Verwey template rows (procedure_code, source_id) and matrix
+  // rows (from_cargo_id, to_cargo_id, source_id) is enforced by partial UNIQUE
+  // indexes created in the migration (Prisma can't express partial uniques).
+  @@unique([cargo_id, source_id, cleaning_stage, method_number])
+  @@index([cargo_id])
+  @@index([source_id])
+  @@index([cargo_id, source_id])
+  @@index([from_cargo_id])
+  @@index([to_cargo_id])
+  @@index([procedure_code])
+}
+
+// Ordered steps belonging to one cleaning_process (Butterworth -> Rinse -> Vent).
+// Values are kept as text because source data is messy ("1,5-2,0", "warm",
+// "20 Min", "Sea Water") rather than clean numerics.
+model cleaning_process_step {
+  id                  Int               @id @default(autoincrement())
+  cleaning_process_id Int
+  step_order          Int
+  method              String?
+  duration            String?
+  temperature         String?
+  medium              String?
+  cleaner             String?
+  description         String?
+  remarks             String?
+  mandatory           Boolean? // Verwey steps: every listed instruction is mandatory
+  created_at          DateTime          @default(now())
+  updated_at          DateTime          @default(now())
+  step_type           CleaningStepType?
+  cleaning_process    cleaning_process  @relation(fields: [cleaning_process_id], references: [id], onDelete: Cascade)
+
+  @@unique([cleaning_process_id, step_order])
+  @@index([cleaning_process_id])
+}
+
+// Coating recommendations, normalized out of cargo_chemical.permitted_coatings:
+//   coating_company (HEMPEL) -> coating_system (15400) -> cargo_coating (rating)
+model coating_company {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  coatingSystems coating_system[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
+
+model coating_system {
+  id          Int    @id @default(autoincrement())
+  company_id  Int
+  system_name String
+
+  company coating_company @relation(fields: [company_id], references: [id], onDelete: Cascade)
+
+  cargoCoatings cargo_coating[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@unique([company_id, system_name])
+  @@index([company_id])
+}
+
+model cargo_coating {
+  id                Int      @id @default(autoincrement())
+  cargo_id          Int
+  source_id         Int
+  coating_system_id Int
+  rating            String? // e.g. "Limited Resistance", "Recommended", "Not Suitable"
+  notes             String?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @default(now())
+
+  cargo_chemical cargo_chemical @relation(fields: [cargo_id], references: [id], onDelete: Cascade)
+  source         source         @relation(fields: [source_id], references: [id], onDelete: Cascade)
+  coating_system coating_system @relation(fields: [coating_system_id], references: [id], onDelete: Cascade)
+
+  @@index([cargo_id])
+  @@index([source_id])
+  @@index([coating_system_id])
+  @@index([cargo_id, source_id])
+}
+
+model marine_chemicals {
+  id                   Int      @id @unique @default(autoincrement())
+  brand                String
+  product_name         String
+  product_type         String
+  description          String?
+  typical_application  String?
+  ph_value             Int?
+  compatible_materials String?
+  typical_dose         String?
+  hazards              String?
+  supplier_msds_path   String?
+  source_id            Int
+  date_added           DateTime @default(now())
+  notes                String?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @default(now())
+
+  source source @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  marineChemicalUses marine_chemical_use[]
+}
+
+model marine_chemical_use {
+  id                                Int     @id @unique @default(autoincrement())
+  marine_chemical_id                Int
+  target_cargo_id                   Int?
+  target_substance_category         String?
+  recommended_procedure_template_id Int?
+
+  marine_chemical    marine_chemicals     @relation(fields: [marine_chemical_id], references: [id], onDelete: Cascade)
+  cargo_chemical     cargo_chemical?      @relation("target_cargo", fields: [target_cargo_id], references: [id], onDelete: SetNull)
+  procedure_template procedure_templates? @relation(fields: [recommended_procedure_template_id], references: [id], onDelete: SetNull)
+}
+
+model changelog {
+  id                     Int      @id @unique @default(autoincrement())
+  entity_type            String
+  entity_id              Int
+  field_changed          String
+  old_value              String?
+  new_value              String?
+  triggered_by_source_id Int?
+  change_reason          String?
+  changed_at             DateTime @default(now())
+  created_at             DateTime @default(now())
+  updated_at             DateTime @default(now())
+
+  source source? @relation(fields: [triggered_by_source_id], references: [id], onDelete: SetNull)
+}
+
+model operational_requirement {
+  id          Int     @id @default(autoincrement())
+  code        String  @unique // 15.11.2
+  section     String? // 15.11
+  title       String
+  description String?
+  explanation String?
+
+  source_id Int?
+  source    source? @relation(fields: [source_id], references: [id])
+
+  cargoRequirements cargo_operational_requirement[]
+}
+
+model cargo_operational_requirement {
+  id Int @id @default(autoincrement())
+
+  cargo_chemical_id          Int
+  operational_requirement_id Int
+
+  notes String?
+
+  cargo_chemical cargo_chemical @relation(fields: [cargo_chemical_id], references: [id], onDelete: Cascade)
+
+  operational_requirement operational_requirement @relation(fields: [operational_requirement_id], references: [id], onDelete: Cascade)
+
+  @@unique([cargo_chemical_id, operational_requirement_id])
+}
+
+model cargo_hazard_data {
+  id Int @id @default(autoincrement())
+
+  cargo_id  Int
+  source_id Int
+
+  // Health
+  health_hazard_rating     String?
+  general_hazard           String? @db.Text
+  symptoms                 String? @db.Text
+  short_exposure_tolerance String? @db.Text
+  exposure_procedure       String? @db.Text
+
+  // Fire
+  fire_grade             String?
+  electrical_group       String?
+  extinguishing_agents   String? @db.Text
+  special_fire_procedure String? @db.Text
+
+  // Reactivity
+  stability                String?
+  material_compatibility   String? @db.Text
+  cargo_compatibility_note String? @db.Text
+
+  // Spill
+  spill_procedure String? @db.Text
+
+  // DOT Hazardous Materials Table (49 CFR 172.101), Column (1) symbol(s).
+  // Stored verbatim; may combine legend symbols (e.g. "A W"). See dot_hazmat_symbol
+  // for the meaning of each single symbol.
+  dot_symbol String?
+
+  notes String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  cargo_chemical cargo_chemical @relation(fields: [cargo_id], references: [id], onDelete: Cascade)
+  source         source         @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  @@unique([cargo_id, source_id])
+  @@index([cargo_id])
+  @@index([source_id])
+}
+
+// Legend for the DOT Hazardous Materials Table (49 CFR 172.101) Column (1).
+// One row per single symbol; combinations that appear in the source (e.g. "A W")
+// are unions of these and are stored verbatim in cargo_hazard_data.dot_symbol.
+model dot_hazad_symbol {
+  symbol      String @id // "+", "A", "D", "G", "I", "W"
+  description String
+}
+
+// Verbatim import of the 49 CFR 172.101 Hazardous Materials Table. EVERY source
+// row is preserved — normal materials, generic (n.o.s.) names, forbidden entries
+// and "see ..." cross-references — WITHOUT creating cargo_chemical rows. cargo_id
+// stays NULL until a row is linked to a canonical chemical (exact name match now,
+// manual/synonym linking later); a set cargo_id is never clobbered on re-import.
+model cargo_dot_hazad {
+  id Int @id @default(autoincrement())
+
+  cargo_id  Int? // NULL until linked to a canonical cargo_chemical
+  source_id Int
+
+  // Provenance + idempotency. row_hash = hash of all CFR columns for this row;
+  // it is the dedup / upsert key (the HMT has no natural unique key — 435 shipping
+  // names repeat). source_row is the 1-based ordinal in the source file (audit).
+  row_hash   String
+
+  // Classification so every kind of row is preserved yet distinguishable.
+  // 'material' | 'generic' (n.o.s.) | 'forbidden' | 'cross_reference'.
+  entry_type    String
+  see_reference String? // for cross-references: target name after ", see "
+
+  symbol               String? // CFR Column (1): +, A, D, G, I, W, or a combo
+  proper_shipping_name String // CFR (2)
+
+  hazard_class          String? // (3)
+  identification_number String? // (4) e.g. UN1090 / NA1993
+  packing_group         String? // (5) I / II / III
+
+  label_codes        String? // (6)
+  special_provisions String? // (7)
+
+  packaging_exception String? // (8A)
+  packaging_non_bulk  String? // (8B)
+  packaging_bulk      String? // (8C)
+
+  passenger_quantity_limit String? // (9A)
+  cargo_quantity_limit     String? // (9B)
+
+  vessel_location String? // (10A)
+  vessel_other    String? // (10B)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  // Linked chemical is optional; deleting the chemical only unlinks (keeps the
+  // regulatory row). Source deletion cascades (the whole import goes with it).
+  cargo_chemical cargo_chemical? @relation(fields: [cargo_id], references: [id], onDelete: SetNull)
+  source         source          @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  @@unique([source_id, row_hash]) // idempotency key — see importer
+  @@index([cargo_id])
+  @@index([source_id])
+  @@index([proper_shipping_name])
+  @@index([identification_number])
+  @@index([entry_type])
+}
+
+enum ReactiveGroupType {
+  REACTIVE // groups 1–22
+  CARGO // groups 30–43
+}
+
+enum CompatibilityExceptionType {
+  Incompatible // matrix says incompatible, but the Appendix allows the pair
+  Compatible // matrix says compatible, but the Appendix marks it incompatible
+}
+
+enum electrical_equipment_temperature_class {
+  T1
+  T2
+  T3
+  T4
+  T5
+  T6
+}
+
+enum electrical_equipment_apparatus_group {
+  IIA
+  IIB
+  IIC
+}
+
+// enum flashpoint_requirement {
+//   Yes // Flash Point exceeding 60°C (140°F) is required for the cargo to be carried in a tank
+//   No // Flash Point not exceeding 60°C (140°F) is acceptable
+//   NF // Not Flammable
+// }
+
+enum gauging {
+  O // Open gauging
+  R // Restricted gauging
+  C // Closed gauging
+}
+
+enum CleaningStage {
+  BEFORE_LOADING
+  AFTER_DISCHARGE
+}
+
+// enum vapour_detection {
+//   F // Flammable vapours
+//   T // Toxic vapours
+//   FT
+//   No // Indicate no special requirement under this code
+// }
+
+// enum fire_protection {
+//   A // Alcohal resistant foam or multi-purpose foam
+//   B // Reagular foam
+//   C // Water spray
+//   D // Dry chemical
+//   NO // No specila requirement under this code
+//   AC
+//   ABC
+//   No
+//   AD
+//   ABD
+// }
+
+enum CleaningStepType {
+  PRECLEANING
+  CLEANING
+  RINSING
+  FLUSHING
+  STEAMING
+  DRAINING
+  DRYING
+}
