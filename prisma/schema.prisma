@@ -413,8 +413,8 @@ model cargo_required_cleanliness {
 }
 
 model procedure_templates {
-  id                     Int      @id @unique @default(autoincrement())
-  procedure_code         String   @unique // official Dr. Verwey procedure code (A, B, C, D, EE, LL, ...)
+  id                     Int      @id @default(autoincrement())
+  procedure_code         String
   template_name          String
   description            String?
   target_purpose         String?
@@ -426,15 +426,18 @@ model procedure_templates {
   gas_free_required      Boolean?
   wall_wash_required     Boolean?
   inert_gas_required     Boolean?
-  source_id              Int
-  notes                  String?
-  created_at             DateTime @default(now())
-  updated_at             DateTime @default(now())
-  source                 source   @relation(fields: [source_id], references: [id], onDelete: Cascade)
+  source_id             Int
+  notes                 String?
+  created_at            DateTime @default(now())
+  updated_at            DateTime @updatedAt
+
+  source source @relation(fields: [source_id], references: [id], onDelete: Cascade)
 
   procedureTemplateSteps procedure_template_steps[]
+  marineChemicalUses     marine_chemical_use[]
+  cleaningProcesses      cleaning_process[]
 
-  marineChemicalUses marine_chemical_use[]
+  @@unique([source_id, procedure_code])
 }
 
 model procedure_template_steps {
@@ -479,7 +482,11 @@ model cleaning_process {
   from_cargo     cargo_chemical? @relation("cp_from_cargo", fields: [from_cargo_id], references: [id], onDelete: Cascade)
   to_cargo       cargo_chemical? @relation("cp_to_cargo", fields: [to_cargo_id], references: [id], onDelete: Cascade)
   source         source          @relation(fields: [source_id], references: [id], onDelete: Cascade)
-
+  // Links to a procedure_templates row by the SAME (source_id, procedure_code)
+  // that identifies it there. Must reference both columns because that is the
+  // unique key now. onDelete can't be SetNull (source_id is required), so deletes
+  // are restricted by default.
+  procedure_template procedure_templates? @relation(fields: [source_id, procedure_code], references: [source_id, procedure_code])
   steps cleaning_process_step[]
 
   // Idempotency for Verwey template rows (procedure_code, source_id) and matrix
