@@ -123,9 +123,10 @@ run "group_details               -> master_cargo_chemical_group_details" python3
 # 5) operational requirements (IBC)
 run "operational_requirements    -> operational_requirement"    python3 etl/cargo_operational_requirement.py
 
-# 6) cleaning (Dr. Verwey)
+# 6) cleaning guides
 run "procedure_templates         -> procedure_templates"        python3 etl/proceduretemplate.py
 run "verwey_cleaning             -> cleaning_process (matrix)"  python3 etl/verwey_cleaning.py
+run "drew_ameroid                -> procedure_templates + pairs" python3 etl/drew_ameroid.py
 
 # 7) DOT Hazardous Materials Table
 run "dot_hmt_extract             -> JSON (no DB)"               python3 etl/dot_hmt_extract.py
