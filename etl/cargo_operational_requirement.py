@@ -1,54 +1,30 @@
 #!/usr/bin/env python3
 """
 Populate `operational_requirement` and its join table `cargo_operational_requirement`
-from an IBC Code operational-requirements spreadsheet.
+from the IBC Code data, which is split across TWO vendored files:
 
-Input file columns (see IBC Code Chemical.xlsx):
+1. Requirement DEFINITIONS  <- Operational_References_Master.csv
+       Reference           -> code            (e.g. "15.11.2")   [unique]
+       (code minus last .N) -> section         ("15.11.2" -> "15.11")
+       Title / Description  -> title
+       Full Text            -> explanation
+       ""                   -> description     (column is NOT NULL, not in file)
 
-    Chemical name | Code | Title | Explanation
+2. Cargo LINKS              <- IBC Code.xlsx
+       product_name                        -> cargo_chemical (under the IBC source)
+       specific_operational_requirements   -> codes, split on ";"  (one link each)
 
-Two tables are loaded from that one file:
-
-1. operational_requirement  (one row per UNIQUE code)
-   The file repeats every code once per chemical, so codes are DEDUPLICATED by
-   `code` (first occurrence wins for title/explanation). We write:
-
-       code        <- Code                       (unique)
-       section     <- Code minus its last dotted segment  (15.11.2 -> 15.11)
-       title       <- Title
-       description <- ""                          (not in file; column is NOT NULL)
-       explanation <- Explanation
-       source_id   <- resolved source (see below)
-
-2. cargo_operational_requirement  (cargo <-> requirement links)
-   For each file row we resolve:
-
-       cargo_chemical_id          <- cargo_chemical.id matched by
-                                     lower(canonical_name) = lower(Chemical name)
-                                     AND source_id = resolved source_id
-       operational_requirement_id <- operational_requirement.id for that Code
-
-   The same cargo name lives under more than one source, so filtering the cargo
-   lookup by source_id is what picks the right row. Duplicate (cargo, requirement)
-   pairs are collapsed (@@unique([cargo_chemical_id, operational_requirement_id])).
-
-source_id resolution:
-   Derived from the FILE NAME by partial-matching it against source.name, e.g.
-   'IBC Code Chemical.xlsx' -> source 'IBC Code'. The longest source name that is
-   a substring of the normalized file name wins. This same id is used for
-   operational_requirement.source_id and to filter the cargo lookup.
+Any code referenced by a cargo but missing a definition row gets a minimal stub
+(title = the code) so the link is never dropped.
 
 Each real run TRUNCATEs both tables (CASCADE) and reloads them from scratch.
-
-PREREQUISITE: cargo_chemical must already be populated (run cargo_chemicals.py).
+PREREQUISITE: cargo_chemical must already be populated (master_loader IBC Code).
 
 Usage:
-    python3 cargo_operational_requirement.py                 # wipe + reload (DEFAULT_FILE)
-    python3 cargo_operational_requirement.py path/to/file.xlsx
-    python3 cargo_operational_requirement.py --dry-run       # resolve + log, no writes
-    python3 cargo_operational_requirement.py --source-id 2   # force source_id (skip name match)
-
-Reads DATABASE_URL from the .env file in this directory.
+    python3 cargo_operational_requirement.py                       # both default files
+    python3 cargo_operational_requirement.py --requirements X.csv --links Y.xlsx
+    python3 cargo_operational_requirement.py --dry-run
+    python3 cargo_operational_requirement.py --source-id 1         # force source
 """
 
 import argparse
@@ -57,6 +33,7 @@ import os
 import re
 import sys
 from pathlib import Path
+from typing import Dict, List, Tuple
 
 from _paths import input_file
 
@@ -67,226 +44,186 @@ from psycopg2.extras import execute_values
 from dotenv import load_dotenv
 
 # ----------------------------------------------------------------------------
-DEFAULT_FILE = input_file("IBC Code.xlsx")
+DEFAULT_REQUIREMENTS = input_file("Operational_References_Master.csv")
+DEFAULT_LINKS = input_file("IBC Code.xlsx")
 REQ_TABLE = "operational_requirement"
 LINK_TABLE = "cargo_operational_requirement"
+SOURCE_NAME = "IBC Code"
 
-CHEMICAL_COLUMN = "Chemical name"
-CODE_COLUMN = "Code"
-TITLE_COLUMN = "Title"
-EXPLANATION_COLUMN = "Explanation"
-DESCRIPTION_DEFAULT = ""          # column is NOT NULL but not present in the file
+CODE_RE = re.compile(r"^\d+(?:\.\d+)*$")     # "15", "15.11", "15.11.2"
 # ----------------------------------------------------------------------------
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-    datefmt="%H:%M:%S",
-)
+logging.basicConfig(level=logging.INFO,
+                    format="%(asctime)s [%(levelname)s] %(message)s", datefmt="%H:%M:%S")
 log = logging.getLogger("cargo_operational_requirement")
 
 
-def read_file(path: Path) -> pd.DataFrame:
-    suffix = path.suffix.lower()
-    log.info("Reading file %s (type %s)", path, suffix)
-    if suffix == ".csv":
-        df = pd.read_csv(path, dtype=str, keep_default_na=False)
-    elif suffix in (".xlsx", ".xls"):
-        df = pd.read_excel(path, dtype=str, keep_default_na=False)
-    else:
-        raise ValueError(f"Unsupported file type '{suffix}'. Use .csv or .xlsx.")
-    df.columns = [str(c).strip() for c in df.columns]
-    log.info("Loaded %d raw rows, columns: %s", len(df), list(df.columns))
-    return df
-
-
-def normalize_match(text: str) -> str:
-    """lowercase, non-alphanumeric -> space, collapse whitespace."""
-    s = text.lower()
-    s = re.sub(r"[^\w\s]", " ", s)
-    s = re.sub(r"\s+", " ", s)
-    return s.strip()
-
-
 def section_of(code: str) -> str:
-    """Section = code with its last dotted segment removed (15.11.2 -> 15.11).
-
-    A code with no dot (rare) is its own section.
-    """
+    """Section = code with its last dotted segment removed (15.11.2 -> 15.11)."""
     code = code.strip()
     return code.rsplit(".", 1)[0] if "." in code else code
 
 
-def get_source_id_from_filename(cur, path: Path):
-    """Resolve source.id by partial-matching the file name against source.name.
+def _read_raw(path: Path) -> pd.DataFrame:
+    if path.suffix.lower() == ".csv":
+        return pd.read_csv(path, header=None, dtype=str, keep_default_na=False)
+    return pd.read_excel(path, header=None, dtype=str, keep_default_na=False)
 
-    The normalized file stem ('ibc code chemical') is searched for each source's
-    normalized name as a substring; the LONGEST matching source name wins so a
-    short generic name can't shadow a more specific one. Returns None if nothing
-    matches.
+
+def parse_requirements(path: Path) -> Dict[str, Tuple[str, str, str, str]]:
+    """Master references file -> {code: (section, title, description, explanation)}.
+
+    Skips the banner rows by locating the header row that contains 'Reference'.
     """
-    stem = normalize_match(path.stem)
-    log.info("Resolving source from file name: %r (normalized %r)", path.name, stem)
-    cur.execute("SELECT id, name FROM source")
-    best = None  # (len, id, name)
-    for sid, sname in cur.fetchall():
-        norm = normalize_match(sname)
-        if norm and norm in stem:
-            if best is None or len(norm) > best[0]:
-                best = (len(norm), sid, sname)
-    if best is None:
-        log.warning("No source name partially matches file '%s'", path.name)
-        return None
-    log.info("Matched source id=%s (%r) for file '%s'", best[1], best[2], path.name)
-    return best[1]
+    raw = _read_raw(path)
+    hdr = None
+    for i in range(min(12, len(raw))):
+        vals = [str(v).strip() for v in raw.iloc[i].tolist()]
+        if "Reference" in vals:
+            hdr, cols = i, vals
+            break
+    if hdr is None:
+        sys.exit(f"Error: no 'Reference' header found in {path.name}")
+    ci = {c: j for j, c in enumerate(cols)}
+    c_ref = ci["Reference"]
+    c_title = ci.get("Title / Description", ci.get("Title"))
+    c_full = ci.get("Full Text", ci.get("Explanation"))
+
+    out: Dict[str, Tuple[str, str, str, str]] = {}
+    for i in range(hdr + 1, len(raw)):
+        row = [str(v).strip() for v in raw.iloc[i].tolist()]
+        code = row[c_ref] if c_ref < len(row) else ""
+        if not CODE_RE.match(code) or code in out:
+            continue
+        title = row[c_title] if c_title is not None and c_title < len(row) else ""
+        full = row[c_full] if c_full is not None and c_full < len(row) else ""
+        out[code] = (section_of(code), title, "", full or None)
+    log.info("Parsed %d requirement definitions from %s", len(out), path.name)
+    return out
 
 
-def load_cargo_lookup(cur, source_id):
-    """Map lower(canonical_name) -> cargo_chemical.id, filtered by source_id.
+def parse_links(path: Path) -> List[Tuple[str, str]]:
+    """IBC Code file -> [(chemical_name, code), ...] (codes split on ';')."""
+    df = pd.read_excel(path, dtype=str, keep_default_na=False) if path.suffix.lower() != ".csv" \
+        else pd.read_csv(path, dtype=str, keep_default_na=False)
+    df.columns = [str(c).strip() for c in df.columns]
+    for col in ("product_name", "specific_operational_requirements"):
+        if col not in df.columns:
+            sys.exit(f"Error: column '{col}' not found in {path.name}")
+    pairs: List[Tuple[str, str]] = []
+    for _, row in df.iterrows():
+        chem = str(row["product_name"]).strip()
+        codes = str(row["specific_operational_requirements"]).strip()
+        if not chem or not codes:
+            continue
+        for code in re.split(r"[;,]", codes):
+            code = code.strip()
+            if CODE_RE.match(code):
+                pairs.append((chem, code))
+    log.info("Parsed %d cargo/code links from %s", len(pairs), path.name)
+    return pairs
 
-    The same canonical_name exists under multiple sources, so the source filter
-    is required to pick the intended cargo row.
-    """
-    cur.execute(
-        "SELECT lower(canonical_name), id FROM cargo_chemical WHERE source_id = %s",
-        (source_id,),
-    )
-    lookup = {}
+
+def resolve_source_id(cur, forced) -> int:
+    if forced is not None:
+        return forced
+    cur.execute("SELECT id FROM source WHERE name ILIKE %s ORDER BY id LIMIT 1", (SOURCE_NAME,))
+    row = cur.fetchone()
+    if row is None:
+        cur.execute("SELECT id FROM source WHERE name ILIKE '%ibc%code%' ORDER BY id LIMIT 1")
+        row = cur.fetchone()
+    if row is None:
+        sys.exit("Error: could not resolve the 'IBC Code' source; pass --source-id.")
+    return row[0]
+
+
+def load_cargo_lookup(cur, source_id: int) -> Dict[str, int]:
+    """lower(canonical_name) -> cargo_chemical.id under source_id (fallback: any)."""
+    cur.execute("SELECT lower(canonical_name), id FROM cargo_chemical WHERE source_id=%s", (source_id,))
+    lookup: Dict[str, int] = {}
     for name, cid in cur.fetchall():
-        lookup.setdefault(name, cid)   # first id wins on any name collision
+        lookup.setdefault(name, cid)
     log.info("Loaded %d cargo names under source_id=%s", len(lookup), source_id)
     return lookup
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Populate operational_requirement + cargo_operational_requirement."
-    )
-    parser.add_argument("file", nargs="?", default=DEFAULT_FILE, help="CSV/XLSX path")
-    parser.add_argument("--dry-run", action="store_true", help="Resolve + log, no writes")
-    parser.add_argument("--source-id", type=int, default=None,
-                        help="Force source_id instead of matching the file name")
-    args = parser.parse_args()
-
-    path = Path(args.file)
-    if not path.is_file():
-        sys.exit(f"Error: file not found: {path}")
+    ap = argparse.ArgumentParser(description="Load operational requirements + cargo links.")
+    ap.add_argument("--requirements", default=str(DEFAULT_REQUIREMENTS), help="definitions CSV")
+    ap.add_argument("--links", default=str(DEFAULT_LINKS), help="IBC Code xlsx (cargo -> codes)")
+    ap.add_argument("--source-id", type=int, default=None, help="force source_id")
+    ap.add_argument("--dry-run", action="store_true", help="parse + log, no writes")
+    args = ap.parse_args()
 
     load_dotenv(Path(__file__).parent.parent / ".env")
-    db_url = os.getenv("DATABASE_URL")
-    if not db_url:
-        sys.exit("Error: DATABASE_URL not set (checked .env).")
+    req_path, link_path = Path(args.requirements), Path(args.links)
+    for p in (req_path, link_path):
+        if not p.is_file():
+            sys.exit(f"Error: file not found: {p}")
 
-    df = read_file(path)
-    for col in (CHEMICAL_COLUMN, CODE_COLUMN, TITLE_COLUMN, EXPLANATION_COLUMN):
-        if col not in df.columns:
-            sys.exit(f"Error: column '{col}' not found in file.")
+    req_by_code = parse_requirements(req_path)
+    links = parse_links(link_path)
 
-    log.info("Connecting to database")
-    conn = psycopg2.connect(db_url)
+    conn = psycopg2.connect(os.environ["DATABASE_URL"])
     try:
         with conn.cursor() as cur:
-            source_id = args.source_id
-            if source_id is None:
-                source_id = get_source_id_from_filename(cur, path)
-                if source_id is None:
-                    sys.exit("Error: could not resolve source_id from file name; "
-                             "pass --source-id explicitly.")
-            else:
-                log.info("Using forced source_id=%s", source_id)
-
+            source_id = resolve_source_id(cur, args.source_id)
+            log.info("source_id=%s (%s)", source_id, SOURCE_NAME)
             cargo_by_name = load_cargo_lookup(cur, source_id)
 
-            # --- Pass 1: dedupe operational_requirement rows by code ---------
-            req_by_code = {}   # code -> (section, title, description, explanation)
-            for idx, row in df.iterrows():
-                code = str(row[CODE_COLUMN]).strip()
-                if not code:
-                    continue
-                if code in req_by_code:
-                    continue   # first occurrence wins
-                req_by_code[code] = (
-                    section_of(code),
-                    str(row[TITLE_COLUMN]).strip(),
-                    DESCRIPTION_DEFAULT,
-                    str(row[EXPLANATION_COLUMN]).strip() or None,
-                )
-            log.info("Prepared %d unique operational_requirement rows from %d file rows",
-                     len(req_by_code), len(df))
-
-            # --- Pass 2: build cargo<->requirement links ---------------------
-            link_pairs = set()        # (cargo_id, code) - unique pairs
+            # resolve links -> (cargo_id, code); add stub definitions for any
+            # referenced code that has no row in the master references file.
+            link_pairs = set()
             missing_cargo = set()
-            for idx, row in df.iterrows():
-                line = idx + 2
-                code = str(row[CODE_COLUMN]).strip()
-                chem = str(row[CHEMICAL_COLUMN]).strip()
-                if not code or not chem:
+            for chem, code in links:
+                cid = cargo_by_name.get(chem.lower())
+                if cid is None:
+                    missing_cargo.add(chem)
                     continue
-                cargo_id = cargo_by_name.get(chem.lower())
-                if cargo_id is None:
-                    if chem.lower() not in missing_cargo:
-                        missing_cargo.add(chem.lower())
-                        log.info("✗ row %d cargo not found under source_id=%s: %r",
-                                 line, source_id, chem)
-                    continue
-                link_pairs.add((cargo_id, code))
-            log.info("Prepared %d unique cargo/requirement links; %d cargo names unmatched",
-                     len(link_pairs), len(missing_cargo))
+                if code not in req_by_code:
+                    req_by_code[code] = (section_of(code), code, "", None)   # stub
+                link_pairs.add((cid, code))
+
+            log.info("Requirements: %d | links: %d | unmatched cargo names: %d",
+                     len(req_by_code), len(link_pairs), len(missing_cargo))
+            if missing_cargo:
+                log.info("  sample unmatched: %s", sorted(missing_cargo)[:15])
 
             if args.dry_run:
-                log.info("Dry run: %d requirements, %d links ready, nothing written.",
-                         len(req_by_code), len(link_pairs))
+                log.info("Dry run: nothing written.")
                 return
 
-            # --- Wipe + reload both tables (child cascades from parent) ------
-            log.info("Truncating %s and %s before reload", LINK_TABLE, REQ_TABLE)
             cur.execute(sql.SQL("TRUNCATE TABLE {} RESTART IDENTITY CASCADE")
                         .format(sql.Identifier(REQ_TABLE)))
 
-            if not req_by_code:
-                log.info("No requirements to insert; tables left empty.")
-                conn.commit()
-                return
-
-            req_rows = [
-                (code, section, title, description, explanation, source_id)
-                for code, (section, title, description, explanation) in req_by_code.items()
-            ]
-            stmt = sql.SQL(
-                "INSERT INTO {} (code, section, title, description, explanation, source_id) "
-                "VALUES %s"
-            ).format(sql.Identifier(REQ_TABLE))
-            execute_values(cur, stmt, req_rows)
-            log.info("Inserted %d rows into %s", len(req_rows), REQ_TABLE)
-
-            # Map code -> new operational_requirement.id for the join rows.
+            req_rows = [(code, sec, title, desc, expl, source_id)
+                        for code, (sec, title, desc, expl) in req_by_code.items()]
+            execute_values(
+                cur,
+                sql.SQL("INSERT INTO {} (code, section, title, description, explanation, source_id) VALUES %s")
+                    .format(sql.Identifier(REQ_TABLE)),
+                req_rows,
+            )
             cur.execute(sql.SQL("SELECT code, id FROM {}").format(sql.Identifier(REQ_TABLE)))
             req_id_by_code = {code: rid for code, rid in cur.fetchall()}
 
-            link_rows = []
-            for cargo_id, code in link_pairs:
-                req_id = req_id_by_code.get(code)
-                if req_id is None:
-                    continue
-                link_rows.append((cargo_id, req_id, None))
-
+            link_rows = [(cid, req_id_by_code[code], None)
+                         for cid, code in link_pairs if code in req_id_by_code]
             if link_rows:
-                stmt = sql.SQL(
-                    "INSERT INTO {} (cargo_chemical_id, operational_requirement_id, notes) "
-                    "VALUES %s"
-                ).format(sql.Identifier(LINK_TABLE))
-                execute_values(cur, stmt, link_rows)
+                execute_values(
+                    cur,
+                    sql.SQL("INSERT INTO {} (cargo_chemical_id, operational_requirement_id, notes) VALUES %s")
+                        .format(sql.Identifier(LINK_TABLE)),
+                    link_rows,
+                )
             conn.commit()
-            log.info("Done: %d requirements, %d links inserted.",
-                     len(req_rows), len(link_rows))
+            log.info("Done: %d requirements, %d links inserted.", len(req_rows), len(link_rows))
     except Exception:
-        log.exception("Import failed - rolling back")
         conn.rollback()
+        log.exception("Import failed - rolled back")
         raise
     finally:
         conn.close()
-        log.info("Connection closed")
 
 
 if __name__ == "__main__":

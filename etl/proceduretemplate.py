@@ -271,7 +271,7 @@ def main():
                     INSERT INTO procedure_templates
                         (procedure_code, template_name, description, source_id, notes, created_at, updated_at)
                     VALUES (%s, %s, %s, %s, %s, now(), now())
-                    ON CONFLICT (procedure_code) DO UPDATE SET
+                    ON CONFLICT (source_id, procedure_code) DO UPDATE SET
                         template_name = EXCLUDED.template_name,
                         description   = EXCLUDED.description,
                         notes         = EXCLUDED.notes,

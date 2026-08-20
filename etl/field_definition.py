@@ -129,6 +129,15 @@ FIELDS = [
     {"field_name": "reid_vapor_pressure",       "display_name": "Reid Vapor Pressure",       "data_type": "number", "unit": "psi",      "category": "Physical", "catalog_only": True},
     {"field_name": "flammable_limits",          "display_name": "Flammable Limits",          "data_type": "text",   "unit": None,       "category": "Physical", "catalog_only": True},
 ]
+
+# Sittig's Handbook contributes ~60 further catalog-only property keys. They are
+# defined next to their loader (etl/sittig_handbook.py) and spliced in here so
+# the prune pass below sees them as desired — without this, a run of this script
+# would DELETE those field_definitions rows and CASCADE-delete every
+# cargo_property_values row the Sittig import wrote.
+from sittig_handbook import NEW_FIELDS as SITTIG_FIELDS  # noqa: E402
+
+FIELDS += SITTIG_FIELDS
 # ----------------------------------------------------------------------------
 
 logging.basicConfig(

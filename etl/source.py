@@ -31,6 +31,25 @@ RANK_KEYS = (
 # Placeholder cells that should be stored as SQL NULL rather than literal text.
 _PLACEHOLDERS = {"", "-", "—", "–", "n/a", "na", "none", "?"}
 
+# source.category is a Postgres enum ("SourceCategory"). A source with no
+# Category key predates the crude-oil work and is a chemical source.
+VALID_CATEGORIES = {"chemical", "oil", "gas"}
+DEFAULT_CATEGORY = "chemical"
+
+
+def category_of(record: Dict[str, Any]) -> str:
+    """Read and validate the Category key, defaulting to 'chemical'."""
+    raw = clean(record.get("Category"))
+    if raw is None:
+        return DEFAULT_CATEGORY
+    value = raw.lower()
+    if value not in VALID_CATEGORIES:
+        raise SystemExit(
+            f"Error: source {record.get('Source')!r} has Category {raw!r}; "
+            f"allowed values are {sorted(VALID_CATEGORIES)}."
+        )
+    return value
+
 
 def clean(value: Any) -> Optional[str]:
     """Trim a cell; treat placeholders/empties as None (SQL NULL)."""
@@ -66,10 +85,14 @@ def load_records(path: Path) -> list:
     return data
 
 
-def load_existing_names(cur) -> set:
-    """Return the set of normalized names already in the source table."""
-    cur.execute("SELECT name FROM source")
-    return {normalize_name(row[0]) for row in cur.fetchall() if row[0]}
+def load_existing_names(cur) -> Dict[str, tuple]:
+    """Map normalized existing source name -> (id, category)."""
+    cur.execute("SELECT id, name, category FROM source")
+    return {
+        normalize_name(name): (sid, category)
+        for sid, name, category in cur.fetchall()
+        if name
+    }
 
 
 def create_source(cur, record: Dict[str, Any]) -> int:
@@ -78,6 +101,7 @@ def create_source(cur, record: Dict[str, Any]) -> int:
         "name": clean(record.get("Source")),
         "edition": clean(record.get("Edition")),
         "source_type": clean(record.get("Type")),
+        "category": category_of(record),
         "notes": "Auto-created from source.json",
     }
     for key in RANK_KEYS:
@@ -114,7 +138,7 @@ def main():
 
     log.info("Connecting to database")
     conn = psycopg2.connect(db_url)
-    n_created = n_skipped = n_invalid = 0
+    n_created = n_skipped = n_invalid = n_recategorised = 0
     try:
         with conn.cursor() as cur:
             existing = load_existing_names(cur)
@@ -127,24 +151,46 @@ def main():
                     n_invalid += 1
                     continue
 
-                # Verify by name: exists -> skip, else create.
-                if normalize_name(name) in existing:
-                    log.info("[%d] EXISTS -> skip: %r", i, name)
+                key = normalize_name(name)
+                wanted_category = category_of(record)
+
+                # Verify by name: exists -> keep the row, but let source.json
+                # stay authoritative for category so re-categorising a source
+                # does not require a manual UPDATE.
+                if key in existing:
+                    sid, current_category = existing[key]
+                    if current_category != wanted_category:
+                        if args.dry_run:
+                            log.info("[%d] EXISTS -> would set category %s -> %s: %r",
+                                     i, current_category, wanted_category, name)
+                        else:
+                            cur.execute(
+                                "UPDATE source SET category = %s, updated_at = now() "
+                                "WHERE id = %s",
+                                (wanted_category, sid),
+                            )
+                            log.info("[%d] EXISTS -> category %s -> %s: %r",
+                                     i, current_category, wanted_category, name)
+                        n_recategorised += 1
+                    else:
+                        log.info("[%d] EXISTS -> skip: %r", i, name)
                     n_skipped += 1
                     continue
 
                 if args.dry_run:
-                    log.info("[%d] NEW -> would create: %r", i, name)
+                    log.info("[%d] NEW (%s) -> would create: %r", i, wanted_category, name)
+                    new_id = None
                 else:
                     new_id = create_source(cur, record)
-                    log.info("[%d] CREATED id=%s: %r", i, new_id, name)
-                existing.add(normalize_name(name))  # avoid dup within this run
+                    log.info("[%d] CREATED id=%s (%s): %r", i, new_id, wanted_category, name)
+                existing[key] = (new_id, wanted_category)  # avoid dup within this run
                 n_created += 1
 
             log.info("=" * 60)
             log.info("SUMMARY (%s)", "DRY-RUN" if args.dry_run else "COMMIT")
             log.info("  created : %d", n_created)
             log.info("  skipped : %d (already exist)", n_skipped)
+            log.info("  recategorised : %d", n_recategorised)
             log.info("  invalid : %d (no name)", n_invalid)
             log.info("=" * 60)
 

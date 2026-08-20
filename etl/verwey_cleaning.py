@@ -84,6 +84,8 @@ def load_procedures(cur, path: Path, source_id: int, dry_run: bool) -> Tuple[Dic
             VALUES (%s, %s, %s, %s, now(), now())
             ON CONFLICT (procedure_code, source_id)
                 WHERE cargo_id IS NULL AND from_cargo_id IS NULL AND to_cargo_id IS NULL
+                  AND from_cargo_family_group_id IS NULL
+                  AND to_cargo_family_group_id IS NULL
             DO UPDATE SET title = EXCLUDED.title, notes = EXCLUDED.notes, updated_at = now()
             RETURNING id
             """,
@@ -298,7 +300,7 @@ def load_matrix(cur, path: Path, source_id: int, valid_codes: set,
         INSERT INTO cleaning_process
             (from_cargo_id, to_cargo_id, procedure_code, source_id, title, created_at, updated_at)
         VALUES %s
-        ON CONFLICT (from_cargo_id, to_cargo_id, source_id)
+        ON CONFLICT (from_cargo_id, to_cargo_id, source_id, (COALESCE(condition, '')))
             WHERE from_cargo_id IS NOT NULL AND to_cargo_id IS NOT NULL
         DO UPDATE SET procedure_code = EXCLUDED.procedure_code,
                       title = EXCLUDED.title, updated_at = now()
@@ -306,6 +308,24 @@ def load_matrix(cur, path: Path, source_id: int, valid_codes: set,
         [(fid, tid, code, source_id, title) for fid, tid, code, title in pairs],
         template="(%s,%s,%s,%s,%s,now(),now())",
         page_size=2000,
+    )
+
+    # 1b) point every row at its procedure_templates row. Until the CargoType
+    # refactor this link was implicit in the (source_id, procedure_code)
+    # composite FK; that FK is gone now that cleaning_process is polymorphic,
+    # so the id has to be resolved explicitly. Idempotent.
+    cur.execute(
+        """
+        UPDATE cleaning_process cp
+           SET procedure_template_id = pt.id
+          FROM procedure_templates pt
+         WHERE pt.source_id = cp.source_id
+           AND pt.procedure_code = cp.procedure_code
+           AND cp.source_id = %s
+           AND cp.procedure_code IS NOT NULL
+           AND cp.procedure_template_id IS DISTINCT FROM pt.id
+        """,
+        (source_id,),
     )
 
     # 2) copy template steps into every matrix process (server-side, idempotent)
@@ -331,6 +351,8 @@ def load_matrix(cur, path: Path, source_id: int, valid_codes: set,
             ON tpl.procedure_code = mp.procedure_code
            AND tpl.source_id = mp.source_id
            AND tpl.cargo_id IS NULL AND tpl.from_cargo_id IS NULL AND tpl.to_cargo_id IS NULL
+           AND tpl.from_cargo_family_group_id IS NULL
+           AND tpl.to_cargo_family_group_id IS NULL
           JOIN cleaning_process_step ts ON ts.cleaning_process_id = tpl.id
          WHERE mp.source_id = %s AND mp.from_cargo_id IS NOT NULL
         """,

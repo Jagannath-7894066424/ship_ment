@@ -817,7 +817,8 @@ def main():
                 if un_col is not None:
                     for un_number, qtype, qval in parse_un_numbers(record.get(un_col)):
                         key = (cargo_id, un_number, qval or "")
-                        un_rows[key] = (cargo_id, un_number, qtype, qval, None, now, now)
+                        un_rows[key] = (cargo_id, source_id if source_id != -1 else None,
+                                        un_number, qtype, qval, None, now, now)
 
                 # descriptive hazard info -> cargo_hazard_data (one row per cargo)
                 if "hazard" in pipeline:
@@ -862,13 +863,19 @@ def main():
                 if un_rows:
                     # Idempotent: clear this run's cargoes then re-insert their UN
                     # numbers, so re-running the loader never accumulates duplicates.
+                    # Scoped to this source so a chemical carrying UN numbers from
+                    # several guides keeps the other sources' rows.
                     affected = list({r[0] for r in un_rows.values()})
                     cur.execute(
-                        "DELETE FROM cargo_un_number WHERE cargo_id = ANY(%s)", (affected,))
+                        "DELETE FROM cargo_un_number WHERE cargo_id = ANY(%s) "
+                        "AND source_id IS NOT DISTINCT FROM %s",
+                        (affected, source_id if source_id != -1 else None),
+                    )
                     execute_values(
                         cur,
-                        "INSERT INTO cargo_un_number (cargo_id, un_number, qualifier_type, "
-                        "qualifier_value, remarks, created_at, updated_at) VALUES %s",
+                        "INSERT INTO cargo_un_number (cargo_id, source_id, un_number, "
+                        "qualifier_type, qualifier_value, remarks, created_at, updated_at) "
+                        "VALUES %s",
                         list(un_rows.values()),
                     )
                 if hazard_rows:

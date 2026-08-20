@@ -2,6 +2,7 @@
   {
     "Source": "IBC Code",
     "Edition": "2020",
+    "Category": "chemical",
     "rank_regulatory": 1,
     "rank_cleaning": 6,
     "rank_compatibility": 4,
@@ -11,6 +12,7 @@
   {
     "Source": "MARPOL Annex II",
     "Edition": "consol",
+    "Category": "chemical",
     "rank_regulatory": 1,
     "rank_cleaning": 6,
     "rank_compatibility": 6,
@@ -20,6 +22,7 @@
   {
     "Source": "DOT Hazardous Materials Table (49 CFR 172.101)",
     "Edition": "current",
+    "Category": "chemical",
     "rank_regulatory": 2,
     "rank_cleaning": 6,
     "rank_compatibility": 6,
@@ -27,8 +30,29 @@
     "rank_health": 5
   },
   {
+    "Source": "USCG Chemical Data Guide For Bulk Shipment By Water [7th Edition 1990]_reviewed",
+    "Edition": "7th 1990",
+    "Category": "chemical",
+    "rank_regulatory": 3,
+    "rank_cleaning": 4,
+    "rank_compatibility": 1,
+    "rank_physical": 1,
+    "rank_health": 2
+  },
+  {
+    "Source": "Unknown - Products CHEM - 1996",
+    "Edition": "1996",
+    "Category": "chemical",
+    "rank_regulatory": 6,
+    "rank_cleaning": 6,
+    "rank_compatibility": 6,
+    "rank_physical": 5,
+    "rank_health": 6
+  },
+  {
     "Source": "USCG CHRIS Chemical Data Guide",
     "Edition": "7th 1990",
+    "Category": "chemical",
     "rank_regulatory": 3,
     "rank_cleaning": 4,
     "rank_compatibility": 1,
@@ -38,6 +62,7 @@
   {
     "Source": "Sittigs Handbook of Toxic & Hazardous Chemicals",
     "Edition": "latest",
+    "Category": "chemical",
     "rank_regulatory": 6,
     "rank_cleaning": 6,
     "rank_compatibility": 6,
@@ -47,6 +72,7 @@
   {
     "Source": "Manufacturer MSDS / SDS (per product)",
     "Edition": "latest",
+    "Category": "chemical",
     "rank_regulatory": 5,
     "rank_cleaning": 6,
     "rank_compatibility": 6,
@@ -56,6 +82,17 @@
   {
     "Source": "Dr Verweys Tank Cleaning Guide",
     "Edition": "11th",
+    "Category": "chemical",
+    "rank_regulatory": 6,
+    "rank_cleaning": 1,
+    "rank_compatibility": 5,
+    "rank_physical": 5,
+    "rank_health": 5
+  },
+  {
+    "Source": "Dr Verweys Tank Cleaning Guide Pdf Book",
+    "Edition": "PDF Book",
+    "Category": "chemical",
     "rank_regulatory": 6,
     "rank_cleaning": 1,
     "rank_compatibility": 5,
@@ -65,6 +102,7 @@
   {
     "Source": "Drew Ameroid Tank Cleaning Guide (TCG)",
     "Edition": "1992",
+    "Category": "chemical",
     "rank_regulatory": 6,
     "rank_cleaning": 2,
     "rank_compatibility": 5,
@@ -74,6 +112,7 @@
   {
     "Source": "Miracle Tank Cleaning Guide",
     "Edition": "2008",
+    "Category": "chemical",
     "rank_regulatory": 6,
     "rank_cleaning": 3,
     "rank_compatibility": 5,
@@ -83,6 +122,7 @@
   {
     "Source": "Odfjell Compatibility Chart",
     "Edition": "1999",
+    "Category": "chemical",
     "rank_regulatory": 6,
     "rank_cleaning": 6,
     "rank_compatibility": 2,
@@ -92,6 +132,7 @@
   {
     "Source": "Stolt commodity table / Produkt info",
     "Edition": "2000",
+    "Category": "chemical",
     "rank_regulatory": 4,
     "rank_cleaning": 5,
     "rank_compatibility": 3,
@@ -101,6 +142,7 @@
   {
     "Source": "Union Carbide Product Stowage Guide",
     "Edition": "1999",
+    "Category": "chemical",
     "rank_regulatory": 5,
     "rank_cleaning": 6,
     "rank_compatibility": 4,
@@ -110,6 +152,7 @@
   {
     "Source": "Lars Stole Birkeland — Chemical Cargo specifications - 2002",
     "Edition": "2002",
+    "Category": "chemical",
     "rank_regulatory": 5,
     "rank_cleaning": 6,
     "rank_compatibility": 5,
@@ -119,6 +162,7 @@
   {
     "Source": "INTERTANKO Cargo Tank Cleanliness Standards",
     "Edition": "Rev 1 2017",
+    "Category": "chemical",
     "rank_regulatory": 4,
     "rank_cleaning": 2,
     "rank_compatibility": 6,
@@ -128,6 +172,7 @@
   {
     "Source": "Manual Entry",
     "Edition": "—",
+    "Category": "chemical",
     "rank_regulatory": 9,
     "rank_cleaning": 9,
     "rank_compatibility": 9,
@@ -138,6 +183,7 @@
     "Source": "Cargo Library 4 Odfjell - Compatibility Chart and Notes Reactive Cargoes - 1999",
     "Type": "Compatibility Chart and Notes Reactive Cargoes",
     "Edition": "1999",
+    "Category": "chemical",
     "rank_regulatory": 0,
     "rank_cleaning": 0,
     "rank_compatibility": 0,
@@ -148,10 +194,35 @@
     "Source": "Cargo Library 3 TABLE OF CHEMICAL CARGO",
     "Type": "Compatibility Chart and Notes Reactive Cargoes",
     "Edition": "1999",
+    "Category": "chemical",
     "rank_regulatory": 0,
     "rank_cleaning": 0,
     "rank_compatibility": 0,
     "rank_physical": 0,
     "rank_health": 0
+  },
+  {
+    "Source": "Crude Oil Basic Properties",
+    "Edition": "Unknown",
+    "Category": "oil",
+    "rank_physical": 2
+  },
+  {
+    "Source": "Crude Oil Assay and Operational Properties",
+    "Edition": "Unknown",
+    "Category": "oil",
+    "rank_physical": 1
+  },
+  {
+    "Source": "Shell Tank Cleaning Procedure",
+    "Edition": "Ship Pre-Cargo Matrix",
+    "Category": "oil",
+    "rank_cleaning": 1
+  },
+  {
+    "Source": "Shell Tank Cleanning Data",
+    "Edition": "Ship Pre-Cargo Matrix - Cargo Master",
+    "Category": "oil",
+    "rank_physical": 3
   }
 ]

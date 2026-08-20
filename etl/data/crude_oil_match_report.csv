@@ -1,0 +1,102 @@
+oil_name,match_type,country_basic,api_verdict,api_detail,pour_verdict,pour_detail
+ABU AL BU KHOOSH,exact,Abu Dhabi,consistent,31.6 vs 31.6-33.8,consistent,-24.5°F = -31.4°C vs -37.0..-12.0°C
+ARABIAN LIGHT,exact,Saudi Arabia,consistent,33.4 vs 32.27-33.5,consistent,-30°F = -34.4°C vs -54.0..-21.0°C
+ARDJUNA,exact,"Indonesia, Java",consistent,35.2 vs 35.1-37.4,consistent,+75.0°F = 23.9°C vs 24.0..27.0°C
+ARIMBI,exact,Indonesia,differs,31.8 vs 36.6,differs,+100.0°F = 37.8°C vs -18.0°C
+ASHTART,exact,Tunisia,consistent,29.0 vs 29.0-31.2,consistent,+48.2°F = 9.0°C vs -6.0..9.0°C
+ATTAKA,exact,"Indonesia, East Kalimantan",consistent,42.3 vs 41.8-43.9,consistent,-10°F = -23.3°C vs -32.0..0.0°C
+BADAK,exact,Indonesia,consistent,41.3 vs 41.3,differs,-15°F = -26.1°C vs -12.0°C
+BEATRICE,exact,U.K. (North Sea),consistent,38.7 vs 37.7-38.7,consistent,+55.0°F = 12.8°C vs 13.0..24.0°C
+BEKAPAI,exact,"Indonesia, East Kalimantan",consistent,40.0 vs 39.7-41.7,consistent,-5.8°F = -21.0°C vs -23.0..-12.0°C
+BERYL,exact,U.K. (North Sea),consistent,36.5 vs 36.5-38.9,,
+BINTULU,exact,Malaysia,outside range,26.5 vs 29.4-40.5,consistent,+23.0°F = -5.0°C vs -21.0..-3.0°C
+BOMBAY HIGH,exact,India,outside range,39.4 vs 37.9-39.3,consistent,+86.0°F = 30.0°C vs 6.0..27.0°C
+BRASS RIVER,exact,Nigeria,outside range,40.9 vs 41.9-43.4,consistent,+35.0°F = 1.7°C vs -12.0..15.0°C
+BREGA,exact,Libya,consistent,40.4 vs 40.2-42.1,consistent,+30.0°F = -1.1°C vs -1.0..3.0°C
+BRENT BLEND,exact,U.K. (North Sea),consistent,38.0 vs 37.5-39.0,consistent,+5.0°F = -15.0°C vs -15.0..6.0°C
+BU ATTIFEL,exact,Libya,consistent,43.6 vs 41.0-44.5,consistent,+90.0°F = 32.2°C vs 32.0..45.0°C
+BUNYU,exact,"Indonesia, East Kalimantan",consistent,31.7 vs 31.7-33.4,consistent,+60.0°F = 15.6°C vs 12.0..16.0°C
+CABINDA,exact,Angola (Cabinda),consistent,31.7 vs 31.0-39.0,consistent,+65.0°F = 18.3°C vs 10.0..27.0°C
+CEUTA,exact,Venezuela,outside range,31.8 vs 29.7-31.2,consistent,-35°F = -37.2°C vs -36.0..-12.0°C
+CINTA,exact,"Indonesia, Sumatra",consistent,33.4 vs 28.0-33.9,consistent,+105.0°F = 40.6°C vs 32.0..41.0°C
+EKOFISK,exact,Norway (North Sea),outside range,43.4 vs 38.9-42.3,consistent,+10.0°F = -12.2°C vs -9.0..3.0°C
+ES SIDER,exact,Libya,consistent,36.7 vs 36.2-37.0,consistent,+45.0°F = 7.2°C vs 0.0..9.0°C
+ESCRAVOS,exact,Nigeria,consistent,36.2 vs 35.1-36.6,consistent,+10.0°F = -12.2°C vs -12.0..7.0°C
+ESPOIR,exact,Ivory Coast,consistent,31.4 vs 32.0,differs,+5.0°F = -15.0°C vs -6.0°C
+FORCADOS BLEND,exact,Nigeria,consistent,29.7 vs 28.4-31.0,consistent,-4°F = -20.0°C vs -36.0..-4.0°C
+FULMAR,exact,U.K. (North Sea),consistent,39.3 vs 39.3-41.5,consistent,+9.6°F = -12.4°C vs -18.0..3.0°C
+GAMBA,exact,Gabon,consistent,31.8 vs 30.9-31.8,consistent,+73.4°F = 23.0°C vs 23.0..33.0°C
+GULLFAKS,exact,Norway (North Sea),consistent,28.6 vs 28.6-32.2,consistent,-50°F = -45.6°C vs -45.0°C
+HANDIL,exact,"Indonesia, East Kalimantan",consistent,32.8 vs 32.7-36.4,consistent,+85.0°F = 29.4°C vs -27.0..30.0°C
+HOUT,exact,Divided Zone,consistent,32.8 vs 32.8-35.3,differs,-13°F = -25.0°C vs -18.0°C
+ISTHMUS,exact,Mexico,consistent,32.8 vs 32.4-34.8,consistent,-15°F = -26.1°C vs -45.0..-15.0°C
+KHAFJI,exact,Divided Zone,consistent,28.5 vs 27.3-28.5,consistent,-31°F = -35.0°C vs -57.0..-30.0°C
+KOLE MARINE BLEND,exact,Cameroon,outside range,34.9 vs 31.7-33.3,consistent,+21.2°F = -6.0°C vs -21.0..-9.0°C
+KUWAIT EXPORT,exact,Kuwait,consistent,31.4 vs 30.3-32.0,consistent,+5.0°F = -15.0°C vs -57.0..-15.0°C
+LA ROSA MEDIUM,exact,Venezuela,consistent,25.3 vs 24.5,,
+LAGOMEDIO,exact,Venezuela,outside range,31.5 vs 31.7-33.0,consistent,-15°F = -26.1°C vs -40.0..-26.0°C
+LEONA,exact,Venezuela,consistent,24.1 vs 21.0-25.4,consistent,-45°F = -42.8°C vs -45.0..-36.0°C
+LORETO,exact,Peru,differs,34.0 vs 30.2,differs,+34.0°F = 1.1°C vs -18.0°C
+MANDJI,exact,Gabon,consistent,30.5 vs 28.5-31.0,consistent,+37.4°F = 3.0°C vs -18.0..12.0°C
+MAUREEN,exact,U.K. (North Sea),consistent,35.5 vs 35.3-36.4,consistent,+45.0°F = 7.2°C vs 0.0..12.0°C
+MAYA,exact,Mexico,consistent,22.0 vs 21.6-22.2,outside range,0°F = -17.8°C vs -37.0..-27.0°C
+MEREY,exact,Venezuela,outside range,17.4 vs 16.0-17.2,consistent,-10°F = -23.3°C vs -23.0..-18.0°C
+MIRI LIGHT,exact,Malaysia,outside range,36.3 vs 29.0-32.4,consistent,+34.0°F = 1.1°C vs -9.0..6.0°C
+MUBAREK,exact,"Sharja, U.A.E.",consistent,37.0 vs 36.0-50.0,consistent,+01.0°F = -17.2°C vs -24.0..-12.0°C
+MURBAN,exact,Abu Dhabi,outside range,39.19 vs 39.3-40.5,consistent,-11.2°F = -24.0°C vs -34.0..-12.0°C
+NINIAN BLEND,exact,U.K. (North Sea),consistent,35.6 vs 35.6-38.0,consistent,+35.0°F = 1.7°C vs -15.0..6.0°C
+OMAN EXPORT,exact,Oman,outside range,36.3 vs 34.2-35.3,consistent,-15°F = -26.1°C vs -42.0..-23.0°C
+ORIENTE,exact,Ecuador,outside range,29.2 vs 28.1-29.0,consistent,+25.0°F = -3.9°C vs -12.0..-1.0°C
+QATAR MARINE,exact,Qatar,outside range,35.3 vs 35.4-36.7,consistent,+10.0°F = -12.2°C vs -39.0..-12.0°C
+QUA IBOE,exact,Nigeria,consistent,35.8 vs 35.7-37.6,consistent,+45.0°F = 7.2°C vs 0.0..13.0°C
+SAHARAN BLEND,exact,Algeria,consistent,43.7 vs 43.4-46.4,,
+SALAWATI,exact,Indonesia,consistent,38.0 vs 38.0-41.3,consistent,-15°F = -26.1°C vs -26.0..-21.0°C
+SARIR,exact,Libya,consistent,38.3 vs 36.6-38.3,outside range,+25.0°F = -3.9°C vs 24.0..27.0°C
+SERIA LIGHT,exact,Brunei,outside range,36.2 vs 39.6-40.2,outside range,+35.0°F = 1.7°C vs 9.0..13.0°C
+SHENGLI,exact,People's Republic of China,consistent,24.2 vs 23.5-26.0,consistent,+70.0°F = 21.1°C vs 21.0..30.0°C
+SIRRI,exact,Iran,consistent,30.9 vs 30.9,consistent,+15.8°F = -9.0°C vs -9.0°C
+SOUEDIE,exact,Syria,outside range,24.9 vs 23.5-24.2,consistent,-22°F = -30.0°C vs -39.0..-24.0°C
+STATFJORD,exact,"Norway, U.K.(North Sea)",consistent,38.4 vs 37.7-39.0,consistent,+40.0°F = 4.4°C vs -18.0..6.0°C
+TEMBUNGO,exact,"Malaysia, Sabah",consistent,37.4 vs 36.6,differs,+25.0°F = -3.9°C vs 9.0°C
+THISTLE,exact,U.K. (North Sea),consistent,37.0 vs 37.0-37.2,consistent,+53.6°F = 12.0°C vs 9.0..12.0°C
+TIA JUANA LIGHT,exact,Venezuela,consistent,32.1 vs 29.4-34.5,consistent,-45°F = -42.8°C vs -42.0..-24.0°C
+UDANG,exact,Indonesia,consistent,38.0 vs 37.6-38.5,consistent,100°F = 37.8°C vs 35.0..39.0°C
+WALIO,exact,Indonesia,consistent,34.1 vs 33.4-36.4,,
+ALASKAN NORTH SLOPE (SADLEROCHIT),near -> ALASKAN NORTH SLOPE,U.S.A.,,,,needs human validation
+AMNA (HIGH POUR),near -> AMNA,Libya,,,,needs human validation
+ARABIAN HEAVY (SAFANIYA),near -> ARABIAN HEAVY,Saudi Arabia,,,,needs human validation
+ARABIAN MEDIUM - KHURSANIYAH,near -> ARABIAN MEDIUM,Saudi Arabia,,,,needs human validation
+ARABIAN MEDIUM - ZULUF / MARJAN,near -> ARABIAN MEDIUM,Saudi Arabia,,,,needs human validation
+BACHAQUERO,near -> BACHAQUERO (BCF-13),Venezuela,,,,needs human validation
+BACHAQUERO,near -> BACHAQUERO (BCF-17),Venezuela,,,,needs human validation
+BACHAQUERO,near -> BACHAQUERO (BCF-22),Venezuela,,,,needs human validation
+BACHAQUERO,near -> BACHAQUERO (BCF-24),Venezuela,,,,needs human validation
+BACHAQUERO,near -> BACHAQUERO DOS,Venezuela,,,,needs human validation
+BELAYIM,near -> BELAYIM BLEND,Egypt,,,,needs human validation
+BELAYIM,near -> BELAYIM LAND,Egypt,,,,needs human validation
+BELAYIM,near -> BELAYIM MARINE,Egypt,,,,needs human validation
+BOW RIVER HEAVY,near -> BOW RIVER,Canada,,,,needs human validation
+CHAMPION EXPORT,near -> CHAMPION,Brunei,,,,needs human validation
+DJENO BLEND,near -> DJENO,Congo (Brazzaville),,,,needs human validation
+DURI (SUMATRAN HEAVY),near -> DURI,"Indonesia, Sumatra",,,,needs human validation
+FLOTTA,near -> FLOTTA MIX,U.K. (North Sea),,,,needs human validation
+FOROOZAN (FEREIDOON),near -> FOROOZAN,Iran,,,,needs human validation
+FORTIES,near -> FORTIES BLEND,U.K. (North Sea),,,,needs human validation
+GORM,near -> GORM BLEND,Denmark (North Sea),,,,needs human validation
+GULF OF SUEZ MIX,near -> GULF OF SUEZ,Egypt,,,,needs human validation
+IRANIAN HEAVY,near -> IRANIAN HEAVY (KHARG ISLAND),Iran,,,,needs human validation
+IRANIAN HEAVY,near -> IRANIAN HEAVY (SIDI KERIR),Iran,,,,needs human validation
+IRANIAN LIGHT,near -> IRANIAN LIGHT (KHARG ISLAND),Iran,,,,needs human validation
+IRANIAN LIGHT,near -> IRANIAN LIGHT (SIDI KERIR),Iran,,,,needs human validation
+KIRKUK BLEND,near -> KIRKUK,Iraq,,,,needs human validation
+LABUAN BLEND,near -> LABUAN,"Malaysia, Sabah",,,,needs human validation
+LUCINA MARINE,near -> LUCINA,Gabon,,,,needs human validation
+MINAS (SUMATRAN LIGHT),near -> MINAS,"Indonesia, Sumatra",,,,needs human validation
+PENNINGTON,near -> PENNINGTON LIGHT,Nigeria,,,,needs human validation
+ROSTAM,near -> ROSTAM/RAKHSH,Iran,,,,needs human validation
+SASSAN (SALMON),near -> SASSAN,Iran,,,,needs human validation
+SIRTICA,near -> SIRTICA BLEND,Libya,,,,needs human validation
+SOYO BLEND,near -> SOYO,Angola,,,,needs human validation
+TAPIS,near -> TAPIS BLEND,Malaysia,,,,needs human validation
+UMM SHAIF (ABU DHABI MARINE),near -> UMM SHAIF,Abu Dhabi,,,,needs human validation
+ZAIRE,near -> ZAIRE EXPORT,Zaire,,,,needs human validation

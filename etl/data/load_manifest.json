@@ -1,0 +1,42 @@
+{
+  "generated_at": "2026-08-07T12:11:08.593373+00:00",
+  "steps": [
+    {
+      "step": 16,
+      "label": "verwey_cleaning",
+      "input_file": "(loader default)",
+      "command": "python3 etl/verwey_cleaning.py",
+      "ok": true,
+      "exit_code": 0,
+      "seconds": 21.73,
+      "rows_by_table": {
+        "cleaning_process": 118027,
+        "cleaning_process_step": 595617
+      },
+      "rows_total": 713644
+    }
+  ],
+  "final_row_counts": {
+    "cargo_chemical": 3780,
+    "cargo_dot_hazad": 3594,
+    "cargo_family_group": 431,
+    "cargo_hazard_data": 101,
+    "cargo_property_values": 46728,
+    "cargo_reactive_group": 1586,
+    "cargo_synonym": 12022,
+    "cargo_un_number": 604,
+    "cleaning_process": 306712,
+    "cleaning_process_step": 600867,
+    "compatibility": 561,
+    "compatibility_exception": 94,
+    "field_definitions": 124,
+    "master_cargo_chemical_group_details": 698,
+    "procedure_template_instruction": 567,
+    "procedure_template_steps": 1437,
+    "procedure_templates": 338,
+    "reactive_groups": 37,
+    "source": 19,
+    "synonyms": 11090
+  },
+  "total_rows": 991390
+}

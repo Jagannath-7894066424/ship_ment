@@ -272,7 +272,7 @@ def load_matrix(cur, cells, source_id: int, valid_codes: set, dry_run: bool
         INSERT INTO cleaning_process
             (from_cargo_id, to_cargo_id, procedure_code, source_id, title, created_at, updated_at)
         VALUES %s
-        ON CONFLICT (from_cargo_id, to_cargo_id, source_id)
+        ON CONFLICT (from_cargo_id, to_cargo_id, source_id, (COALESCE(condition, '')))
             WHERE from_cargo_id IS NOT NULL AND to_cargo_id IS NOT NULL
         DO UPDATE SET procedure_code = EXCLUDED.procedure_code,
                       title = EXCLUDED.title, updated_at = now()
@@ -280,6 +280,24 @@ def load_matrix(cur, cells, source_id: int, valid_codes: set, dry_run: bool
         [(fid, tid, code, source_id, title) for fid, tid, code, title in pairs],
         template="(%s,%s,%s,%s,%s,now(),now())",
         page_size=2000,
+    )
+
+    # 1b) point every row at its procedure_templates row. Until the CargoType
+    # refactor this link was implicit in the (source_id, procedure_code)
+    # composite FK; that FK is gone now that cleaning_process is polymorphic,
+    # so the id has to be resolved explicitly. Idempotent.
+    cur.execute(
+        """
+        UPDATE cleaning_process cp
+           SET procedure_template_id = pt.id
+          FROM procedure_templates pt
+         WHERE pt.source_id = cp.source_id
+           AND pt.procedure_code = cp.procedure_code
+           AND cp.source_id = %s
+           AND cp.procedure_code IS NOT NULL
+           AND cp.procedure_template_id IS DISTINCT FROM pt.id
+        """,
+        (source_id,),
     )
     return len(pairs), len(unmatched)
 

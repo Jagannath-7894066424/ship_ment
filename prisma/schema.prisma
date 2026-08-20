@@ -9,7 +9,7 @@ datasource db {
 }
 
 model source {
-  id                 Int       @id @unique @default(autoincrement())
+  id                 Int            @id @unique @default(autoincrement())
   name               String
   edition            String?
   publisher          String?
@@ -19,12 +19,13 @@ model source {
   rank_compatibility Int?
   rank_physical      Int?
   rank_health        Int?
-  date_published     DateTime? @default(now())
-  date_ingested      DateTime  @default(now())
+  date_published     DateTime?      @default(now())
+  date_ingested      DateTime       @default(now())
   source_type        String?
   notes              String?
-  created_at         DateTime? @default(now())
-  updated_at         DateTime  @default(now())
+  category           SourceCategory @default(chemical)
+  created_at         DateTime?      @default(now())
+  updated_at         DateTime       @default(now())
 
   cargo_chemicals     cargo_chemical[]
   cargoPropertyValues cargo_property_values[]
@@ -58,6 +59,208 @@ model source {
   cargoHazardDatas cargo_hazard_data[]
 
   cargoDotHazmats cargo_dot_hazad[]
+
+  cargoUnNumbers cargo_un_number[]
+
+  cargoFamilyGroups cargo_family_group[]
+
+  // Crude-oil branch. Independent of the cargo_chemical branch above; the two
+  // meet only here, at source.
+  crudeOils              crude_oil[]
+  crudeOilPropertyValues crude_oil_property_values[]
+
+  // Gas branch. Same rule as crude oil: its own master + its own property
+  // table, no FK to either of the other two masters.
+  gases             gas[]
+  gasPropertyValues gas_property_values[]
+
+  crudeOilSynonyms crude_oil_synonym[]
+}
+
+/// What class of material a source describes. `gas` is defined for future gas
+/// sources; no gas source exists yet.
+enum SourceCategory {
+  chemical
+  oil
+  gas
+}
+
+/// Which master table an operational row is about.
+///
+/// Used ONLY by the common operational tables (procedure_templates,
+/// cleaning_process). It is the discriminator that says which of the three
+/// master tables cleaning_process.cargo_id / from_cargo_id / to_cargo_id point
+/// at, because one FK column cannot target three tables. Master tables never
+/// carry this column - they ARE the type.
+///
+/// Deliberately separate from SourceCategory: that describes a document, this
+/// describes a row of operational data. A single source could in principle
+/// publish procedures for more than one cargo type.
+enum CargoType {
+  CHEMICAL // -> cargo_chemical
+  OIL // -> crude_oil
+  GAS // -> gas
+}
+
+/// Crude oil master record.
+///
+/// Deliberately NOT related to cargo_chemical: a crude oil is its own entity,
+/// not a subtype of a chemical cargo. API / sulfur / pour point and every other
+/// measured quantity live in crude_oil_property_values, never as columns here.
+model crude_oil {
+  id                Int      @id @unique @default(autoincrement())
+  oil_name          String
+  source_id         Int
+  country_of_origin String?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  properties crude_oil_property_values[]
+  synonyms   crude_oil_synonym[]
+
+  source source @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  // Identity is per-source. The same crude appears in multiple sources with
+  // different assay values and each must keep its own row; a global unique on
+  // oil_name would collapse them.
+  @@unique([oil_name, source_id])
+  @@index([oil_name])
+  @@index([source_id])
+}
+
+/// Source-aware property values for crude oils.
+///
+/// Same shape as cargo_property_values, plus normalized_min / normalized_max
+/// because the assay source quotes most properties as Min/Max ranges.
+model crude_oil_property_values {
+  id           Int    @id @unique @default(autoincrement())
+  crude_oil_id Int
+  source_id    Int
+  field_name   String
+
+  value            String? // raw value exactly as the source records it
+  normalized_value Float? // numeric form for a single-point value
+  normalized_min   Float? // lower bound when the source quotes a range
+  normalized_max   Float? // upper bound when the source quotes a range
+  unit             String? // unit as published (°F here, °C there - never assume)
+  value_type       String? // number | text | boolean | range | enum
+
+  source_synonym_id Int?
+  source_page_ref   String?
+  as_of_date        DateTime?
+  entered_date      DateTime
+  entered_by        String
+  entry_type        String
+  is_winning        Boolean
+  conflict_flag     Boolean
+  notes             String?
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
+
+  synonym          synonyms?         @relation(fields: [source_synonym_id], references: [id], onDelete: SetNull)
+  field_definition field_definitions @relation(fields: [field_name], references: [field_name], onDelete: Cascade)
+  crude_oil        crude_oil         @relation(fields: [crude_oil_id], references: [id], onDelete: Cascade)
+  source           source            @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  @@unique([crude_oil_id, source_id, field_name])
+  @@index([crude_oil_id])
+  @@index([source_id])
+  @@index([field_name])
+  @@index([crude_oil_id, source_id])
+  @@index([crude_oil_id, field_name])
+}
+
+/// Gas cargo master record.
+///
+/// Third master entity, a sibling of cargo_chemical and crude_oil - NOT a
+/// subtype of either. Shaped on crude_oil because the two share the same
+/// pattern (a named product, sourced, with all measured quantities pushed into
+/// a property-value table) rather than because a gas is a kind of oil.
+///
+/// No gas source has been loaded yet; the table exists so cleaning_process and
+/// procedure_templates have a real GAS master to point at. Columns are limited
+/// to what identity requires - do NOT add assay columns here, they belong in
+/// gas_property_values.
+model gas {
+  id                Int      @id @unique @default(autoincrement())
+  gas_name          String
+  source_id         Int
+  country_of_origin String?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  properties gas_property_values[]
+
+  source source @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  // Per-source identity, same reasoning as crude_oil: two sources describing
+  // the same gas keep their own rows and their own values.
+  @@unique([gas_name, source_id])
+  @@index([gas_name])
+  @@index([source_id])
+}
+
+/// Source-aware property values for gases.
+///
+/// Mirrors crude_oil_property_values exactly, min/max included: gas
+/// specifications are quoted as ranges at least as often as crude assays are.
+model gas_property_values {
+  id         Int    @id @unique @default(autoincrement())
+  gas_id     Int
+  source_id  Int
+  field_name String
+
+  value            String? // raw value exactly as the source records it
+  normalized_value Float? // numeric form for a single-point value
+  normalized_min   Float? // lower bound when the source quotes a range
+  normalized_max   Float? // upper bound when the source quotes a range
+  unit             String? // unit as published
+  value_type       String? // number | text | boolean | range | enum
+
+  source_synonym_id Int?
+  source_page_ref   String?
+  as_of_date        DateTime?
+  entered_date      DateTime
+  entered_by        String
+  entry_type        String
+  is_winning        Boolean
+  conflict_flag     Boolean
+  notes             String?
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
+
+  synonym          synonyms?         @relation(fields: [source_synonym_id], references: [id], onDelete: SetNull)
+  field_definition field_definitions @relation(fields: [field_name], references: [field_name], onDelete: Cascade)
+  gas              gas               @relation(fields: [gas_id], references: [id], onDelete: Cascade)
+  source           source            @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  @@unique([gas_id, source_id, field_name])
+  @@index([gas_id])
+  @@index([source_id])
+  @@index([field_name])
+  @@index([gas_id, source_id])
+  @@index([gas_id, field_name])
+}
+
+model cargo_family_group {
+  id          Int      @id @default(autoincrement())
+  source_id   Int
+  family_code String // the guide's own number, e.g. "10"
+  family_name String // printed heading, or the sole member's name
+  notes       String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now())
+
+  source source @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  cargoChemicals        cargo_chemical[]
+  cleaningProcessesFrom cleaning_process[] @relation("cp_from_family")
+  cleaningProcessesTo   cleaning_process[] @relation("cp_to_family")
+
+  // Verwey 10, Drew index 10 and Miracle entry 10 are unrelated.
+  @@unique([source_id, family_code])
+  @@index([source_id])
+  @@index([family_name])
 }
 
 model field_definitions {
@@ -74,7 +277,9 @@ model field_definitions {
   created_at     DateTime @default(now())
   updated_at     DateTime @default(now())
 
-  cargoPropertyValues cargo_property_values[]
+  cargoPropertyValues    cargo_property_values[]
+  crudeOilPropertyValues crude_oil_property_values[]
+  gasPropertyValues      gas_property_values[]
 }
 
 model cargo_chemical {
@@ -82,7 +287,6 @@ model cargo_chemical {
   canonical_name         String
   source_id              Int?
   cas_number             String?
-  chris_code             String?
   ibc_chapter            String?
   ibc_product_name       String?
   ibc_pollution_category String?
@@ -101,10 +305,7 @@ model cargo_chemical {
   fire_protection                      String?
   emergency_equipment                  Boolean?
 
-  marpol_category    String?
-  imdg_class         String?
-  dot_hazmat_id      String?
-  physical_state_20c String?
+  marpol_category String?
 
   molecular_weight_g_mol Float?
   boiling_point_c        Float?
@@ -113,36 +314,22 @@ model cargo_chemical {
   vapor_pressure_kpa_20c Float?
   viscosity_cp_20c       Float?
   flash_point_c          Float? // Flash point
-  autoignition_temp_c    Float?
   correction_factor      Float?
 
   water_solubility String?
   water_reactive   Boolean?
 
-  ghs_pictograms           String?
-  ghs_signal_word          String?
-  h_statements             String?
-  carcinogen_iarc          String?
-  tlv_twa_ppm              Int?
-  idlh_ppm                 Int?
-  inert_gas_required       Boolean?
-  heating_temp_min_c       Int?
-  heating_temp_max_c       Int?
-  permitted_tank_materials String?
-  permitted_coatings       String? // DEPRECATED: superseded by cargo_coating -> coating_system -> coating_company
-  stowage_notes            String?
-  data_completeness_score  Float?
-  reference_temperature_c  Float?
-  lel                      Float?
-  uel                      Float?
-  colour                   String?
+  stowage_notes           String?
+  reference_temperature_c Float?
+  lel                     Float?
+  uel                     Float?
+  colour                  String?
 
   uscg_compatibility_group String?
 
   // Identity / descriptive fields (ChemServe + SDS profiles)
   molecular_formula   String?
   appearance          String?
-  odour               String?
   product_description String?
 
   // Heating requirements. Each source cell is "N" (not required), "Y" (required,
@@ -174,9 +361,9 @@ model cargo_chemical {
 
   cargoRequiredCleanlinesses cargo_required_cleanliness[]
 
-  cleaningProcesses     cleaning_process[] @relation("cp_cargo")
-  cleaningProcessesFrom cleaning_process[] @relation("cp_from_cargo")
-  cleaningProcessesTo   cleaning_process[] @relation("cp_to_cargo")
+  // NOTE: cleaning_process no longer relates to cargo_chemical by FK - its
+  // cargo columns are polymorphic (see cleaning_process). Query them with
+  // cargo_type: CHEMICAL + the cargo id; see src/cargo-type.ts.
 
   cargoCoatings cargo_coating[]
 
@@ -186,7 +373,12 @@ model cargo_chemical {
 
   cargoUnNumbers   cargo_un_number[]
   cargoHazardDatas cargo_hazard_data[]
-  cargoDotHazmats  cargo_dot_hazad[]
+
+  // The cleaning family this cargo belongs to, for guides that group cargoes
+  // (Verwey). NULL for sources that publish no grouping.
+  cargo_family_group_id Int?
+  cargoFamilyGroup      cargo_family_group? @relation(fields: [cargo_family_group_id], references: [id], onDelete: SetNull)
+  cargoDotHazmats       cargo_dot_hazad[]
 
   @@unique([source_id, canonical_name]) // one row per chemical per source (dedup key)
   @@index([canonical_name])
@@ -200,6 +392,7 @@ model cargo_chemical {
 model cargo_un_number {
   id              Int      @id @default(autoincrement())
   cargo_id        Int
+  source_id       Int? // which reference the UN number was read from
   un_number       String
   qualifier_type  String? // e.g. "concentration", "physical_state"
   qualifier_value String? // e.g. "10-80%", ">80% (Glacial)", "Compressed"
@@ -208,9 +401,11 @@ model cargo_un_number {
   updated_at      DateTime @default(now())
 
   cargo_chemical cargo_chemical @relation(fields: [cargo_id], references: [id], onDelete: Cascade)
+  source         source?        @relation(fields: [source_id], references: [id], onDelete: Cascade)
 
   @@index([cargo_id])
   @@index([un_number])
+  @@index([source_id])
 }
 
 model cargo_property_values {
@@ -256,9 +451,46 @@ model synonyms {
   created_at      DateTime @default(now())
   updated_at      DateTime @default(now())
 
-  cargoPropertyValues cargo_property_values[]
+  cargoPropertyValues    cargo_property_values[]
+  crudeOilPropertyValues crude_oil_property_values[]
+  gasPropertyValues      gas_property_values[]
 
-  cargoSynonyms cargo_synonym[]
+  cargoSynonyms    cargo_synonym[]
+  crudeOilSynonyms crude_oil_synonym[]
+}
+
+/// Alternative names for a crude oil / refined product, mirroring cargo_synonym.
+///
+/// The synonyms table itself is owner-agnostic, so it needs a link table per
+/// master. Without this one a grade name could be stored but never reached from
+/// the oil it names.
+model crude_oil_synonym {
+  id           Int @id @default(autoincrement())
+  crude_oil_id Int
+  synonym_id   Int
+
+  /// Where the name came from in the source: "grade_name" for the Shell Cargo
+  /// Master "Grade Names" column, leaving room for trade names and abbreviations.
+  relationship_type    String
+  /// True when this text names more than one product within the same source -
+  /// "V-Power Diesel" is listed against both ULSD grades AND is a product in its
+  /// own right, so a lookup on it cannot resolve to a single oil.
+  ambiguity_flag       Boolean  @default(false)
+  source_id            Int?
+  preferred_for_search Boolean?
+  notes                String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  crude_oil crude_oil @relation(fields: [crude_oil_id], references: [id], onDelete: Cascade)
+  synonyms  synonyms  @relation(fields: [synonym_id], references: [id], onDelete: Cascade)
+  source    source?   @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  @@unique([crude_oil_id, synonym_id]) // link an oil to a name at most once
+  @@index([crude_oil_id])
+  @@index([synonym_id])
+  @@index([source_id])
 }
 
 model cargo_synonym {
@@ -412,10 +644,19 @@ model cargo_required_cleanliness {
   source                   source                @relation(fields: [source_id], references: [id], onDelete: Cascade)
 }
 
+/// COMMON reusable procedure definition, shared by all three cargo types.
+///
+/// Answers "what does this code mean?" - CW = Cold Water Wash. There is
+/// deliberately ONE table, not one per cargo type; cargo_type says which master
+/// the procedure is written for.
 model procedure_templates {
-  id                     Int      @id @default(autoincrement())
+  id                     Int       @id @default(autoincrement())
   procedure_code         String
   template_name          String
+  /// Which cargo master this procedure is written for. Every row that existed
+  /// before this column was added is a chemical tank-cleaning procedure
+  /// (Verwey, Drew Ameroid), which is what the default backfills.
+  cargo_type             CargoType @default(CHEMICAL)
   description            String?
   target_purpose         String?
   water_type             String?
@@ -426,79 +667,233 @@ model procedure_templates {
   gas_free_required      Boolean?
   wall_wash_required     Boolean?
   inert_gas_required     Boolean?
-  source_id             Int
-  notes                 String?
-  created_at            DateTime @default(now())
-  updated_at            DateTime @updatedAt
+  source_id              Int
+  /// Page / section of the source document this definition was read from
+  /// (e.g. "2" for the Shell matrix legend page). Kept per row because one
+  /// source can define its procedures across several pages.
+  source_page_ref        String?
+  /// The procedure exactly as the source document words it, kept alongside the
+  /// structured steps/requirements rather than instead of them. Normalisation
+  /// is lossy by nature; this is what makes the loss auditable and lets the
+  /// rows be re-derived if the parsing rules change.
+  source_definition      String?   @db.Text
+  /// False only for decision codes that forbid the transition outright (NC).
+  /// A cleaning_process pointing at such a template means "do not load", and
+  /// its step list is legitimately empty.
+  loading_allowed        Boolean?  @default(true)
+  notes                  String?
+  created_at             DateTime  @default(now())
+  updated_at             DateTime  @updatedAt
 
   source source @relation(fields: [source_id], references: [id], onDelete: Cascade)
 
-  procedureTemplateSteps procedure_template_steps[]
-  marineChemicalUses     marine_chemical_use[]
-  cleaningProcesses      cleaning_process[]
+  procedureTemplateSteps        procedure_template_steps[]
+  procedureTemplateInstructions procedure_template_instruction[]
+  procedureTemplateRequirements procedure_template_requirement[]
+  marineChemicalUses            marine_chemical_use[]
+  cleaningProcesses             cleaning_process[]
 
+  // A code is unique within its source, not globally: Verwey "A" and Shell "CW"
+  // live in the same table and must not be forced to agree.
   @@unique([source_id, procedure_code])
+  @@index([cargo_type])
+  @@index([source_id])
+  @@index([procedure_code])
+  @@index([cargo_type, source_id])
 }
 
+// Procedure-LEVEL instructions: statements that apply to the whole procedure
+// rather than to one numbered step — the "NOTE :" blocks that follow (or, more
+// rarely, precede) the steps in the Verwey and Drew Ameroid guides. Kept apart
+// from procedure_template_steps because they have no position in the step
+// sequence and are classified by severity instead.
+model procedure_template_instruction {
+  id                     Int             @id @default(autoincrement())
+  procedure_templates_id Int
+  instruction_type       InstructionType
+  message                String          @db.Text
+  display_order          Int // order the instructions are shown in, 1-based
+  mandatory              Boolean         @default(true) // false for advisory wording ("is advisable")
+  notes                  String?
+  created_at             DateTime        @default(now())
+  updated_at             DateTime        @default(now())
+
+  procedure_templates procedure_templates @relation(fields: [procedure_templates_id], references: [id], onDelete: Cascade)
+
+  @@unique([procedure_templates_id, display_order]) // one instruction per slot; lets a re-extract upsert in place
+  @@index([procedure_templates_id])
+  @@index([instruction_type])
+}
+
+/// Ordered physical actions of a procedure: what is done, in what order.
+///
+/// Distinct from procedure_template_requirement, which carries the rules and
+/// limits that constrain those actions but occupy no position in the sequence.
 model procedure_template_steps {
-  id                       Int                 @id @unique @default(autoincrement())
-  procedure_templates_id   Int
-  step_order               Int
-  step_name                String
-  step_description         String?
+  id                     Int                 @id @unique @default(autoincrement())
+  procedure_templates_id Int
+  step_order             Int
+  step_name              String
+  /// What kind of operation this step is, so a reader can act on the step
+  /// without parsing step_name. NULL for rows loaded before the column existed.
+  step_type              CleaningStepType?
+  step_description       String?
   // Free-text values as published in the guide (e.g. "About 2½ hours", "80°C",
   // "Cold", "Teepol 0.05%") — not always numeric, so stored as text.
-  medium                   String? // e.g. Sea Water, Fresh Water, Steam, Toluene, Methanol, Dry Gas Oil, Nitrogen
-  temperature              String? // e.g. "Cold", "80°C", "Warm (50°C)"
-  duration                 String? // e.g. "1 hour", "About 2½ hours", "Until odour disappears"
-  cleaner                  String? // e.g. "Teepol 0.05%", "0.05% liquid detergent"
-  mandatory                Boolean
-  notes                    String?
-  created_at               DateTime            @default(now())
-  updated_at               DateTime            @default(now())
-  procedure_templates      procedure_templates @relation(fields: [procedure_templates_id], references: [id], onDelete: Cascade)
+  medium                 String? // e.g. Sea Water, Fresh Water, Steam, Toluene, Methanol, Dry Gas Oil, Nitrogen
+  temperature            String? // e.g. "Cold", "80°C", "Warm (50°C)"
+  duration               String? // e.g. "1 hour", "About 2½ hours", "Until odour disappears"
+  cleaner                String? // e.g. "Teepol 0.05%", "0.05% liquid detergent"
+  mandatory              Boolean
+  notes                  String?
+  created_at             DateTime            @default(now())
+  updated_at             DateTime            @default(now())
+  procedure_templates    procedure_templates @relation(fields: [procedure_templates_id], references: [id], onDelete: Cascade)
+
+  // One step per slot, so a re-import upserts in place instead of appending a
+  // second copy of the whole procedure.
+  @@unique([procedure_templates_id, step_order])
+  @@index([procedure_templates_id])
+  @@index([step_type])
 }
 
-// Chemical-centric cleaning process (replaces the old from/to cleaning_procedures
-// model, which did not fit ChemServe-style per-chemical cleaning methods).
-// One row = one cleaning method for one chemical, as recorded by one source.
+/// Rules, limits and conditions that constrain a procedure but are not steps.
+///
+/// Three things live here that steps cannot express:
+///   - measured limits    ROB_LIMIT <= 0.05 %
+///   - preconditions      PRECONDITION = WD
+///   - disjunctions       ATMOSPHERE_TREATMENT = VENTILATE_OR_PURGE
+///
+/// That last one is the reason this table exists. The source says "ventilate OR
+/// purge"; setting ventilation_required AND inert_gas_required on the template
+/// would assert that BOTH are mandatory, which the source does not say. One
+/// requirement row carries the disjunction intact.
+///
+/// requirement_type is deliberately String, not an enum: each new source
+/// document brings its own vocabulary, and a migration per new rule type would
+/// make adding a source harder than it needs to be.
+model procedure_template_requirement {
+  id                    Int @id @default(autoincrement())
+  procedure_template_id Int
+
+  requirement_type  String // ROB_LIMIT, PRECONDITION, ATMOSPHERE_TREATMENT, ...
+  requirement_value String? // "0.05", "WD", "VENTILATE_OR_PURGE", "Cold Sea Water"
+  operator          String? // comparison for measured limits: "<=", ">=", "="
+  unit              String? // unit of requirement_value where it is a quantity
+
+  mandatory     Boolean @default(true)
+  description   String? @db.Text
+  display_order Int // presentation order, 1-based
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  procedure_template procedure_templates @relation(fields: [procedure_template_id], references: [id], onDelete: Cascade)
+
+  // Same slot-based idempotency as instructions: a re-import updates the row in
+  // place. requirement_type is NOT the key - a source may legitimately state
+  // two requirements of one type (two preconditions, say).
+  //
+  // Named explicitly: the generated name would exceed 63 characters, and Prisma
+  // and PostgreSQL truncate it differently, which leaves the schema and the
+  // database permanently disagreeing about the index name.
+  @@unique([procedure_template_id, display_order], map: "procedure_template_requirement_display_order_key")
+  @@index([procedure_template_id])
+  @@index([requirement_type])
+}
+
+/// COMMON cargo-transition rule, shared by all three cargo types.
+///
+/// Answers "which procedure applies between these two cargoes?" - previous
+/// cargo X, next cargo Y, run CW. procedure_templates answers the different
+/// question of what CW means; the two must not be collapsed into one table.
+///
+/// POLYMORPHIC BY DESIGN. cargo_id / from_cargo_id / to_cargo_id hold an id
+/// from ONE of three master tables, and cargo_type says which:
+///
+///     CHEMICAL -> cargo_chemical.id
+///     OIL      -> crude_oil.id
+///     GAS      -> gas.id
+///
+/// PostgreSQL cannot retarget a foreign key per row, so these columns carry NO
+/// FK constraint and Prisma models NO relation for them. Referential integrity
+/// is enforced instead by:
+///   - the check constraints + validation trigger in the migration, and
+///   - assertCargoRefs() in src/cargo-type.ts, on the write path.
+/// Resolve the referent by branching on cargo_type - see resolveCargoRefs().
 model cleaning_process {
-  id              Int            @id @default(autoincrement())
-  cargo_id        Int? // cargo-specific procedure (NULL for Verwey template/matrix rows)
-  from_cargo_id   Int? // Verwey matrix: previous cargo
-  to_cargo_id     Int? // Verwey matrix: next cargo
-  procedure_code  String? // Verwey procedure code (A, B, C, D, EE, LL, ...)
-  source_id       Int
-  cleaning_stage  CleaningStage? // NULL for Verwey rows (not stage-based)
-  method_number   Int? // NULL for Verwey rows
-  title           String?
-  recipe_for      String?
+  id         Int       @id @default(autoincrement())
+  /// Discriminator for cargo_id / from_cargo_id / to_cargo_id. Every row that
+  /// existed before this column (sources 7, 8, 9 - all chemical guides) is
+  /// CHEMICAL, which is what the default backfills.
+  cargo_type CargoType @default(CHEMICAL)
+
+  cargo_id      Int? // single-cargo procedure, no transition (Miracle, source 9)
+  from_cargo_id Int? // transition matrix: previous cargo
+  to_cargo_id   Int? // transition matrix: next cargo
+
+  // Family-grain matrix (Verwey PDF Book). That book keys its FROM->TO cells on
+  // a family number, never on a member chemical, so those rows carry the family
+  // pair instead of the cargo pair above. CHEMICAL-only: cargo_family_group
+  // hangs off cargo_chemical, so these keep a real FK.
+  from_cargo_family_group_id Int?
+  to_cargo_family_group_id   Int?
+
+  /// The procedure to run. Canonical link to procedure_templates; replaces the
+  /// old (source_id, procedure_code) composite FK, which could not express a
+  /// row whose template lives in another source.
+  procedure_template_id Int?
+  /// The code exactly as the source matrix prints it ("CW", "BF-VP", "A+").
+  /// Redundant with procedure_template_id by design: it survives verbatim even
+  /// when the legend page defines no matching template.
+  procedure_code        String?
+
+  source_id      Int
+  cleaning_stage CleaningStage? // stage-based sources only (Miracle); NULL elsewhere
+  method_number  Int? // stage-based sources only
+
+  title      String?
+  /// The qualifier printed in the matrix cell, verbatim - "If to-load is
+  /// Chemical Grade", "Mogas Blend", "Colour <2.5 NPA", "otherwise NC".
+  /// A cell with two conditions becomes two rows, one per condition; it is
+  /// never flattened into a compatible/not-compatible boolean.
+  condition  String?
+  /// Free-text qualification that is not itself a selection condition
+  /// (footnotes, operator warnings).
+  remarks    String?
+  recipe_for String?
+
+  /// Page of the source document this rule was read from (Shell matrix = "3").
   source_page_ref String?
   notes           String?
-  created_at      DateTime       @default(now())
-  updated_at      DateTime       @default(now())
+  created_at      DateTime @default(now())
+  updated_at      DateTime @default(now())
 
-  cargo_chemical cargo_chemical? @relation("cp_cargo", fields: [cargo_id], references: [id], onDelete: Cascade)
-  from_cargo     cargo_chemical? @relation("cp_from_cargo", fields: [from_cargo_id], references: [id], onDelete: Cascade)
-  to_cargo       cargo_chemical? @relation("cp_to_cargo", fields: [to_cargo_id], references: [id], onDelete: Cascade)
-  source         source          @relation(fields: [source_id], references: [id], onDelete: Cascade)
-  // Links to a procedure_templates row by the SAME (source_id, procedure_code)
-  // that identifies it there. Must reference both columns because that is the
-  // unique key now. onDelete can't be SetNull (source_id is required), so deletes
-  // are restricted by default.
-  procedure_template procedure_templates? @relation(fields: [source_id, procedure_code], references: [source_id, procedure_code])
-  steps cleaning_process_step[]
+  from_family        cargo_family_group?     @relation("cp_from_family", fields: [from_cargo_family_group_id], references: [id], onDelete: Cascade)
+  to_family          cargo_family_group?     @relation("cp_to_family", fields: [to_cargo_family_group_id], references: [id], onDelete: Cascade)
+  source             source                  @relation(fields: [source_id], references: [id], onDelete: Cascade)
+  procedure_template procedure_templates?    @relation(fields: [procedure_template_id], references: [id], onDelete: SetNull)
+  steps              cleaning_process_step[]
 
-  // Idempotency for Verwey template rows (procedure_code, source_id) and matrix
-  // rows (from_cargo_id, to_cargo_id, source_id) is enforced by partial UNIQUE
-  // indexes created in the migration (Prisma can't express partial uniques).
+  // Idempotency is enforced by partial UNIQUE indexes created in the migrations
+  // (Prisma cannot express partial uniques). Three kinds of row, three keys:
+  //   template rows    (procedure_code, source_id)  -- no cargo AND no family
+  //   cargo-grain rows (from_cargo_id, to_cargo_id, source_id, condition)
+  //   family-grain rows(source_id, from_cargo_family_group_id, to_cargo_family_group_id)
+  // The cargo-grain key includes condition because one source cell can carry
+  // several conditional outcomes for the same pair.
   @@unique([cargo_id, source_id, cleaning_stage, method_number])
+  @@index([cargo_type])
   @@index([cargo_id])
   @@index([source_id])
   @@index([cargo_id, source_id])
   @@index([from_cargo_id])
   @@index([to_cargo_id])
   @@index([procedure_code])
+  @@index([procedure_template_id])
+  @@index([cargo_type, source_id])
+  @@index([cargo_type, from_cargo_id])
+  @@index([cargo_type, to_cargo_id])
 }
 
 // Ordered steps belonging to one cleaning_process (Butterworth -> Rinse -> Vent).
@@ -720,7 +1115,7 @@ model cargo_dot_hazad {
   // Provenance + idempotency. row_hash = hash of all CFR columns for this row;
   // it is the dedup / upsert key (the HMT has no natural unique key — 435 shipping
   // names repeat). source_row is the 1-based ordinal in the source file (audit).
-  row_hash   String
+  row_hash String
 
   // Classification so every kind of row is preserved yet distinguishable.
   // 'material' | 'generic' (n.o.s.) | 'forbidden' | 'cross_reference'.
@@ -825,7 +1220,17 @@ enum CleaningStage {
 //   ABD
 // }
 
+// Severity of a procedure-level instruction (procedure_template_instruction).
+enum InstructionType {
+  DANGER // fire, explosion, violent reaction, tank damage, serious injury
+  WARNING // precaution required to perform the procedure safely
+  CAUTION // prevents equipment damage or operational problems
+  IMPORTANT // mandatory operational information, not a safety hazard
+  INFO // describes the cargo or explains why something is done
+}
+
 enum CleaningStepType {
+  PRECONDITION // a state the tank must already be in (e.g. "Well Drained")
   PRECLEANING
   CLEANING
   RINSING
@@ -833,4 +1238,8 @@ enum CleaningStepType {
   STEAMING
   DRAINING
   DRYING
+  VENTILATING
+  PURGING
+  GAS_FREEING
+  MOPPING
 }

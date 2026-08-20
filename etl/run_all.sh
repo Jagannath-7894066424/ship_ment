@@ -68,9 +68,10 @@ TABLES = [
     "master_cargo_chemical_group_details", "cargo_hazard_data", "cargo_dot_hazad",
     "cargo_reactive_group", "compatibility", "compatibility_exception",
     "reactive_groups", "cargo_operational_requirement", "operational_requirement",
-    "procedure_template_steps", "procedure_templates",
+    "procedure_template_steps", "procedure_template_instruction", "procedure_templates",
     "cleaning_process_step", "cleaning_process",
-    "cargo_property_values", "cargo_chemical", "field_definitions",
+    "crude_oil_property_values", "crude_oil",
+    "cargo_property_values", "cargo_family_group", "cargo_chemical", "field_definitions",
 ]
 seen = list(dict.fromkeys(TABLES))
 url = os.environ["DATABASE_URL"]
@@ -111,6 +112,13 @@ run "master_loader (USCG)        -> cargo, hazard, properties"  python3 etl/mast
 run "master_loader (IBC Code)    -> cargo (identity/carriage)"  python3 etl/master_loader.py "$INPUTS/IBC Code.xlsx"
 run "master_loader (Miracle)     -> cargo, cleaning_process"    python3 etl/master_loader.py
 
+# 2b) Sittig's Handbook — health/toxicity reference. Its own loader rather than
+#     master_loader because the CSV is badly quoted (unquoted commas push rows
+#     past the 73 header columns); sittig_handbook.py repairs the two
+#     recoverable cases and flags the rest in cargo_chemical.notes instead of
+#     dropping them. Seeds its own field_definitions.
+run "sittig_handbook             -> cargo, properties, synonyms" python3 etl/sittig_handbook.py "$INPUTS/Sittigs Handbook of Toxic & Hazardous Chemicals.csv"
+
 # 3) reactive groups + compatibility. reactive_group first (plain insert into an
 #    empty table), then cargo_compatibility (ON CONFLICT tolerates overlap).
 #    group_details FKs to reactive_groups.group_code, so it must run AFTER them.
@@ -128,10 +136,55 @@ run "procedure_templates         -> procedure_templates"        python3 etl/proc
 run "verwey_cleaning             -> cleaning_process (matrix)"  python3 etl/verwey_cleaning.py
 run "drew_ameroid                -> procedure_templates + pairs" python3 etl/drew_ameroid.py
 
+# 6b) Dr Verwey PDF Book edition — a SEPARATE source from the two steps above
+#     (431 cargoes / 279 procedure codes vs 390 / 37; the code systems differ,
+#     e.g. AB/AC/BA here vs AA/BB/CC there). Kept apart by source, so nothing
+#     above is affected.
+#
+#     Order is load-bearing:
+#       chemicals  -> writes the verwey_cargo_number property the families step reads
+#       procedures -> cleaning_process FKs (source_id, procedure_code) to these
+#       families   -> the matrix keys on family ids
+#       matrix     -> needs both families and procedures to exist
+VERWEY_PDF="$INPUTS/Dr Verweys Tank Cleaning Guide Pdf Book"
+run "verwey_pdf_book             -> cargo_chemical, properties"  python3 etl/verwey_pdf_book.py "$VERWEY_PDF - Cargo details.csv"
+run "verwey_pdf_book_procedures  -> templates, steps, instructions" python3 etl/verwey_pdf_book_procedures.py "$VERWEY_PDF Procdure Template.csv"
+run "verwey_pdf_book_families    -> cargo_family_group"          python3 etl/verwey_pdf_book_families.py "$VERWEY_PDF  _from-to procedure.csv"
+run "verwey_pdf_book_matrix      -> cleaning_process (family)"   python3 etl/verwey_pdf_book_matrix.py "$VERWEY_PDF  _from-to procedure.csv"
+
 # 7) DOT Hazardous Materials Table
 run "dot_hmt_extract             -> JSON (no DB)"               python3 etl/dot_hmt_extract.py
 run "dot_hazmat_symbol           -> cargo_hazard_data.dot_symbol" python3 etl/dot_hazmat_symbol_loader.py
 run "cargo_dot_hazad             -> cargo_dot_hazad"            python3 etl/cargo_dot_hazad_loader.py
+
+# 8) crude oil — a SEPARATE entity from cargo_chemical, with its own master and
+#    property tables. There is no FK between the two branches; they meet only at
+#    source (category 'oil' vs 'chemical'). Nothing above is affected.
+#
+#    The same crude appears in both sources under one name but with different
+#    figures, and each source keeps its own row: identity is (oil_name,
+#    source_id). The match report reconciles them without merging anything.
+run "crude_oil_basic             -> crude_oil, properties"      python3 etl/crude_oil_basic.py "$INPUTS/Crude Oils-Prop.xls"
+run "crude_oil_assay             -> crude_oil, properties"      python3 etl/crude_oil_assay.py "$INPUTS/Crudeoildata.XLS"
+run "crude_oil_match_report      -> CSV (read-only)"            python3 etl/crude_oil_match_report.py
+
+# 9) Shell tank-cleaning procedure templates.
+#
+#    The supplied workbook carries only the procedure definitions; the ordered
+#    steps, requirements and instructions were supplied as a written spec and
+#    are materialised into Excel by the build step so the importer reads data
+#    and holds none. Build first, import second.
+#
+#    source_id comes from the import context, not the spreadsheet: a procedure
+#    code means nothing without the document it was read from. source.py above
+#    registers "Shell Tank Cleaning Procedure" (category oil).
+run "shell_procedure_workbook    -> Excel (no DB)"              python3 etl/build_shell_procedure_workbook.py
+run "shell_procedure_templates   -> templates, steps, reqs, instr" python3 etl/shell_procedure_templates.py
+
+#    Shell Cargo Master: the refined products the matrix is keyed on. Lands in
+#    the crude-oil tables (used here as the general oil-cargo master) with the
+#    "Grade Names" column normalised into synonyms via crude_oil_synonym.
+run "shell_cargo_master          -> crude_oil, properties, synonyms" python3 etl/shell_cargo_master.py
 
 END=$(date +%s)
 printf '\n%s=== finished: %d steps, %d failed, %ds total ===%s\n' \
