@@ -67,10 +67,6 @@ ORIGIN_ONLY = {
 UNSCOPED = {
     "source":            "the source registry itself",
     "field_definitions": "shared property vocabulary across all sources",
-    "changelog":         "audit trail, references a source but is not owned by one",
-    "coating_company":   "reference data, not source-scoped",
-    "coating_system":    "reference data, not source-scoped",
-    "marine_chemical_use": "links marine_chemicals to cargo; scope comes from the parent",
 }
 
 # source name -> (input files, loader scripts). Mirrors run_all.sh.

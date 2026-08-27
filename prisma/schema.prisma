@@ -42,23 +42,18 @@ model source {
 
   compatibilityExceptions compatibility_exception[]
 
-  cleanlinessStandards cleanliness_standards[]
 
-  cargoRequiredCleanlinesses cargo_required_cleanliness[]
 
   procedureTemplates procedure_templates[]
 
   procedureNotes procedure_note[]
 
-  marineChemicals marine_chemicals[]
 
-  changelogs changelog[]
 
   operationalRequirements operational_requirement[]
 
   // New source-scoped children (replace cleaning_procedures + coatings)
   cleaningProcesses cleaning_process[]
-  cargoCoatings     cargo_coating[]
 
   cargoHazardDatas cargo_hazard_data[]
 
@@ -413,15 +408,12 @@ model cargo_chemical {
   compatibilityExceptions_a compatibility_exception[] @relation("cargo_a_id")
   compatibilityExceptions_b compatibility_exception[] @relation("cargo_b_id")
 
-  cargoRequiredCleanlinesses cargo_required_cleanliness[]
 
   // NOTE: cleaning_process no longer relates to cargo_chemical by FK - its
   // cargo columns are polymorphic (see cleaning_process). Query them with
   // cargo_type: CHEMICAL + the cargo id; see src/cargo-type.ts.
 
-  cargoCoatings cargo_coating[]
 
-  marineChemicalUses marine_chemical_use[] @relation("target_cargo")
 
   cargoOperationalRequirements cargo_operational_requirement[]
 
@@ -680,35 +672,6 @@ model compatibility_exception {
   @@index([cargo_b_id])
 }
 
-model cleanliness_standards {
-  id          Int      @id @unique @default(autoincrement())
-  code        String
-  name        String
-  description String?
-  test_method String?
-  source_id   Int
-  notes       String?
-  created_at  DateTime @default(now())
-  updated_at  DateTime @default(now())
-  source      source   @relation(fields: [source_id], references: [id], onDelete: Cascade)
-
-  cargoRequiredCleanlinesses cargo_required_cleanliness[]
-}
-
-model cargo_required_cleanliness {
-  id                       Int                   @id @unique @default(autoincrement())
-  cargo_id                 Int
-  cleanliness_standards_id Int
-  mandatory                Boolean
-  source_id                Int
-  notes                    String?
-  created_at               DateTime              @default(now())
-  updated_at               DateTime              @default(now())
-  cargo_chemical           cargo_chemical        @relation(fields: [cargo_id], references: [id], onDelete: Cascade)
-  cleanliness_standards    cleanliness_standards @relation(fields: [cleanliness_standards_id], references: [id], onDelete: Cascade)
-  source                   source                @relation(fields: [source_id], references: [id], onDelete: Cascade)
-}
-
 /// COMMON reusable procedure definition, shared by all three cargo types.
 ///
 /// Answers "what does this code mean?" - CW = Cold Water Wash. There is
@@ -749,7 +712,6 @@ model procedure_templates {
   procedureTemplateSteps        procedure_template_steps[]
   procedureTemplateInstructions procedure_template_instruction[]
   procedureTemplateRequirements procedure_template_requirement[]
-  marineChemicalUses            marine_chemical_use[]
   cleaningProcesses             cleaning_process[]
 
   /// Steps in OTHER procedures that defer to this one ("Perform WD").
@@ -1004,105 +966,6 @@ model cleaning_process_step {
   @@index([cleaning_process_id])
 }
 
-// Coating recommendations, normalized out of cargo_chemical.permitted_coatings:
-//   coating_company (HEMPEL) -> coating_system (15400) -> cargo_coating (rating)
-model coating_company {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-
-  coatingSystems coating_system[]
-
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
-}
-
-model coating_system {
-  id          Int    @id @default(autoincrement())
-  company_id  Int
-  system_name String
-
-  company coating_company @relation(fields: [company_id], references: [id], onDelete: Cascade)
-
-  cargoCoatings cargo_coating[]
-
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
-
-  @@unique([company_id, system_name])
-  @@index([company_id])
-}
-
-model cargo_coating {
-  id                Int      @id @default(autoincrement())
-  cargo_id          Int
-  source_id         Int
-  coating_system_id Int
-  rating            String? // e.g. "Limited Resistance", "Recommended", "Not Suitable"
-  notes             String?
-  created_at        DateTime @default(now())
-  updated_at        DateTime @default(now())
-
-  cargo_chemical cargo_chemical @relation(fields: [cargo_id], references: [id], onDelete: Cascade)
-  source         source         @relation(fields: [source_id], references: [id], onDelete: Cascade)
-  coating_system coating_system @relation(fields: [coating_system_id], references: [id], onDelete: Cascade)
-
-  @@index([cargo_id])
-  @@index([source_id])
-  @@index([coating_system_id])
-  @@index([cargo_id, source_id])
-}
-
-model marine_chemicals {
-  id                   Int      @id @unique @default(autoincrement())
-  brand                String
-  product_name         String
-  product_type         String
-  description          String?
-  typical_application  String?
-  ph_value             Int?
-  compatible_materials String?
-  typical_dose         String?
-  hazards              String?
-  supplier_msds_path   String?
-  source_id            Int
-  date_added           DateTime @default(now())
-  notes                String?
-  created_at           DateTime @default(now())
-  updated_at           DateTime @default(now())
-
-  source source @relation(fields: [source_id], references: [id], onDelete: Cascade)
-
-  marineChemicalUses marine_chemical_use[]
-}
-
-model marine_chemical_use {
-  id                                Int     @id @unique @default(autoincrement())
-  marine_chemical_id                Int
-  target_cargo_id                   Int?
-  target_substance_category         String?
-  recommended_procedure_template_id Int?
-
-  marine_chemical    marine_chemicals     @relation(fields: [marine_chemical_id], references: [id], onDelete: Cascade)
-  cargo_chemical     cargo_chemical?      @relation("target_cargo", fields: [target_cargo_id], references: [id], onDelete: SetNull)
-  procedure_template procedure_templates? @relation(fields: [recommended_procedure_template_id], references: [id], onDelete: SetNull)
-}
-
-model changelog {
-  id                     Int      @id @unique @default(autoincrement())
-  entity_type            String
-  entity_id              Int
-  field_changed          String
-  old_value              String?
-  new_value              String?
-  triggered_by_source_id Int?
-  change_reason          String?
-  changed_at             DateTime @default(now())
-  created_at             DateTime @default(now())
-  updated_at             DateTime @default(now())
-
-  source source? @relation(fields: [triggered_by_source_id], references: [id], onDelete: SetNull)
-}
-
 model operational_requirement {
   id          Int     @id @default(autoincrement())
   code        String  @unique // 15.11.2
@@ -1175,14 +1038,6 @@ model cargo_hazard_data {
   @@unique([cargo_id, source_id])
   @@index([cargo_id])
   @@index([source_id])
-}
-
-// Legend for the DOT Hazardous Materials Table (49 CFR 172.101) Column (1).
-// One row per single symbol; combinations that appear in the source (e.g. "A W")
-// are unions of these and are stored verbatim in cargo_hazard_data.dot_symbol.
-model dot_hazad_symbol {
-  symbol      String @id // "+", "A", "D", "G", "I", "W"
-  description String
 }
 
 // Verbatim import of the 49 CFR 172.101 Hazardous Materials Table. EVERY source
