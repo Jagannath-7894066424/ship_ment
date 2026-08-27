@@ -14,6 +14,9 @@
     "prisma:push": "prisma db push",
     "prisma:format": "prisma format",
     "etl": "bash etl/run_all.sh",
+    "etl:chemical": "bash etl/run_chemical.sh",
+    "etl:oil": "bash etl/run_oil.sh",
+    "etl:gas": "bash etl/run_gas.sh",
     "etl:keep-going": "bash etl/run_all.sh -k",
     "etl:fresh": "bash etl/run_all.sh --fresh"
   },

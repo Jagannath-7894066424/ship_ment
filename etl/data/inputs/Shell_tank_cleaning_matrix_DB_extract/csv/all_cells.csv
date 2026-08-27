@@ -1,0 +1,1452 @@
+﻿sheet,row,column,cell,formula_or_value,calculated_value
+Exit,12,2,B12,Please exit this workbook without saving.,Please exit this workbook without saving.
+Exit,17,2,B17,Thank you.,Thank you.
+Preamble,1,2,B1,SHIP PRE CARGO MATRIX ,SHIP PRE CARGO MATRIX 
+Preamble,2,2,B2, WHITE OIL PETROLEUM PRODUCTS & COMPONENTS, WHITE OIL PETROLEUM PRODUCTS & COMPONENTS
+Preamble,3,3,C3,I have read and understood  the information  ,I have read and understood  the information  
+Preamble,4,3,C4,on this page and accept the limitation of liability,on this page and accept the limitation of liability
+Preamble,7,1,A7,1,1
+Preamble,7,2,B7,PURPOSE,PURPOSE
+Preamble,8,1,A8,1.1,1.1
+Preamble,8,2,B8,"This tool has been developed by Shell to specifically provide guidance to Shell Group Owned and Time Chartered vessels, and as such is an integral part of the Shell Charterer's Instructions. The tool is also for use by Shell staff employed in the roles of Trading & Shipping Operators,  Supply Schedulers,  Marine Technical Advisors and other water-front functions.  Where a third party makes use of any Information contained in this tool then Shell accept no liability in any way whatsoever.","This tool has been developed by Shell to specifically provide guidance to Shell Group Owned and Time Chartered vessels, and as such is an integral part of the Shell Charterer's Instructions. The tool is also for use by Shell staff employed in the roles of Trading & Shipping Operators,  Supply Schedulers,  Marine Technical Advisors and other water-front functions.  Where a third party makes use of any Information contained in this tool then Shell accept no liability in any way whatsoever."
+Preamble,10,1,A10,2,2
+Preamble,10,2,B10,AUDIENCE,AUDIENCE
+Preamble,11,1,A11,2.1,2.1
+Preamble,11,2,B11,"This  tool has been developed by Shell to specifically provide guidance to Shell Group Owned and Time Chartered vessels, and as such is an integral part of the Shell Charterer's Instructions. The tool is also for use by Shell staff employed in the roles of Trading & Shipping Operators,  Supply Schedulers,  Marine Technical Advisors and other water-front functions.  Where a third party makes use of any Information contained in this tool then Shell accept no liability in any way whatsoever.
+","This  tool has been developed by Shell to specifically provide guidance to Shell Group Owned and Time Chartered vessels, and as such is an integral part of the Shell Charterer's Instructions. The tool is also for use by Shell staff employed in the roles of Trading & Shipping Operators,  Supply Schedulers,  Marine Technical Advisors and other water-front functions.  Where a third party makes use of any Information contained in this tool then Shell accept no liability in any way whatsoever.
+"
+Preamble,13,1,A13,3,3
+Preamble,13,2,B13,SAFETY,SAFETY
+Preamble,14,1,A14,3.1,3.1
+Preamble,14,2,B14,"This document does not purport to address all the safety risks involved in cargo storage, transit, and tank cleaning.  Tank cleaning methods employed by a given operator must comply with the recommendations contained within the current issue of the ""International Safety Guide for Oil Tankers and Terminals"", herein ""ISGOTT""","This document does not purport to address all the safety risks involved in cargo storage, transit, and tank cleaning.  Tank cleaning methods employed by a given operator must comply with the recommendations contained within the current issue of the ""International Safety Guide for Oil Tankers and Terminals"", herein ""ISGOTT"""
+Preamble,16,1,A16,4,4
+Preamble,16,2,B16,SCOPE AND LIMITATIONS,SCOPE AND LIMITATIONS
+Preamble,17,1,A17,4.1,4.1
+Preamble,17,2,B17,"The tool is limited to dealing with “white-oil” liquid petroleum fuel and component cargoes only, i.e. cargoes that have a Colour no higher than 2.5 on the ASTM or NPA scale. ","The tool is limited to dealing with “white-oil” liquid petroleum fuel and component cargoes only, i.e. cargoes that have a Colour no higher than 2.5 on the ASTM or NPA scale. "
+Preamble,18,1,A18,4.2,4.2
+Preamble,18,2,B18,"The tool does not deliberately encompass the loading of LPG, Black Oil’s and high purity Petrochemical cargoes.","The tool does not deliberately encompass the loading of LPG, Black Oil’s and high purity Petrochemical cargoes."
+Preamble,19,1,A19,4.3,4.3
+Preamble,19,2,B19,"The tool explicitly forbids any so called “black-oils” as a last cargoes, i.e. Heavy Fuel Oil, Slurry, Dirty Condensate and Crude Oil, as these require ""special"" tank cleaning preparations. ","The tool explicitly forbids any so called “black-oils” as a last cargoes, i.e. Heavy Fuel Oil, Slurry, Dirty Condensate and Crude Oil, as these require ""special"" tank cleaning preparations. "
+Preamble,20,1,A20,4.4,4.4
+Preamble,20,2,B20,"Where a vessel declares a last cargo as a “black-oil”, then Tank Cleaning may be considered as a mechanism to render the tank(s) suitable to take the product, although this is by exception, and should not be conducted without the explicit guidance and permission of the Charterer.","Where a vessel declares a last cargo as a “black-oil”, then Tank Cleaning may be considered as a mechanism to render the tank(s) suitable to take the product, although this is by exception, and should not be conducted without the explicit guidance and permission of the Charterer."
+Preamble,21,1,A21,4.5,4.5
+Preamble,21,2,B21,"The use of chemical cleaning agents, such as detergents or caustic soda, is not allowed without the explicit permission of the Charterers.","The use of chemical cleaning agents, such as detergents or caustic soda, is not allowed without the explicit permission of the Charterers."
+Preamble,22,1,A22,5,5
+Preamble,22,2,B22,ALTERNATIVE TECHNIQUES & RESPONSIBILITY,ALTERNATIVE TECHNIQUES & RESPONSIBILITY
+Preamble,23,1,A23,5.1,5.1
+Preamble,23,2,B23,"It is recognised that some vessels are equipped with very effective tank stripping systems (super stripping etc). It is also recognised that a vessels crew may have specific knowledge of cargo tank preparative procedures, that are effective, but which may differ from the recommendations herein; for example, experience gained from the frequent transit of cargoes between the same ports. Notwithstanding, vessel owners and operators are responsible for ensuring that cargo tanks are sufficiently clean to take a nominated cargo.","It is recognised that some vessels are equipped with very effective tank stripping systems (super stripping etc). It is also recognised that a vessels crew may have specific knowledge of cargo tank preparative procedures, that are effective, but which may differ from the recommendations herein; for example, experience gained from the frequent transit of cargoes between the same ports. Notwithstanding, vessel owners and operators are responsible for ensuring that cargo tanks are sufficiently clean to take a nominated cargo."
+Preamble,25,1,A25,6,6
+Preamble,25,2,B25,LOGIC EMPLOYED IN THE GUIDE,LOGIC EMPLOYED IN THE GUIDE
+Preamble,26,1,A26,6.1,6.1
+Preamble,26,2,B26,"This tool has been generically based upon current knowledge of the different vessel hardware and operational designs employed in the shipping industry. Therefore the particular guidance may not necessarily be the most appropriate for the operation at hand, and at times may be overly or under prescriptive. ","This tool has been generically based upon current knowledge of the different vessel hardware and operational designs employed in the shipping industry. Therefore the particular guidance may not necessarily be the most appropriate for the operation at hand, and at times may be overly or under prescriptive. "
+Preamble,27,1,A27,6.1,6.1
+Preamble,27,2,B27,The tool was formulated with consideration of the following;,The tool was formulated with consideration of the following;
+Preamble,28,2,B28,a),a)
+Preamble,28,3,C28,"The typical volumes, per preparation method, of last cargo left in the vessel cargo tanks and lines, post discharge. This would Include any Remaining On Board volume at the tank bottom (ROB), the likely tank wall “clingage” amount and anticipated vapour left in the tank space. ","The typical volumes, per preparation method, of last cargo left in the vessel cargo tanks and lines, post discharge. This would Include any Remaining On Board volume at the tank bottom (ROB), the likely tank wall “clingage” amount and anticipated vapour left in the tank space. "
+Preamble,29,2,B29,b),b)
+Preamble,29,3,C29,"The Physical and Chemical Characteristics of both the last cargo and of that to be loaded, particularly those critically affected, such as; Flash point, Sulphur, Benzene, Oxygenates (MtBE etc), Lead, Viscosity (clingage), Boiling range, Colour and Odour","The Physical and Chemical Characteristics of both the last cargo and of that to be loaded, particularly those critically affected, such as; Flash point, Sulphur, Benzene, Oxygenates (MtBE etc), Lead, Viscosity (clingage), Boiling range, Colour and Odour"
+Preamble,30,1,A30,6.3,6.3
+Preamble,30,2,B30,The logic used in this tool also assumes that;,The logic used in this tool also assumes that;
+Preamble,31,2,B31,a),a)
+Preamble,31,3,C31,All the ships pipelines are fully drained of previous product. ,All the ships pipelines are fully drained of previous product. 
+Preamble,32,2,B32,b),b)
+Preamble,32,3,C32,That the suggested tank preparations are carried out effectively.,That the suggested tank preparations are carried out effectively.
+Preamble,34,1,A34,7,7
+Preamble,34,2,B34,FURTHER NOTES ON DEFINITIONS,FURTHER NOTES ON DEFINITIONS
+Preamble,35,1,A35,7.1,7.1
+Preamble,35,2,B35,"Where the tool states that a product is ""Not Compatible"" with a tank(s) previous contents, then that product should not be loaded into that tank(s). Tank Cleaning may be considered as a mechanism to render the tank(s) suitable to take the product, but this is by exception, and should not be conducted without the explicit guidance and permission of the Charterer, or for Shell Trading , the Quality Assurance Department STO/3.","Where the tool states that a product is ""Not Compatible"" with a tank(s) previous contents, then that product should not be loaded into that tank(s). Tank Cleaning may be considered as a mechanism to render the tank(s) suitable to take the product, but this is by exception, and should not be conducted without the explicit guidance and permission of the Charterer, or for Shell Trading , the Quality Assurance Department STO/3."
+Preamble,36,1,A36,7.2,7.2
+Preamble,36,2,B36,"Where the Matrix states ""Not Compatible"" with Aviation Grades, the product to be loaded, even after Tank Cleaning, is still forbidden.  At least one acceptable buffer product cargo should be carried before considering previous cargo compatibility. If FAME, Lubes and Veg Oils have been carried in the previous 3 cargoes , this is a cause for concern. You should seek advice from the Quality Assurance Department STO/3 .","Where the Matrix states ""Not Compatible"" with Aviation Grades, the product to be loaded, even after Tank Cleaning, is still forbidden.  At least one acceptable buffer product cargo should be carried before considering previous cargo compatibility. If FAME, Lubes and Veg Oils have been carried in the previous 3 cargoes , this is a cause for concern. You should seek advice from the Quality Assurance Department STO/3 ."
+Preamble,37,1,A37,8,8
+Preamble,37,2,B37,PRODUCT NAMES AND CHARACTERISTICS,PRODUCT NAMES AND CHARACTERISTICS
+Preamble,38,2,B38,"This section of the guide provides general background information of the materials being handled. The data herein is based upon general knowledge of the product, and may not be fully representative of the actual material at a given production location.","This section of the guide provides general background information of the materials being handled. The data herein is based upon general knowledge of the product, and may not be fully representative of the actual material at a given production location."
+Preamble,39,1,A39,9,9
+Preamble,39,2,B39,ADMINISTRATION AND FEEDBACK ABOUT THIS GUIDE,ADMINISTRATION AND FEEDBACK ABOUT THIS GUIDE
+Preamble,40,2,B40,"This document is presently owned and controlled by the Fuels Technical Advisor within the Supply division of Shell UK Oil Products Ltd. As new product specifications, initiatives and operating practices emerge within the oil industry, it is inevitable that this guide will need to be reviewed and in some cases amended. In this regard please direct any feedback that you may have to; Quality Assurance Department STO/3.","This document is presently owned and controlled by the Fuels Technical Advisor within the Supply division of Shell UK Oil Products Ltd. As new product specifications, initiatives and operating practices emerge within the oil industry, it is inevitable that this guide will need to be reviewed and in some cases amended. In this regard please direct any feedback that you may have to; Quality Assurance Department STO/3."
+Preamble,42,1,A42,Please Exit this Tool Without Saving.  Thank You.,Please Exit this Tool Without Saving.  Thank You.
+Matrix,1,2,B1,29,29
+Matrix,1,3,C1,1,1
+Matrix,1,4,D1,2,2
+Matrix,1,5,E1,3,3
+Matrix,1,6,F1,4,4
+Matrix,1,7,G1,5,5
+Matrix,1,8,H1,6,6
+Matrix,1,9,I1,7,7
+Matrix,1,10,J1,8,8
+Matrix,1,11,K1,9,9
+Matrix,1,12,L1,10,10
+Matrix,1,13,M1,11,11
+Matrix,1,14,N1,12,12
+Matrix,1,15,O1,13,13
+Matrix,1,16,P1,14,14
+Matrix,1,17,Q1,15,15
+Matrix,1,18,R1,16,16
+Matrix,1,19,S1,17,17
+Matrix,1,20,T1,18,18
+Matrix,1,21,U1,19,19
+Matrix,1,22,V1,20,20
+Matrix,1,23,W1,21,21
+Matrix,1,24,X1,22,22
+Matrix,1,25,Y1,23,23
+Matrix,1,26,Z1,24,24
+Matrix,1,27,AA1,25,25
+Matrix,1,28,AB1,26,26
+Matrix,1,29,AC1,27,27
+Matrix,1,30,AD1,28,28
+Matrix,1,31,AE1,29,29
+Matrix,2,1,A2,29,29
+Matrix,2,2,B2,29,29
+Matrix,2,3,C2,29,29
+Matrix,2,4,D2,29,29
+Matrix,2,5,E2,29,29
+Matrix,2,6,F2,29,29
+Matrix,2,7,G2,29,29
+Matrix,2,8,H2,29,29
+Matrix,2,9,I2,29,29
+Matrix,2,10,J2,29,29
+Matrix,2,11,K2,29,29
+Matrix,2,12,L2,29,29
+Matrix,2,13,M2,29,29
+Matrix,2,14,N2,29,29
+Matrix,2,15,O2,29,29
+Matrix,2,16,P2,29,29
+Matrix,2,17,Q2,29,29
+Matrix,2,18,R2,29,29
+Matrix,2,19,S2,29,29
+Matrix,2,20,T2,29,29
+Matrix,2,21,U2,29,29
+Matrix,2,22,V2,29,29
+Matrix,2,23,W2,29,29
+Matrix,2,24,X2,29,29
+Matrix,2,25,Y2,29,29
+Matrix,2,26,Z2,29,29
+Matrix,2,27,AA2,29,29
+Matrix,2,28,AB2,29,29
+Matrix,2,29,AC2,29,29
+Matrix,2,30,AD2,29,29
+Matrix,2,31,AE2,29,29
+Matrix,3,1,A3,1,1
+Matrix,3,2,B3,29,29
+Matrix,3,3,C3,1,1
+Matrix,3,4,D3,2,2
+Matrix,3,5,E3,2,2
+Matrix,3,6,F3,2,2
+Matrix,3,7,G3,4,4
+Matrix,3,8,H3,4,4
+Matrix,3,9,I3,4,4
+Matrix,3,10,J3,4,4
+Matrix,3,11,K3,4,4
+Matrix,3,12,L3,4,4
+Matrix,3,13,M3,4,4
+Matrix,3,14,N3,4,4
+Matrix,3,15,O3,2,2
+Matrix,3,16,P3,2,2
+Matrix,3,17,Q3,4,4
+Matrix,3,18,R3,6,6
+Matrix,3,19,S3,4,4
+Matrix,3,20,T3,4,4
+Matrix,3,21,U3,4,4
+Matrix,3,22,V3,4,4
+Matrix,3,23,W3,4,4
+Matrix,3,24,X3,4,4
+Matrix,3,25,Y3,2,2
+Matrix,3,26,Z3,2,2
+Matrix,3,27,AA3,6,6
+Matrix,3,28,AB3,6,6
+Matrix,3,29,AC3,6,6
+Matrix,3,30,AD3,24,24
+Matrix,3,31,AE3,29,29
+Matrix,4,1,A4,2,2
+Matrix,4,2,B4,29,29
+Matrix,4,3,C4,2,2
+Matrix,4,4,D4,1,1
+Matrix,4,5,E4,2,2
+Matrix,4,6,F4,2,2
+Matrix,4,7,G4,4,4
+Matrix,4,8,H4,2,2
+Matrix,4,9,I4,4,4
+Matrix,4,10,J4,4,4
+Matrix,4,11,K4,2,2
+Matrix,4,12,L4,2,2
+Matrix,4,13,M4,4,4
+Matrix,4,14,N4,4,4
+Matrix,4,15,O4,2,2
+Matrix,4,16,P4,2,2
+Matrix,4,17,Q4,4,4
+Matrix,4,18,R4,6,6
+Matrix,4,19,S4,4,4
+Matrix,4,20,T4,4,4
+Matrix,4,21,U4,4,4
+Matrix,4,22,V4,4,4
+Matrix,4,23,W4,4,4
+Matrix,4,24,X4,4,4
+Matrix,4,25,Y4,2,2
+Matrix,4,26,Z4,2,2
+Matrix,4,27,AA4,6,6
+Matrix,4,28,AB4,6,6
+Matrix,4,29,AC4,6,6
+Matrix,4,30,AD4,24,24
+Matrix,4,31,AE4,29,29
+Matrix,5,1,A5,3,3
+Matrix,5,2,B5,29,29
+Matrix,5,3,C5,2,2
+Matrix,5,4,D5,2,2
+Matrix,5,5,E5,1,1
+Matrix,5,6,F5,2,2
+Matrix,5,7,G5,4,4
+Matrix,5,8,H5,4,4
+Matrix,5,9,I5,4,4
+Matrix,5,10,J5,4,4
+Matrix,5,11,K5,4,4
+Matrix,5,12,L5,4,4
+Matrix,5,13,M5,4,4
+Matrix,5,14,N5,4,4
+Matrix,5,15,O5,2,2
+Matrix,5,16,P5,2,2
+Matrix,5,17,Q5,4,4
+Matrix,5,18,R5,6,6
+Matrix,5,19,S5,4,4
+Matrix,5,20,T5,4,4
+Matrix,5,21,U5,4,4
+Matrix,5,22,V5,4,4
+Matrix,5,23,W5,4,4
+Matrix,5,24,X5,4,4
+Matrix,5,25,Y5,2,2
+Matrix,5,26,Z5,2,2
+Matrix,5,27,AA5,6,6
+Matrix,5,28,AB5,6,6
+Matrix,5,29,AC5,6,6
+Matrix,5,30,AD5,24,24
+Matrix,5,31,AE5,29,29
+Matrix,6,1,A6,4,4
+Matrix,6,2,B6,29,29
+Matrix,6,3,C6,2,2
+Matrix,6,4,D6,2,2
+Matrix,6,5,E6,2,2
+Matrix,6,6,F6,1,1
+Matrix,6,7,G6,4,4
+Matrix,6,8,H6,4,4
+Matrix,6,9,I6,4,4
+Matrix,6,10,J6,4,4
+Matrix,6,11,K6,4,4
+Matrix,6,12,L6,4,4
+Matrix,6,13,M6,4,4
+Matrix,6,14,N6,4,4
+Matrix,6,15,O6,2,2
+Matrix,6,16,P6,2,2
+Matrix,6,17,Q6,4,4
+Matrix,6,18,R6,6,6
+Matrix,6,19,S6,4,4
+Matrix,6,20,T6,4,4
+Matrix,6,21,U6,4,4
+Matrix,6,22,V6,4,4
+Matrix,6,23,W6,4,4
+Matrix,6,24,X6,4,4
+Matrix,6,25,Y6,2,2
+Matrix,6,26,Z6,2,2
+Matrix,6,27,AA6,6,6
+Matrix,6,28,AB6,6,6
+Matrix,6,29,AC6,6,6
+Matrix,6,30,AD6,24,24
+Matrix,6,31,AE6,29,29
+Matrix,7,1,A7,5,5
+Matrix,7,2,B7,29,29
+Matrix,7,3,C7,2,2
+Matrix,7,4,D7,2,2
+Matrix,7,5,E7,2,2
+Matrix,7,6,F7,2,2
+Matrix,7,7,G7,1,1
+Matrix,7,8,H7,2,2
+Matrix,7,9,I7,10,10
+Matrix,7,10,J7,10,10
+Matrix,7,11,K7,2,2
+Matrix,7,12,L7,2,2
+Matrix,7,13,M7,11,11
+Matrix,7,14,N7,10,10
+Matrix,7,15,O7,2,2
+Matrix,7,16,P7,2,2
+Matrix,7,17,Q7,10,10
+Matrix,7,18,R7,5,5
+Matrix,7,19,S7,10,10
+Matrix,7,20,T7,10,10
+Matrix,7,21,U7,10,10
+Matrix,7,22,V7,10,10
+Matrix,7,23,W7,10,10
+Matrix,7,24,X7,10,10
+Matrix,7,25,Y7,2,2
+Matrix,7,26,Z7,2,2
+Matrix,7,27,AA7,5,5
+Matrix,7,28,AB7,5,5
+Matrix,7,29,AC7,5,5
+Matrix,7,30,AD7,24,24
+Matrix,7,31,AE7,29,29
+Matrix,8,1,A8,6,6
+Matrix,8,2,B8,29,29
+Matrix,8,3,C8,2,2
+Matrix,8,4,D8,2,2
+Matrix,8,5,E8,2,2
+Matrix,8,6,F8,2,2
+Matrix,8,7,G8,3,3
+Matrix,8,8,H8,1,1
+Matrix,8,9,I8,10,10
+Matrix,8,10,J8,10,10
+Matrix,8,11,K8,2,2
+Matrix,8,12,L8,2,2
+Matrix,8,13,M8,11,11
+Matrix,8,14,N8,10,10
+Matrix,8,15,O8,2,2
+Matrix,8,16,P8,2,2
+Matrix,8,17,Q8,10,10
+Matrix,8,18,R8,5,5
+Matrix,8,19,S8,10,10
+Matrix,8,20,T8,10,10
+Matrix,8,21,U8,10,10
+Matrix,8,22,V8,10,10
+Matrix,8,23,W8,10,10
+Matrix,8,24,X8,10,10
+Matrix,8,25,Y8,2,2
+Matrix,8,26,Z8,2,2
+Matrix,8,27,AA8,5,5
+Matrix,8,28,AB8,5,5
+Matrix,8,29,AC8,5,5
+Matrix,8,30,AD8,24,24
+Matrix,8,31,AE8,29,29
+Matrix,9,1,A9,7,7
+Matrix,9,2,B9,29,29
+Matrix,9,3,C9,2,2
+Matrix,9,4,D9,2,2
+Matrix,9,5,E9,2,2
+Matrix,9,6,F9,2,2
+Matrix,9,7,G9,3,3
+Matrix,9,8,H9,3,3
+Matrix,9,9,I9,1,1
+Matrix,9,10,J9,2,2
+Matrix,9,11,K9,3,3
+Matrix,9,12,L9,3,3
+Matrix,9,13,M9,3,3
+Matrix,9,14,N9,2,2
+Matrix,9,15,O9,2,2
+Matrix,9,16,P9,2,2
+Matrix,9,17,Q9,2,2
+Matrix,9,18,R9,5,5
+Matrix,9,19,S9,28,28
+Matrix,9,20,T9,28,28
+Matrix,9,21,U9,2,2
+Matrix,9,22,V9,2,2
+Matrix,9,23,W9,2,2
+Matrix,9,24,X9,2,2
+Matrix,9,25,Y9,5,5
+Matrix,9,26,Z9,2,2
+Matrix,9,27,AA9,5,5
+Matrix,9,28,AB9,5,5
+Matrix,9,29,AC9,5,5
+Matrix,9,30,AD9,24,24
+Matrix,9,31,AE9,29,29
+Matrix,10,1,A10,8,8
+Matrix,10,2,B10,29,29
+Matrix,10,3,C10,2,2
+Matrix,10,4,D10,2,2
+Matrix,10,5,E10,2,2
+Matrix,10,6,F10,2,2
+Matrix,10,7,G10,3,3
+Matrix,10,8,H10,2,2
+Matrix,10,9,I10,2,2
+Matrix,10,10,J10,1,1
+Matrix,10,11,K10,2,2
+Matrix,10,12,L10,2,2
+Matrix,10,13,M10,3,3
+Matrix,10,14,N10,2,2
+Matrix,10,15,O10,2,2
+Matrix,10,16,P10,2,2
+Matrix,10,17,Q10,2,2
+Matrix,10,18,R10,5,5
+Matrix,10,19,S10,2,2
+Matrix,10,20,T10,2,2
+Matrix,10,21,U10,2,2
+Matrix,10,22,V10,2,2
+Matrix,10,23,W10,2,2
+Matrix,10,24,X10,2,2
+Matrix,10,25,Y10,5,5
+Matrix,10,26,Z10,2,2
+Matrix,10,27,AA10,5,5
+Matrix,10,28,AB10,5,5
+Matrix,10,29,AC10,5,5
+Matrix,10,30,AD10,24,24
+Matrix,10,31,AE10,29,29
+Matrix,11,1,A11,9,9
+Matrix,11,2,B11,29,29
+Matrix,11,3,C11,2,2
+Matrix,11,4,D11,2,2
+Matrix,11,5,E11,2,2
+Matrix,11,6,F11,2,2
+Matrix,11,7,G11,3,3
+Matrix,11,8,H11,2,2
+Matrix,11,9,I11,10,10
+Matrix,11,10,J11,10,10
+Matrix,11,11,K11,1,1
+Matrix,11,12,L11,1,1
+Matrix,11,13,M11,11,11
+Matrix,11,14,N11,10,10
+Matrix,11,15,O11,2,2
+Matrix,11,16,P11,2,2
+Matrix,11,17,Q11,10,10
+Matrix,11,18,R11,5,5
+Matrix,11,19,S11,11,11
+Matrix,11,20,T11,10,10
+Matrix,11,21,U11,10,10
+Matrix,11,22,V11,10,10
+Matrix,11,23,W11,10,10
+Matrix,11,24,X11,10,10
+Matrix,11,25,Y11,5,5
+Matrix,11,26,Z11,2,2
+Matrix,11,27,AA11,5,5
+Matrix,11,28,AB11,5,5
+Matrix,11,29,AC11,5,5
+Matrix,11,30,AD11,24,24
+Matrix,11,31,AE11,29,29
+Matrix,12,1,A12,10,10
+Matrix,12,2,B12,29,29
+Matrix,12,3,C12,2,2
+Matrix,12,4,D12,2,2
+Matrix,12,5,E12,4,4
+Matrix,12,6,F12,2,2
+Matrix,12,7,G12,4,4
+Matrix,12,8,H12,2,2
+Matrix,12,9,I12,4,4
+Matrix,12,10,J12,4,4
+Matrix,12,11,K12,1,1
+Matrix,12,12,L12,1,1
+Matrix,12,13,M12,4,4
+Matrix,12,14,N12,24,24
+Matrix,12,15,O12,2,2
+Matrix,12,16,P12,2,2
+Matrix,12,17,Q12,4,4
+Matrix,12,18,R12,18,18
+Matrix,12,19,S12,4,4
+Matrix,12,20,T12,4,4
+Matrix,12,21,U12,4,4
+Matrix,12,22,V12,4,4
+Matrix,12,23,W12,4,4
+Matrix,12,24,X12,4,4
+Matrix,12,25,Y12,24,24
+Matrix,12,26,Z12,24,24
+Matrix,12,27,AA12,6,6
+Matrix,12,28,AB12,24,24
+Matrix,12,29,AC12,24,24
+Matrix,12,30,AD12,24,24
+Matrix,12,31,AE12,29,29
+Matrix,13,1,A13,11,11
+Matrix,13,2,B13,29,29
+Matrix,13,3,C13,4,4
+Matrix,13,4,D13,4,4
+Matrix,13,5,E13,4,4
+Matrix,13,6,F13,4,4
+Matrix,13,7,G13,4,4
+Matrix,13,8,H13,4,4
+Matrix,13,9,I13,15,15
+Matrix,13,10,J13,15,15
+Matrix,13,11,K13,4,4
+Matrix,13,12,L13,4,4
+Matrix,13,13,M13,1,1
+Matrix,13,14,N13,24,24
+Matrix,13,15,O13,2,2
+Matrix,13,16,P13,2,2
+Matrix,13,17,Q13,4,4
+Matrix,13,18,R13,18,18
+Matrix,13,19,S13,4,4
+Matrix,13,20,T13,2,2
+Matrix,13,21,U13,2,2
+Matrix,13,22,V13,2,2
+Matrix,13,23,W13,2,2
+Matrix,13,24,X13,2,2
+Matrix,13,25,Y13,24,24
+Matrix,13,26,Z13,24,24
+Matrix,13,27,AA13,6,6
+Matrix,13,28,AB13,24,24
+Matrix,13,29,AC13,24,24
+Matrix,13,30,AD13,24,24
+Matrix,13,31,AE13,29,29
+Matrix,14,1,A14,12,12
+Matrix,14,2,B14,29,29
+Matrix,14,3,C14,8,8
+Matrix,14,4,D14,8,8
+Matrix,14,5,E14,8,8
+Matrix,14,6,F14,8,8
+Matrix,14,7,G14,27,27
+Matrix,14,8,H14,27,27
+Matrix,14,9,I14,8,8
+Matrix,14,10,J14,8,8
+Matrix,14,11,K14,27,27
+Matrix,14,12,L14,27,27
+Matrix,14,13,M14,27,27
+Matrix,14,14,N14,1,1
+Matrix,14,15,O14,2,2
+Matrix,14,16,P14,2,2
+Matrix,14,17,Q14,8,8
+Matrix,14,18,R14,12,12
+Matrix,14,19,S14,8,8
+Matrix,14,20,T14,8,8
+Matrix,14,21,U14,8,8
+Matrix,14,22,V14,8,8
+Matrix,14,23,W14,8,8
+Matrix,14,24,X14,8,8
+Matrix,14,25,Y14,12,12
+Matrix,14,26,Z14,8,8
+Matrix,14,27,AA14,12,12
+Matrix,14,28,AB14,25,25
+Matrix,14,29,AC14,12,12
+Matrix,14,30,AD14,24,24
+Matrix,14,31,AE14,29,29
+Matrix,15,1,A15,13,13
+Matrix,15,2,B15,29,29
+Matrix,15,3,C15,8,8
+Matrix,15,4,D15,8,8
+Matrix,15,5,E15,8,8
+Matrix,15,6,F15,8,8
+Matrix,15,7,G15,27,27
+Matrix,15,8,H15,27,27
+Matrix,15,9,I15,8,8
+Matrix,15,10,J15,8,8
+Matrix,15,11,K15,27,27
+Matrix,15,12,L15,27,27
+Matrix,15,13,M15,23,23
+Matrix,15,14,N15,23,23
+Matrix,15,15,O15,1,1
+Matrix,15,16,P15,2,2
+Matrix,15,17,Q15,8,8
+Matrix,15,18,R15,12,12
+Matrix,15,19,S15,8,8
+Matrix,15,20,T15,8,8
+Matrix,15,21,U15,8,8
+Matrix,15,22,V15,8,8
+Matrix,15,23,W15,8,8
+Matrix,15,24,X15,8,8
+Matrix,15,25,Y15,25,25
+Matrix,15,26,Z15,23,23
+Matrix,15,27,AA15,12,12
+Matrix,15,28,AB15,25,25
+Matrix,15,29,AC15,12,12
+Matrix,15,30,AD15,24,24
+Matrix,15,31,AE15,29,29
+Matrix,16,1,A16,14,14
+Matrix,16,2,B16,29,29
+Matrix,16,3,C16,8,8
+Matrix,16,4,D16,8,8
+Matrix,16,5,E16,8,8
+Matrix,16,6,F16,8,8
+Matrix,16,7,G16,27,27
+Matrix,16,8,H16,27,27
+Matrix,16,9,I16,8,8
+Matrix,16,10,J16,8,8
+Matrix,16,11,K16,27,27
+Matrix,16,12,L16,27,27
+Matrix,16,13,M16,23,23
+Matrix,16,14,N16,23,23
+Matrix,16,15,O16,2,2
+Matrix,16,16,P16,1,1
+Matrix,16,17,Q16,8,8
+Matrix,16,18,R16,12,12
+Matrix,16,19,S16,8,8
+Matrix,16,20,T16,8,8
+Matrix,16,21,U16,8,8
+Matrix,16,22,V16,8,8
+Matrix,16,23,W16,8,8
+Matrix,16,24,X16,8,8
+Matrix,16,25,Y16,25,25
+Matrix,16,26,Z16,23,23
+Matrix,16,27,AA16,12,12
+Matrix,16,28,AB16,25,25
+Matrix,16,29,AC16,12,12
+Matrix,16,30,AD16,24,24
+Matrix,16,31,AE16,29,29
+Matrix,17,1,A17,15,15
+Matrix,17,2,B17,29,29
+Matrix,17,3,C17,3,3
+Matrix,17,4,D17,3,3
+Matrix,17,5,E17,3,3
+Matrix,17,6,F17,3,3
+Matrix,17,7,G17,3,3
+Matrix,17,8,H17,3,3
+Matrix,17,9,I17,3,3
+Matrix,17,10,J17,3,3
+Matrix,17,11,K17,3,3
+Matrix,17,12,L17,3,3
+Matrix,17,13,M17,24,24
+Matrix,17,14,N17,24,24
+Matrix,17,15,O17,2,2
+Matrix,17,16,P17,2,2
+Matrix,17,17,Q17,1,1
+Matrix,17,18,R17,5,5
+Matrix,17,19,S17,3,3
+Matrix,17,20,T17,2,2
+Matrix,17,21,U17,2,2
+Matrix,17,22,V17,2,2
+Matrix,17,23,W17,2,2
+Matrix,17,24,X17,2,2
+Matrix,17,25,Y17,5,5
+Matrix,17,26,Z17,24,24
+Matrix,17,27,AA17,5,5
+Matrix,17,28,AB17,5,5
+Matrix,17,29,AC17,5,5
+Matrix,17,30,AD17,24,24
+Matrix,17,31,AE17,29,29
+Matrix,18,1,A18,16,16
+Matrix,18,2,B18,29,29
+Matrix,18,3,C18,2,2
+Matrix,18,4,D18,2,2
+Matrix,18,5,E18,2,2
+Matrix,18,6,F18,2,2
+Matrix,18,7,G18,2,2
+Matrix,18,8,H18,2,2
+Matrix,18,9,I18,2,2
+Matrix,18,10,J18,2,2
+Matrix,18,11,K18,2,2
+Matrix,18,12,L18,2,2
+Matrix,18,13,M18,24,24
+Matrix,18,14,N18,24,24
+Matrix,18,15,O18,2,2
+Matrix,18,16,P18,2,2
+Matrix,18,17,Q18,2,2
+Matrix,18,18,R18,1,1
+Matrix,18,19,S18,2,2
+Matrix,18,20,T18,2,2
+Matrix,18,21,U18,2,2
+Matrix,18,22,V18,2,2
+Matrix,18,23,W18,2,2
+Matrix,18,24,X18,2,2
+Matrix,18,25,Y18,5,5
+Matrix,18,26,Z18,24,24
+Matrix,18,27,AA18,2,2
+Matrix,18,28,AB18,5,5
+Matrix,18,29,AC18,5,5
+Matrix,18,30,AD18,22,22
+Matrix,18,31,AE18,29,29
+Matrix,19,1,A19,17,17
+Matrix,19,2,B19,29,29
+Matrix,19,3,C19,2,2
+Matrix,19,4,D19,2,2
+Matrix,19,5,E19,2,2
+Matrix,19,6,F19,2,2
+Matrix,19,7,G19,3,3
+Matrix,19,8,H19,3,3
+Matrix,19,9,I19,2,2
+Matrix,19,10,J19,2,2
+Matrix,19,11,K19,3,3
+Matrix,19,12,L19,3,3
+Matrix,19,13,M19,3,3
+Matrix,19,14,N19,23,23
+Matrix,19,15,O19,2,2
+Matrix,19,16,P19,2,2
+Matrix,19,17,Q19,2,2
+Matrix,19,18,R19,5,5
+Matrix,19,19,S19,1,1
+Matrix,19,20,T19,2,2
+Matrix,19,21,U19,2,2
+Matrix,19,22,V19,2,2
+Matrix,19,23,W19,2,2
+Matrix,19,24,X19,2,2
+Matrix,19,25,Y19,5,5
+Matrix,19,26,Z19,2,2
+Matrix,19,27,AA19,5,5
+Matrix,19,28,AB19,5,5
+Matrix,19,29,AC19,5,5
+Matrix,19,30,AD19,24,24
+Matrix,19,31,AE19,29,29
+Matrix,20,1,A20,18,18
+Matrix,20,2,B20,29,29
+Matrix,20,3,C20,2,2
+Matrix,20,4,D20,2,2
+Matrix,20,5,E20,2,2
+Matrix,20,6,F20,2,2
+Matrix,20,7,G20,3,3
+Matrix,20,8,H20,3,3
+Matrix,20,9,I20,2,2
+Matrix,20,10,J20,2,2
+Matrix,20,11,K20,3,3
+Matrix,20,12,L20,3,3
+Matrix,20,13,M20,3,3
+Matrix,20,14,N20,2,2
+Matrix,20,15,O20,2,2
+Matrix,20,16,P20,2,2
+Matrix,20,17,Q20,2,2
+Matrix,20,18,R20,5,5
+Matrix,20,19,S20,2,2
+Matrix,20,20,T20,1,1
+Matrix,20,21,U20,2,2
+Matrix,20,22,V20,2,2
+Matrix,20,23,W20,2,2
+Matrix,20,24,X20,2,2
+Matrix,20,25,Y20,5,5
+Matrix,20,26,Z20,2,2
+Matrix,20,27,AA20,5,5
+Matrix,20,28,AB20,5,5
+Matrix,20,29,AC20,5,5
+Matrix,20,30,AD20,24,24
+Matrix,20,31,AE20,29,29
+Matrix,21,1,A21,19,19
+Matrix,21,2,B21,29,29
+Matrix,21,3,C21,2,2
+Matrix,21,4,D21,2,2
+Matrix,21,5,E21,2,2
+Matrix,21,6,F21,2,2
+Matrix,21,7,G21,13,13
+Matrix,21,8,H21,13,13
+Matrix,21,9,I21,23,23
+Matrix,21,10,J21,23,23
+Matrix,21,11,K21,14,14
+Matrix,21,12,L21,14,14
+Matrix,21,13,M21,26,26
+Matrix,21,14,N21,23,23
+Matrix,21,15,O21,2,2
+Matrix,21,16,P21,2,2
+Matrix,21,17,Q21,2,2
+Matrix,21,18,R21,25,25
+Matrix,21,19,S21,19,19
+Matrix,21,20,T21,19,19
+Matrix,21,21,U21,1,1
+Matrix,21,22,V21,19,19
+Matrix,21,23,W21,2,2
+Matrix,21,24,X21,19,19
+Matrix,21,25,Y21,25,25
+Matrix,21,26,Z21,23,23
+Matrix,21,27,AA21,20,20
+Matrix,21,28,AB21,25,25
+Matrix,21,29,AC21,20,20
+Matrix,21,30,AD21,24,24
+Matrix,21,31,AE21,29,29
+Matrix,22,1,A22,20,20
+Matrix,22,2,B22,29,29
+Matrix,22,3,C22,3,3
+Matrix,22,4,D22,3,3
+Matrix,22,5,E22,3,3
+Matrix,22,6,F22,3,3
+Matrix,22,7,G22,3,3
+Matrix,22,8,H22,3,3
+Matrix,22,9,I22,16,16
+Matrix,22,10,J22,16,16
+Matrix,22,11,K22,2,2
+Matrix,22,12,L22,2,2
+Matrix,22,13,M22,24,24
+Matrix,22,14,N22,24,24
+Matrix,22,15,O22,2,2
+Matrix,22,16,P22,2,2
+Matrix,22,17,Q22,2,2
+Matrix,22,18,R22,5,5
+Matrix,22,19,S22,2,2
+Matrix,22,20,T22,2,2
+Matrix,22,21,U22,2,2
+Matrix,22,22,V22,1,1
+Matrix,22,23,W22,2,2
+Matrix,22,24,X22,2,2
+Matrix,22,25,Y22,5,5
+Matrix,22,26,Z22,24,24
+Matrix,22,27,AA22,5,5
+Matrix,22,28,AB22,5,5
+Matrix,22,29,AC22,5,5
+Matrix,22,30,AD22,24,24
+Matrix,22,31,AE22,29,29
+Matrix,23,1,A23,21,21
+Matrix,23,2,B23,29,29
+Matrix,23,3,C23,2,2
+Matrix,23,4,D23,2,2
+Matrix,23,5,E23,2,2
+Matrix,23,6,F23,2,2
+Matrix,23,7,G23,3,3
+Matrix,23,8,H23,3,3
+Matrix,23,9,I23,2,2
+Matrix,23,10,J23,2,2
+Matrix,23,11,K23,3,3
+Matrix,23,12,L23,3,3
+Matrix,23,13,M23,3,3
+Matrix,23,14,N23,2,2
+Matrix,23,15,O23,2,2
+Matrix,23,16,P23,2,2
+Matrix,23,17,Q23,2,2
+Matrix,23,18,R23,5,5
+Matrix,23,19,S23,2,2
+Matrix,23,20,T23,2,2
+Matrix,23,21,U23,2,2
+Matrix,23,22,V23,2,2
+Matrix,23,23,W23,1,1
+Matrix,23,24,X23,2,2
+Matrix,23,25,Y23,5,5
+Matrix,23,26,Z23,2,2
+Matrix,23,27,AA23,5,5
+Matrix,23,28,AB23,5,5
+Matrix,23,29,AC23,5,5
+Matrix,23,30,AD23,24,24
+Matrix,23,31,AE23,29,29
+Matrix,24,1,A24,22,22
+Matrix,24,2,B24,29,29
+Matrix,24,3,C24,2,2
+Matrix,24,4,D24,2,2
+Matrix,24,5,E24,2,2
+Matrix,24,6,F24,2,2
+Matrix,24,7,G24,3,3
+Matrix,24,8,H24,3,3
+Matrix,24,9,I24,2,2
+Matrix,24,10,J24,2,2
+Matrix,24,11,K24,3,3
+Matrix,24,12,L24,3,3
+Matrix,24,13,M24,3,3
+Matrix,24,14,N24,2,2
+Matrix,24,15,O24,2,2
+Matrix,24,16,P24,2,2
+Matrix,24,17,Q24,2,2
+Matrix,24,18,R24,5,5
+Matrix,24,19,S24,2,2
+Matrix,24,20,T24,2,2
+Matrix,24,21,U24,2,2
+Matrix,24,22,V24,2,2
+Matrix,24,23,W24,2,2
+Matrix,24,24,X24,1,1
+Matrix,24,25,Y24,5,5
+Matrix,24,26,Z24,2,2
+Matrix,24,27,AA24,5,5
+Matrix,24,28,AB24,5,5
+Matrix,24,29,AC24,5,5
+Matrix,24,30,AD24,24,24
+Matrix,24,31,AE24,29,29
+Matrix,25,1,A25,23,23
+Matrix,25,2,B25,29,29
+Matrix,25,3,C25,2,2
+Matrix,25,4,D25,2,2
+Matrix,25,5,E25,2,2
+Matrix,25,6,F25,2,2
+Matrix,25,7,G25,3,3
+Matrix,25,8,H25,3,3
+Matrix,25,9,I25,10,10
+Matrix,25,10,J25,10,10
+Matrix,25,11,K25,3,3
+Matrix,25,12,L25,3,3
+Matrix,25,13,M25,10,10
+Matrix,25,14,N25,10,10
+Matrix,25,15,O25,2,2
+Matrix,25,16,P25,2,2
+Matrix,25,17,Q25,10,10
+Matrix,25,18,R25,5,5
+Matrix,25,19,S25,10,10
+Matrix,25,20,T25,10,10
+Matrix,25,21,U25,10,10
+Matrix,25,22,V25,10,10
+Matrix,25,23,W25,10,10
+Matrix,25,24,X25,10,10
+Matrix,25,25,Y25,1,1
+Matrix,25,26,Z25,2,2
+Matrix,25,27,AA25,5,5
+Matrix,25,28,AB25,2,2
+Matrix,25,29,AC25,5,5
+Matrix,25,30,AD25,24,24
+Matrix,25,31,AE25,29,29
+Matrix,26,1,A26,24,24
+Matrix,26,2,B26,29,29
+Matrix,26,3,C26,8,8
+Matrix,26,4,D26,8,8
+Matrix,26,5,E26,8,8
+Matrix,26,6,F26,8,8
+Matrix,26,7,G26,27,27
+Matrix,26,8,H26,8,8
+Matrix,26,9,I26,8,8
+Matrix,26,10,J26,8,8
+Matrix,26,11,K26,8,8
+Matrix,26,12,L26,8,8
+Matrix,26,13,M26,8,8
+Matrix,26,14,N26,23,23
+Matrix,26,15,O26,8,8
+Matrix,26,16,P26,8,8
+Matrix,26,17,Q26,8,8
+Matrix,26,18,R26,12,12
+Matrix,26,19,S26,8,8
+Matrix,26,20,T26,8,8
+Matrix,26,21,U26,8,8
+Matrix,26,22,V26,8,8
+Matrix,26,23,W26,8,8
+Matrix,26,24,X26,8,8
+Matrix,26,25,Y26,6,6
+Matrix,26,26,Z26,1,1
+Matrix,26,27,AA26,6,6
+Matrix,26,28,AB26,6,6
+Matrix,26,29,AC26,6,6
+Matrix,26,30,AD26,24,24
+Matrix,26,31,AE26,29,29
+Matrix,27,1,A27,25,25
+Matrix,27,2,B27,29,29
+Matrix,27,3,C27,2,2
+Matrix,27,4,D27,2,2
+Matrix,27,5,E27,2,2
+Matrix,27,6,F27,2,2
+Matrix,27,7,G27,2,2
+Matrix,27,8,H27,2,2
+Matrix,27,9,I27,10,10
+Matrix,27,10,J27,10,10
+Matrix,27,11,K27,2,2
+Matrix,27,12,L27,2,2
+Matrix,27,13,M27,3,3
+Matrix,27,14,N27,10,10
+Matrix,27,15,O27,2,2
+Matrix,27,16,P27,2,2
+Matrix,27,17,Q27,10,10
+Matrix,27,18,R27,5,5
+Matrix,27,19,S27,10,10
+Matrix,27,20,T27,10,10
+Matrix,27,21,U27,10,10
+Matrix,27,22,V27,10,10
+Matrix,27,23,W27,10,10
+Matrix,27,24,X27,10,10
+Matrix,27,25,Y27,2,2
+Matrix,27,26,Z27,30,30
+Matrix,27,27,AA27,1,1
+Matrix,27,28,AB27,5,5
+Matrix,27,29,AC27,5,5
+Matrix,27,30,AD27,24,24
+Matrix,27,31,AE27,29,29
+Matrix,28,1,A28,26,26
+Matrix,28,2,B28,29,29
+Matrix,28,3,C28,21,21
+Matrix,28,4,D28,21,21
+Matrix,28,5,E28,21,21
+Matrix,28,6,F28,21,21
+Matrix,28,7,G28,21,21
+Matrix,28,8,H28,21,21
+Matrix,28,9,I28,21,21
+Matrix,28,10,J28,21,21
+Matrix,28,11,K28,21,21
+Matrix,28,12,L28,21,21
+Matrix,28,13,M28,21,21
+Matrix,28,14,N28,21,21
+Matrix,28,15,O28,21,21
+Matrix,28,16,P28,21,21
+Matrix,28,17,Q28,21,21
+Matrix,28,18,R28,21,21
+Matrix,28,19,S28,21,21
+Matrix,28,20,T28,21,21
+Matrix,28,21,U28,21,21
+Matrix,28,22,V28,21,21
+Matrix,28,23,W28,21,21
+Matrix,28,24,X28,21,21
+Matrix,28,25,Y28,21,21
+Matrix,28,26,Z28,21,21
+Matrix,28,27,AA28,21,21
+Matrix,28,28,AB28,21,21
+Matrix,28,29,AC28,21,21
+Matrix,28,30,AD28,24,24
+Matrix,28,31,AE28,29,29
+Matrix,29,1,A29,27,27
+Matrix,29,2,B29,29,29
+Matrix,29,3,C29,21,21
+Matrix,29,4,D29,21,21
+Matrix,29,5,E29,21,21
+Matrix,29,6,F29,21,21
+Matrix,29,7,G29,21,21
+Matrix,29,8,H29,21,21
+Matrix,29,9,I29,21,21
+Matrix,29,10,J29,21,21
+Matrix,29,11,K29,21,21
+Matrix,29,12,L29,21,21
+Matrix,29,13,M29,21,21
+Matrix,29,14,N29,21,21
+Matrix,29,15,O29,21,21
+Matrix,29,16,P29,21,21
+Matrix,29,17,Q29,21,21
+Matrix,29,18,R29,21,21
+Matrix,29,19,S29,21,21
+Matrix,29,20,T29,21,21
+Matrix,29,21,U29,21,21
+Matrix,29,22,V29,21,21
+Matrix,29,23,W29,21,21
+Matrix,29,24,X29,21,21
+Matrix,29,25,Y29,21,21
+Matrix,29,26,Z29,21,21
+Matrix,29,27,AA29,21,21
+Matrix,29,28,AB29,21,21
+Matrix,29,29,AC29,21,21
+Matrix,29,30,AD29,24,24
+Matrix,29,31,AE29,29,29
+Matrix,30,1,A30,28,28
+Matrix,30,2,B30,29,29
+Matrix,30,3,C30,21,21
+Matrix,30,4,D30,21,21
+Matrix,30,5,E30,21,21
+Matrix,30,6,F30,21,21
+Matrix,30,7,G30,21,21
+Matrix,30,8,H30,21,21
+Matrix,30,9,I30,21,21
+Matrix,30,10,J30,21,21
+Matrix,30,11,K30,21,21
+Matrix,30,12,L30,21,21
+Matrix,30,13,M30,21,21
+Matrix,30,14,N30,21,21
+Matrix,30,15,O30,21,21
+Matrix,30,16,P30,21,21
+Matrix,30,17,Q30,21,21
+Matrix,30,18,R30,21,21
+Matrix,30,19,S30,21,21
+Matrix,30,20,T30,21,21
+Matrix,30,21,U30,21,21
+Matrix,30,22,V30,21,21
+Matrix,30,23,W30,21,21
+Matrix,30,24,X30,21,21
+Matrix,30,25,Y30,21,21
+Matrix,30,26,Z30,21,21
+Matrix,30,27,AA30,21,21
+Matrix,30,28,AB30,21,21
+Matrix,30,29,AC30,21,21
+Matrix,30,30,AD30,21,21
+Matrix,30,31,AE30,29,29
+Select,1,4,D1,Discharged,Discharged
+Select,1,6,F1,To Load,To Load
+Select,1,8,H1,Discharge,Discharge
+Select,1,9,I1,To load,To load
+Select,1,10,J1,Index,Index
+Select,1,11,K1,Check,Check
+Select,1,12,L1,Discharge,Discharge
+Select,1,13,M1,Check,Check
+Select,1,14,N1,To Load,To Load
+Select,1,16,P1,Select from Matrix,Select from Matrix
+Select,1,17,Q1,"=VLOOKUP(N30,Matrix,L30+2,0)",2
+Select,2,1,A2,UN1202,UN1202
+Select,2,2,B2,"AD10 - 10ppm Diesel fuel, ADO, AGO","AD10 - 10ppm Diesel fuel, ADO, AGO"
+Select,2,8,H2,=FALSE(),False
+Select,2,9,I2,=FALSE(),False
+Select,2,10,J2,1,1
+Select,2,11,K2,"=IF(H2=TRUE(),1,0)",0
+Select,2,12,L2,"=IF(H2=TRUE(),IF(K$30=1,J2,0),0)",0
+Select,2,13,M2,"=IF(I2=TRUE(),1,0)",0
+Select,2,14,N2,"=IF(I2=TRUE(),IF(M$30=1,J2,0),0)",0
+Select,2,16,P2,Instruction 1,Instruction 1
+Select,2,17,Q2,"=IF(VLOOKUP(Q$1,table,2,0)="""","""",VLOOKUP(Q$1,table,2,0))","Previous cargo is acceptable, so long as the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the Individual Tank capacity does not meet the well drained criteria."
+Select,3,1,A3,UN 1202,UN 1202
+Select,3,2,B3,"ULSD - 50ppm Diesel fuel, ADO, AGO","ULSD - 50ppm Diesel fuel, ADO, AGO"
+Select,3,8,H3,=TRUE(),True
+Select,3,9,I3,=FALSE(),False
+Select,3,10,J3,2,2
+Select,3,11,K3,"=IF(H3=TRUE(),1,0)",1
+Select,3,12,L3,"=IF(H3=TRUE(),IF(K$30=1,J3,0),0)",2
+Select,3,13,M3,"=IF(I3=TRUE(),1,0)",0
+Select,3,14,N3,"=IF(I3=TRUE(),IF(M$30=1,J3,0),0)",0
+Select,3,16,P3,Instruction 2,Instruction 2
+Select,3,17,Q3,"=IF(VLOOKUP(Q$1,table,3,0)="""","""",VLOOKUP(Q$1,table,3,0))",
+Select,4,1,A4,UN 1202,UN 1202
+Select,4,2,B4,"Detergent Addivated, 10ppm Diesel fuel, V-Power Diesel","Detergent Addivated, 10ppm Diesel fuel, V-Power Diesel"
+Select,4,8,H4,=FALSE(),False
+Select,4,9,I4,=FALSE(),False
+Select,4,10,J4,3,3
+Select,4,11,K4,"=IF(H4=TRUE(),1,0)",0
+Select,4,12,L4,"=IF(H4=TRUE(),IF(K$30=1,J4,0),0)",0
+Select,4,13,M4,"=IF(I4=TRUE(),1,0)",0
+Select,4,14,N4,"=IF(I4=TRUE(),IF(M$30=1,J4,0),0)",0
+Select,5,1,A5,UN 1223 & 1202,UN 1223 & 1202
+Select,5,2,B5,"GTL Kero & Diesel, Synthetic Distillate","GTL Kero & Diesel, Synthetic Distillate"
+Select,5,8,H5,=FALSE(),False
+Select,5,9,I5,=FALSE(),False
+Select,5,10,J5,4,4
+Select,5,11,K5,"=IF(H5=TRUE(),1,0)",0
+Select,5,12,L5,"=IF(H5=TRUE(),IF(K$30=1,J5,0),0)",0
+Select,5,13,M5,"=IF(I5=TRUE(),1,0)",0
+Select,5,14,N5,"=IF(I5=TRUE(),IF(M$30=1,J5,0),0)",0
+Select,6,1,A6,UN 1202,UN 1202
+Select,6,2,B6,"Gas Oil 2000 ppm, Gasoil dyed, IGO, GOCI","Gas Oil 2000 ppm, Gasoil dyed, IGO, GOCI"
+Select,6,8,H6,=FALSE(),False
+Select,6,9,I6,=FALSE(),False
+Select,6,10,J6,5,5
+Select,6,11,K6,"=IF(H6=TRUE(),1,0)",0
+Select,6,12,L6,"=IF(H6=TRUE(),IF(K$30=1,J6,0),0)",0
+Select,6,13,M6,"=IF(I6=TRUE(),1,0)",0
+Select,6,14,N6,"=IF(I6=TRUE(),IF(M$30=1,J6,0),0)",0
+Select,7,1,A7,UN 1202,UN 1202
+Select,7,2,B7,"2000 ppm Gasoil undyed, IGO, GOCI","2000 ppm Gasoil undyed, IGO, GOCI"
+Select,7,8,H7,=FALSE(),False
+Select,7,9,I7,=FALSE(),False
+Select,7,10,J7,6,6
+Select,7,11,K7,"=IF(H7=TRUE(),1,0)",0
+Select,7,12,L7,"=IF(H7=TRUE(),IF(K$30=1,J7,0),0)",0
+Select,7,13,M7,"=IF(I7=TRUE(),1,0)",0
+Select,7,14,N7,"=IF(I7=TRUE(),IF(M$30=1,J7,0),0)",0
+Select,8,1,A8,UN 1203,UN 1203
+Select,8,2,B8,"10 ppm Gasoline,PU10, SU10, ULG","10 ppm Gasoline,PU10, SU10, ULG"
+Select,8,8,H8,=FALSE(),False
+Select,8,9,I8,=FALSE(),False
+Select,8,10,J8,7,7
+Select,8,11,K8,"=IF(H8=TRUE(),1,0)",0
+Select,8,12,L8,"=IF(H8=TRUE(),IF(K$30=1,J8,0),0)",0
+Select,8,13,M8,"=IF(I8=TRUE(),1,0)",0
+Select,8,14,N8,"=IF(I8=TRUE(),IF(M$30=1,J8,0),0)",0
+Select,9,1,A9,UN 1203,UN 1203
+Select,9,2,B9,"50 ppm Gasoline, PU50, SU50, ULG","50 ppm Gasoline, PU50, SU50, ULG"
+Select,9,8,H9,=FALSE(),False
+Select,9,9,I9,=FALSE(),False
+Select,9,10,J9,8,8
+Select,9,11,K9,"=IF(H9=TRUE(),1,0)",0
+Select,9,12,L9,"=IF(H9=TRUE(),IF(K$30=1,J9,0),0)",0
+Select,9,13,M9,"=IF(I9=TRUE(),1,0)",0
+Select,9,14,N9,"=IF(I9=TRUE(),IF(M$30=1,J9,0),0)",0
+Select,10,1,A10,UN 1223,UN 1223
+Select,10,2,B10,"Kerosene, Class C2 Burning Oil","Kerosene, Class C2 Burning Oil"
+Select,10,8,H10,=FALSE(),False
+Select,10,9,I10,=FALSE(),False
+Select,10,10,J10,9,9
+Select,10,11,K10,"=IF(H10=TRUE(),1,0)",0
+Select,10,12,L10,"=IF(H10=TRUE(),IF(K$30=1,J10,0),0)",0
+Select,10,13,M10,"=IF(I10=TRUE(),1,0)",0
+Select,10,14,N10,"=IF(I10=TRUE(),IF(M$30=1,J10,0),0)",0
+Select,11,1,A11,UN 1223 & 1863,UN 1223 & 1863
+Select,11,2,B11,"Jet A1, AVTUR, Aviation Fuel","Jet A1, AVTUR, Aviation Fuel"
+Select,11,8,H11,=FALSE(),False
+Select,11,9,I11,=TRUE(),True
+Select,11,10,J11,10,10
+Select,11,11,K11,"=IF(H11=TRUE(),1,0)",0
+Select,11,12,L11,"=IF(H11=TRUE(),IF(K$30=1,J11,0),0)",0
+Select,11,13,M11,"=IF(I11=TRUE(),1,0)",1
+Select,11,14,N11,"=IF(I11=TRUE(),IF(M$30=1,J11,0),0)",10
+Select,12,1,A12,UN 1203,UN 1203
+Select,12,2,B12,"AVGAS, 100LL, Aviation Fuel","AVGAS, 100LL, Aviation Fuel"
+Select,12,8,H12,=FALSE(),False
+Select,12,9,I12,=FALSE(),False
+Select,12,10,J12,11,11
+Select,12,11,K12,"=IF(H12=TRUE(),1,0)",0
+Select,12,12,L12,"=IF(H12=TRUE(),IF(K$30=1,J12,0),0)",0
+Select,12,13,M12,"=IF(I12=TRUE(),1,0)",0
+Select,12,14,N12,"=IF(I12=TRUE(),IF(M$30=1,J12,0),0)",0
+Select,13,1,A13,UN 2398 & 1149,UN 2398 & 1149
+Select,13,2,B13,"MTBE & ETBE, Methyl & Ethyl Tertiary Butyl Ether ","MTBE & ETBE, Methyl & Ethyl Tertiary Butyl Ether "
+Select,13,8,H13,=FALSE(),False
+Select,13,9,I13,=FALSE(),False
+Select,13,10,J13,12,12
+Select,13,11,K13,"=IF(H13=TRUE(),1,0)",0
+Select,13,12,L13,"=IF(H13=TRUE(),IF(K$30=1,J13,0),0)",0
+Select,13,13,M13,"=IF(I13=TRUE(),1,0)",0
+Select,13,14,N13,"=IF(I13=TRUE(),IF(M$30=1,J13,0),0)",0
+Select,14,1,A14,UN 1307,UN 1307
+Select,14,2,B14,"Xylene, Xylenes-C8","Xylene, Xylenes-C8"
+Select,14,8,H14,=FALSE(),False
+Select,14,9,I14,=FALSE(),False
+Select,14,10,J14,13,13
+Select,14,11,K14,"=IF(H14=TRUE(),1,0)",0
+Select,14,12,L14,"=IF(H14=TRUE(),IF(K$30=1,J14,0),0)",0
+Select,14,13,M14,"=IF(I14=TRUE(),1,0)",0
+Select,14,14,N14,"=IF(I14=TRUE(),IF(M$30=1,J14,0),0)",0
+Select,15,1,A15,UN 1294,UN 1294
+Select,15,2,B15,Toluene,Toluene
+Select,15,8,H15,=FALSE(),False
+Select,15,9,I15,=FALSE(),False
+Select,15,10,J15,14,14
+Select,15,11,K15,"=IF(H15=TRUE(),1,0)",0
+Select,15,12,L15,"=IF(H15=TRUE(),IF(K$30=1,J15,0),0)",0
+Select,15,13,M15,"=IF(I15=TRUE(),1,0)",0
+Select,15,14,N15,"=IF(I15=TRUE(),IF(M$30=1,J15,0),0)",0
+Select,16,1,A16,UN 3295,UN 3295
+Select,16,2,B16,"Benzene Heart Cut, BHC, HCB","Benzene Heart Cut, BHC, HCB"
+Select,16,8,H16,=FALSE(),False
+Select,16,9,I16,=FALSE(),False
+Select,16,10,J16,15,15
+Select,16,11,K16,"=IF(H16=TRUE(),1,0)",0
+Select,16,12,L16,"=IF(H16=TRUE(),IF(K$30=1,J16,0),0)",0
+Select,16,13,M16,"=IF(I16=TRUE(),1,0)",0
+Select,16,14,N16,"=IF(I16=TRUE(),IF(M$30=1,J16,0),0)",0
+Select,17,1,A17,UN 1268,UN 1268
+Select,17,2,B17,Natural Gas Condensate (crude feedstock),Natural Gas Condensate (crude feedstock)
+Select,17,8,H17,=FALSE(),False
+Select,17,9,I17,=FALSE(),False
+Select,17,10,J17,16,16
+Select,17,11,K17,"=IF(H17=TRUE(),1,0)",0
+Select,17,12,L17,"=IF(H17=TRUE(),IF(K$30=1,J17,0),0)",0
+Select,17,13,M17,"=IF(I17=TRUE(),1,0)",0
+Select,17,14,N17,"=IF(I17=TRUE(),IF(M$30=1,J17,0),0)",0
+Select,18,1,A18,UN 3295,UN 3295
+Select,18,2,B18,"PyGas, Pygas-tail, Pyrolysis Gasoline","PyGas, Pygas-tail, Pyrolysis Gasoline"
+Select,18,8,H18,=FALSE(),False
+Select,18,9,I18,=FALSE(),False
+Select,18,10,J18,17,17
+Select,18,11,K18,"=IF(H18=TRUE(),1,0)",0
+Select,18,12,L18,"=IF(H18=TRUE(),IF(K$30=1,J18,0),0)",0
+Select,18,13,M18,"=IF(I18=TRUE(),1,0)",0
+Select,18,14,N18,"=IF(I18=TRUE(),IF(M$30=1,J18,0),0)",0
+Select,19,1,A19,UN 3295,UN 3295
+Select,19,2,B19,"Cat Cracked Gasoline. LCCG, FRCCG","Cat Cracked Gasoline. LCCG, FRCCG"
+Select,19,8,H19,=FALSE(),False
+Select,19,9,I19,=FALSE(),False
+Select,19,10,J19,18,18
+Select,19,11,K19,"=IF(H19=TRUE(),1,0)",0
+Select,19,12,L19,"=IF(H19=TRUE(),IF(K$30=1,J19,0),0)",0
+Select,19,13,M19,"=IF(I19=TRUE(),1,0)",0
+Select,19,14,N19,"=IF(I19=TRUE(),IF(M$30=1,J19,0),0)",0
+Select,20,1,A20,UN 3295,UN 3295
+Select,20,2,B20,"Platformate, Reformate - Mogas or Chem","Platformate, Reformate - Mogas or Chem"
+Select,20,8,H20,=FALSE(),False
+Select,20,9,I20,=FALSE(),False
+Select,20,10,J20,19,19
+Select,20,11,K20,"=IF(H20=TRUE(),1,0)",0
+Select,20,12,L20,"=IF(H20=TRUE(),IF(K$30=1,J20,0),0)",0
+Select,20,13,M20,"=IF(I20=TRUE(),1,0)",0
+Select,20,14,N20,"=IF(I20=TRUE(),IF(M$30=1,J20,0),0)",0
+Select,21,1,A21,UN 1268,UN 1268
+Select,21,2,B21,"Naphtha, Naphtha platfeed","Naphtha, Naphtha platfeed"
+Select,21,8,H21,=FALSE(),False
+Select,21,9,I21,=FALSE(),False
+Select,21,10,J21,20,20
+Select,21,11,K21,"=IF(H21=TRUE(),1,0)",0
+Select,21,12,L21,"=IF(H21=TRUE(),IF(K$30=1,J21,0),0)",0
+Select,21,13,M21,"=IF(I21=TRUE(),1,0)",0
+Select,21,14,N21,"=IF(I21=TRUE(),IF(M$30=1,J21,0),0)",0
+Select,22,1,A22,UN 3295,UN 3295
+Select,22,2,B22,"Isomerate, Gasoline component","Isomerate, Gasoline component"
+Select,22,8,H22,=FALSE(),False
+Select,22,9,I22,=FALSE(),False
+Select,22,10,J22,21,21
+Select,22,11,K22,"=IF(H22=TRUE(),1,0)",0
+Select,22,12,L22,"=IF(H22=TRUE(),IF(K$30=1,J22,0),0)",0
+Select,22,13,M22,"=IF(I22=TRUE(),1,0)",0
+Select,22,14,N22,"=IF(I22=TRUE(),IF(M$30=1,J22,0),0)",0
+Select,23,1,A23,UN 3295,UN 3295
+Select,23,2,B23,"Alkylate, Gasoline component","Alkylate, Gasoline component"
+Select,23,8,H23,=FALSE(),False
+Select,23,9,I23,=FALSE(),False
+Select,23,10,J23,22,22
+Select,23,11,K23,"=IF(H23=TRUE(),1,0)",0
+Select,23,12,L23,"=IF(H23=TRUE(),IF(K$30=1,J23,0),0)",0
+Select,23,13,M23,"=IF(I23=TRUE(),1,0)",0
+Select,23,14,N23,"=IF(I23=TRUE(),IF(M$30=1,J23,0),0)",0
+Select,24,1,A24,No UN Number,No UN Number
+Select,24,2,B24,"FAME, Fatty Acid Methyl Esters","FAME, Fatty Acid Methyl Esters"
+Select,24,8,H24,=FALSE(),False
+Select,24,9,I24,=FALSE(),False
+Select,24,10,J24,23,23
+Select,24,11,K24,"=IF(H24=TRUE(),1,0)",0
+Select,24,12,L24,"=IF(H24=TRUE(),IF(K$30=1,J24,0),0)",0
+Select,24,13,M24,"=IF(I24=TRUE(),1,0)",0
+Select,24,14,N24,"=IF(I24=TRUE(),IF(M$30=1,J24,0),0)",0
+Select,25,1,A25,UN 1170,UN 1170
+Select,25,2,B25,"Ethanol, 100% EtOH, Ethyl Alcohol","Ethanol, 100% EtOH, Ethyl Alcohol"
+Select,25,8,H25,=FALSE(),False
+Select,25,9,I25,=FALSE(),False
+Select,25,10,J25,24,24
+Select,25,11,K25,"=IF(H25=TRUE(),1,0)",0
+Select,25,12,L25,"=IF(H25=TRUE(),IF(K$30=1,J25,0),0)",0
+Select,25,13,M25,"=IF(I25=TRUE(),1,0)",0
+Select,25,14,N25,"=IF(I25=TRUE(),IF(M$30=1,J25,0),0)",0
+Select,26,1,A26,UN 1202,UN 1202
+Select,26,2,B26,"Cycle Oil, Gas Oil & Cutter Stock","Cycle Oil, Gas Oil & Cutter Stock"
+Select,26,8,H26,=FALSE(),False
+Select,26,9,I26,=FALSE(),False
+Select,26,10,J26,25,25
+Select,26,11,K26,"=IF(H26=TRUE(),1,0)",0
+Select,26,12,L26,"=IF(H26=TRUE(),IF(K$30=1,J26,0),0)",0
+Select,26,13,M26,"=IF(I26=TRUE(),1,0)",0
+Select,26,14,N26,"=IF(I26=TRUE(),IF(M$30=1,J26,0),0)",0
+Select,27,1,A27,No UN Number,No UN Number
+Select,27,2,B27,"Vegetable Oils, MO, RO, PO, TO","Vegetable Oils, MO, RO, PO, TO"
+Select,27,8,H27,=FALSE(),False
+Select,27,9,I27,=FALSE(),False
+Select,27,10,J27,26,26
+Select,27,11,K27,"=IF(H27=TRUE(),1,0)",0
+Select,27,12,L27,"=IF(H27=TRUE(),IF(K$30=1,J27,0),0)",0
+Select,27,13,M27,"=IF(I27=TRUE(),1,0)",0
+Select,27,14,N27,"=IF(I27=TRUE(),IF(M$30=1,J27,0),0)",0
+Select,28,1,A28,UN 1202,UN 1202
+Select,28,2,B28,Lube Base Oil ((not a finished Lubricant),Lube Base Oil ((not a finished Lubricant)
+Select,28,8,H28,=FALSE(),False
+Select,28,9,I28,=FALSE(),False
+Select,28,10,J28,27,27
+Select,28,11,K28,"=IF(H28=TRUE(),1,0)",0
+Select,28,12,L28,"=IF(H28=TRUE(),IF(K$30=1,J28,0),0)",0
+Select,28,13,M28,"=IF(I28=TRUE(),1,0)",0
+Select,28,14,N28,"=IF(I28=TRUE(),IF(M$30=1,J28,0),0)",0
+Select,29,1,A29,Various,Various
+Select,29,2,B29,"Black Oil's inc: Crude Oil, Fuel Oil, Dirty Condensate, Waxy Dist', ","Black Oil's inc: Crude Oil, Fuel Oil, Dirty Condensate, Waxy Dist', "
+Select,29,8,H29,=FALSE(),False
+Select,29,9,I29,=FALSE(),False
+Select,29,10,J29,28,28
+Select,29,11,K29,"=IF(H29=TRUE(),1,0)",0
+Select,29,12,L29,"=IF(H29=TRUE(),IF(K$30=1,J29,0),0)",0
+Select,29,13,M29,"=IF(I29=TRUE(),1,0)",0
+Select,29,14,N29,"=IF(I29=TRUE(),IF(M$30=1,J29,0),0)",0
+Select,30,1,A30, , 
+Select,30,11,K30,=SUM(K2:K29),1
+Select,30,12,L30,"=IF(SUM(L2:L29)=0,29,SUM(L2:L29))",2
+Select,30,13,M30,=SUM(M2:M29),1
+Select,30,14,N30,"=IF(SUM(N2:N29)=0,29,SUM(N2:N29))",10
+Select,31,2,B31,           Select ONE grade discharged,           Select ONE grade discharged
+Select,32,2,B32,          Select ONE grade to be loaded,          Select ONE grade to be loaded
+Select,33,10,J33,Product,Product
+Select,33,11,K33,Note,Note
+Select,34,10,J34,1,1
+Select,34,11,K34,UN1202,UN1202
+Select,34,12,L34,"AD10 - 10ppm Diesel fuel, ADO, AGO","AD10 - 10ppm Diesel fuel, ADO, AGO"
+Select,35,10,J35,2,2
+Select,35,11,K35,UN 1202,UN 1202
+Select,35,12,L35,"ULSD - 50ppm Diesel fuel, ADO, AGO","ULSD - 50ppm Diesel fuel, ADO, AGO"
+Select,36,10,J36,3,3
+Select,36,11,K36,UN 1202,UN 1202
+Select,36,12,L36,"Detergent Addivated, 10ppm Diesel fuel, V-Power Diesel","Detergent Addivated, 10ppm Diesel fuel, V-Power Diesel"
+Select,37,10,J37,4,4
+Select,37,11,K37,UN 1223 & 1202,UN 1223 & 1202
+Select,37,12,L37,"GTL Kero & Diesel, Synthetic Distillate","GTL Kero & Diesel, Synthetic Distillate"
+Select,38,10,J38,5,5
+Select,38,11,K38,UN 1202,UN 1202
+Select,38,12,L38,"Gas Oil 2000 ppm, Gasoil dyed, IGO, GOCI","Gas Oil 2000 ppm, Gasoil dyed, IGO, GOCI"
+Select,39,10,J39,6,6
+Select,39,11,K39,UN 1202,UN 1202
+Select,39,12,L39,"2000 ppm Gasoil undyed, IGO, GOCI","2000 ppm Gasoil undyed, IGO, GOCI"
+Select,40,10,J40,7,7
+Select,40,11,K40,UN 1203,UN 1203
+Select,40,12,L40,"10 ppm Gasoline,PU10, SU10, ULG","10 ppm Gasoline,PU10, SU10, ULG"
+Select,41,10,J41,8,8
+Select,41,11,K41,UN 1203,UN 1203
+Select,41,12,L41,"50 ppm Gasoline, PU50, SU50, ULG","50 ppm Gasoline, PU50, SU50, ULG"
+Select,42,10,J42,9,9
+Select,42,11,K42,UN 1223,UN 1223
+Select,42,12,L42,"Kerosene, Class C2 Burning Oil","Kerosene, Class C2 Burning Oil"
+Select,43,10,J43,10,10
+Select,43,11,K43,UN 1223 & 1863,UN 1223 & 1863
+Select,43,12,L43,"Jet A1, AVTUR, Aviation Fuel","Jet A1, AVTUR, Aviation Fuel"
+Select,44,10,J44,11,11
+Select,44,11,K44,UN 1203,UN 1203
+Select,44,12,L44,"AVGAS, 100LL, Aviation Fuel","AVGAS, 100LL, Aviation Fuel"
+Select,45,10,J45,12,12
+Select,45,11,K45,UN 2398 & 1149,UN 2398 & 1149
+Select,45,12,L45,"MTBE & ETBE, Methyl & Ethyl Tertiary Butyl Ether ","MTBE & ETBE, Methyl & Ethyl Tertiary Butyl Ether "
+Select,46,10,J46,13,13
+Select,46,11,K46,UN 1307,UN 1307
+Select,46,12,L46,"Xylene, Xylenes-C8","Xylene, Xylenes-C8"
+Select,47,10,J47,14,14
+Select,47,11,K47,UN 1294,UN 1294
+Select,47,12,L47,Toluene,Toluene
+Select,48,10,J48,15,15
+Select,48,11,K48,UN 3295,UN 3295
+Select,48,12,L48,"Benzene Heart Cut, BHC, HCB","Benzene Heart Cut, BHC, HCB"
+Select,49,10,J49,16,16
+Select,49,11,K49,UN 1268,UN 1268
+Select,49,12,L49,Natural Gas Condensate (crude feedstock),Natural Gas Condensate (crude feedstock)
+Select,50,10,J50,17,17
+Select,50,11,K50,UN 3295,UN 3295
+Select,50,12,L50,"PyGas, Pygas-tail, Pyrolysis Gasoline","PyGas, Pygas-tail, Pyrolysis Gasoline"
+Select,51,10,J51,18,18
+Select,51,11,K51,UN 3295,UN 3295
+Select,51,12,L51,"Cat Cracked Gasoline. LCCG, FRCCG","Cat Cracked Gasoline. LCCG, FRCCG"
+Select,52,10,J52,19,19
+Select,52,11,K52,UN 3295,UN 3295
+Select,52,12,L52,"Platformate, Reformate - Mogas or Chem","Platformate, Reformate - Mogas or Chem"
+Select,53,10,J53,20,20
+Select,53,11,K53,UN 1268,UN 1268
+Select,53,12,L53,"Naphtha, Naphtha platfeed","Naphtha, Naphtha platfeed"
+Select,54,10,J54,21,21
+Select,54,11,K54,UN 3295,UN 3295
+Select,54,12,L54,"Isomerate, Gasoline component","Isomerate, Gasoline component"
+Select,55,10,J55,22,22
+Select,55,11,K55,UN 3295,UN 3295
+Select,55,12,L55,"Alkylate, Gasoline component","Alkylate, Gasoline component"
+Select,56,10,J56,23,23
+Select,56,11,K56,No UN Number,No UN Number
+Select,56,12,L56,"FAME, Fatty Acid Methyl Esters","FAME, Fatty Acid Methyl Esters"
+Select,57,10,J57,24,24
+Select,57,11,K57,UN 1170,UN 1170
+Select,57,12,L57,"Ethanol, 100% EtOH, Ethyl Alcohol","Ethanol, 100% EtOH, Ethyl Alcohol"
+Select,58,10,J58,25,25
+Select,58,11,K58,UN 1202,UN 1202
+Select,58,12,L58,"Cycle Oil, Gas Oil & Cutter Stock","Cycle Oil, Gas Oil & Cutter Stock"
+Select,59,10,J59,26,26
+Select,59,11,K59,No UN Number,No UN Number
+Select,59,12,L59,"Vegetable Oils, MO, RO, PO, TO","Vegetable Oils, MO, RO, PO, TO"
+Select,60,10,J60,27,27
+Select,60,11,K60,UN 1202,UN 1202
+Select,60,12,L60,Lube Base Oil ((not a finished Lubricant),Lube Base Oil ((not a finished Lubricant)
+Select,61,10,J61,28,28
+Select,61,11,K61,Various,Various
+Select,61,12,L61,"Black Oil's inc: Crude Oil, Fuel Oil, Dirty Condensate, Waxy Dist', ","Black Oil's inc: Crude Oil, Fuel Oil, Dirty Condensate, Waxy Dist', "
+Select,62,10,J62,29,29
+Select,62,11,K62,Error,Error
+Select,62,12,L62,No Grade or Multiple Grades Selected,No Grade or Multiple Grades Selected
+Table,1,1,A1,Matrix ID,Matrix ID
+Table,1,2,B1,Instruction 1,Instruction 1
+Table,1,3,C1,Instruction 2,Instruction 2
+Table,2,1,A2,1,1
+Table,2,2,B2,The grade to be loaded is identical or nearly identical to the previous cargo and no additional cleaning or draining is required.,The grade to be loaded is identical or nearly identical to the previous cargo and no additional cleaning or draining is required.
+Table,3,1,A3,2,2
+Table,3,2,B3,"Previous cargo is acceptable, so long as the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the Individual Tank capacity does not meet the well drained criteria.","Previous cargo is acceptable, so long as the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the Individual Tank capacity does not meet the well drained criteria."
+Table,4,1,A4,3,3
+Table,4,2,B4,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product.   ","On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product.   "
+Table,5,1,A5,4,4
+Table,5,2,B5,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry.","On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry."
+Table,6,1,A6,5,5
+Table,6,2,B6,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using hot sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product.   ","On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using hot sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product.   "
+Table,7,1,A7,6,6
+Table,7,2,B7,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using hot sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry.","On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using hot sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry."
+Table,8,1,A8,7,7
+Table,8,2,B8,See black oil cleaning matrix or refer to OTS/321,See black oil cleaning matrix or refer to OTS/321
+Table,9,1,A9,8,8
+Table,9,2,B9,"On discharge, ensure the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the Individual Tank capacity does not meet the well drained criteria. ","On discharge, ensure the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the Individual Tank capacity does not meet the well drained criteria. "
+Table,9,3,C9,"Where the grade to be loaded is a chemical grade, additionally cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry.","Where the grade to be loaded is a chemical grade, additionally cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry."
+Table,10,1,A10,9,9
+Table,10,2,B10,"On discharge, ensure the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the Individual Tank capacity does not meet the well drained criteria. ","On discharge, ensure the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the Individual Tank capacity does not meet the well drained criteria. "
+Table,10,3,C10,"Where the grade to be loaded is a chemical grade, additionally cargo tank(s) are to be machine washed using hot sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry.","Where the grade to be loaded is a chemical grade, additionally cargo tank(s) are to be machine washed using hot sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry."
+Table,11,1,A11,10,10
+Table,11,2,B11,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be bottom flushed or machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion, if inert gas is fitted purge to <2% HC by volume or if IG is not fitted, gas free to <40% LEL  ","On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be bottom flushed or machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion, if inert gas is fitted purge to <2% HC by volume or if IG is not fitted, gas free to <40% LEL  "
+Table,12,1,A12,11,11
+Table,12,2,B12,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion, if inert gas is fitted purge to <2% HC by volume or if IG is not fitted, gas free to <40% LEL  ","On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion, if inert gas is fitted purge to <2% HC by volume or if IG is not fitted, gas free to <40% LEL  "
+Table,13,1,A13,12,12
+Table,13,2,B13,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using hot sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. ","On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using hot sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. "
+Table,13,3,C13,"If the product to be loaded is chemical grade, additionally, tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry. If the product is to be used for Mogas blending, mopping is not required.","If the product to be loaded is chemical grade, additionally, tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry. If the product is to be used for Mogas blending, mopping is not required."
+Table,14,1,A14,13,13
+Table,14,2,B14,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed, lines water flushed and both tank and lines drained well to remove all free-standing water/product. ","On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed, lines water flushed and both tank and lines drained well to remove all free-standing water/product. "
+Table,14,3,C14,"If the product to be loaded is chemical grade, the wash water should be hot and fresh and tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry. If the product is to be used for Mogas blending, the wash water should be cold sea water and mopping is not required.","If the product to be loaded is chemical grade, the wash water should be hot and fresh and tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry. If the product is to be used for Mogas blending, the wash water should be cold sea water and mopping is not required."
+Table,15,1,A15,14,14
+Table,15,2,B15,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be cold machine washed, lines water flushed and both tank and lines drained well to remove all free-standing water/product.","On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be cold machine washed, lines water flushed and both tank and lines drained well to remove all free-standing water/product."
+Table,15,3,C15," If the product to be loaded is chemical grade, the wash water should be fresh. If the product is to be used for Mogas blending, the wash water should be sea water."," If the product to be loaded is chemical grade, the wash water should be fresh. If the product is to be used for Mogas blending, the wash water should be sea water."
+Table,16,1,A16,15,15
+Table,16,2,B16,"On discharge, ensure the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the Individual Tank capacity does not meet the well drained criteria. ","On discharge, ensure the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the Individual Tank capacity does not meet the well drained criteria. "
+Table,16,3,C16,"Where the grade discharged has contained oxygenates (MTBE, ETBE) or ethanol, additionally cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry.","Where the grade discharged has contained oxygenates (MTBE, ETBE) or ethanol, additionally cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry."
+Table,17,1,A17,16,16
+Table,17,2,B17,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. ","On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. "
+Table,17,3,C17,"If the gasoline discharged has contained no oxygenates (MTBE, ETBE) a bottom flush with sea water may be used instead of the machine wash.  ","If the gasoline discharged has contained no oxygenates (MTBE, ETBE) a bottom flush with sea water may be used instead of the machine wash.  "
+Table,18,1,A18,17,17
+Table,18,2,B18,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. ","On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. "
+Table,18,3,C18,"If the tank coatings are in good condition, a bottom flush with sea water may be used instead of the machine wash.  ","If the tank coatings are in good condition, a bottom flush with sea water may be used instead of the machine wash.  "
+Table,19,1,A19,18,18
+Table,19,2,B19,"If the condensate to be discharged has a clour undarker than 2.5 NPA then on discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using hot sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry. ","If the condensate to be discharged has a clour undarker than 2.5 NPA then on discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using hot sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry. "
+Table,19,3,C19,Condensate darker than 2.5NPA is NOT COMPATIBLE with the aviation grade to be loaded.,Condensate darker than 2.5NPA is NOT COMPATIBLE with the aviation grade to be loaded.
+Table,20,1,A20,19,19
+Table,20,2,B20,"On discharge, ensure the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the Individual Tank capacity does not meet the well drained criteria. ","On discharge, ensure the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the Individual Tank capacity does not meet the well drained criteria. "
+Table,20,3,C20,"Where the grade to be loaded is a chemical grade, additionally cargo tank(s) are to be machine washed using cold fresh water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. ","Where the grade to be loaded is a chemical grade, additionally cargo tank(s) are to be machine washed using cold fresh water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. "
+Table,21,1,A21,20,20
+Table,21,2,B21,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be hot machine washed, lines water flushed and both tank and lines drained well to remove all free-standing water/product. ","On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be hot machine washed, lines water flushed and both tank and lines drained well to remove all free-standing water/product. "
+Table,21,3,C21,"If the product to be loaded is chemical grade, the wash water should be hot and fresh whereas if the product is to be used for Mogas blending, the wash water should be hot sea-water.","If the product to be loaded is chemical grade, the wash water should be hot and fresh whereas if the product is to be used for Mogas blending, the wash water should be hot sea-water."
+Table,22,1,A22,21,21
+Table,22,2,B22,No recommended cleaning regime available for this combination within this white oil cleaning reference. Please refer to STASCO OTS/321,No recommended cleaning regime available for this combination within this white oil cleaning reference. Please refer to STASCO OTS/321
+Table,23,1,A23,22,22
+Table,23,2,B23,"If the condensate loaded is for use as a crude oil feedstock, on discharge, ensure the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the Individual Tank capacity does not meet the well drained criteria.","If the condensate loaded is for use as a crude oil feedstock, on discharge, ensure the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the Individual Tank capacity does not meet the well drained criteria."
+Table,23,3,C23,"If the condensate is to be used for any other purpose, the last cargo is ""Not Compatible"" with the product to be loaded and therefore the product should not be loaded into the tank(s). ","If the condensate is to be used for any other purpose, the last cargo is ""Not Compatible"" with the product to be loaded and therefore the product should not be loaded into the tank(s). "
+Table,24,1,A24,23,23
+Table,24,2,B24,"If the product to be loaded is not a chemical grade the previous cargo is acceptable, so long as the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the individual tank capacity does not meet the well drained criteria. ","If the product to be loaded is not a chemical grade the previous cargo is acceptable, so long as the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the individual tank capacity does not meet the well drained criteria. "
+Table,24,3,C24,"If the product to be loaded is a chemical grade, the last cargo is ""Not Compatible"" with the product to be loaded and therefore the product should not be loaded into the tank(s). ","If the product to be loaded is a chemical grade, the last cargo is ""Not Compatible"" with the product to be loaded and therefore the product should not be loaded into the tank(s). "
+Table,25,1,A25,24,24
+Table,25,2,B25,"The last cargo is ""Not Compatible"" with the product to be loaded and therefore the product should not be loaded into the tank(s).","The last cargo is ""Not Compatible"" with the product to be loaded and therefore the product should not be loaded into the tank(s)."
+Table,26,1,A26,25,25
+Table,26,2,B26,"If the product to be loaded is not a chemical grade, on discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using hot sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. ","If the product to be loaded is not a chemical grade, on discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using hot sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. "
+Table,26,3,C26,"If the product to be loaded is a chemical grade, the last cargo is ""Not Compatible"" with the product to be loaded and therefore the product should not be loaded into the tank(s).  ","If the product to be loaded is a chemical grade, the last cargo is ""Not Compatible"" with the product to be loaded and therefore the product should not be loaded into the tank(s).  "
+Table,27,1,A27,26,26
+Table,27,2,B27,"If the grade loaded is for use in mogas blending, on discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product.","If the grade loaded is for use in mogas blending, on discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product."
+Table,27,3,C27," If the product to be loaded is a chemical grade, the last cargo is ""Not Compatible"" with the product to be loaded and therefore the product should not be loaded into the tank(s).  "," If the product to be loaded is a chemical grade, the last cargo is ""Not Compatible"" with the product to be loaded and therefore the product should not be loaded into the tank(s).  "
+Table,28,1,A28,27,27
+Table,28,2,B28,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product.","On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product."
+Table,28,3,C28,"Where the grade to be loaded is a chemical grade, cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry.","Where the grade to be loaded is a chemical grade, cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry."
+Table,29,1,A29,28,28
+Table,29,2,B29,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be bottom flushed or machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. ","On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be bottom flushed or machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. "
+Table,30,1,A30,29,29
+Table,30,2,B30,Please check that you have selected one discharged grade and one grade to load.,Please check that you have selected one discharged grade and one grade to load.
+Table,31,1,A31,30,30
+Table,31,2,B31,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be bottom flushed or machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion, if inert gas is fitted purge, or if IG is not fitted gas free to remove all ethanol vapours.","On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be bottom flushed or machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion, if inert gas is fitted purge, or if IG is not fitted gas free to remove all ethanol vapours."
+Output ,1,1,A1,Output,Output
+Output ,1,3,C1,WARNING: ALWAYS check that the grades listed below match your intended selection. ,WARNING: ALWAYS check that the grades listed below match your intended selection. 
+Output ,2,2,B2,UN Code,UN Code
+Output ,2,3,C2,Product Name,Product Name
+Output ,3,1,A3,Grade Discharged,Grade Discharged
+Output ,3,2,B3,"=VLOOKUP(Select!L30,selector,2,0)",UN 1202
+Output ,3,3,C3,"=VLOOKUP(Select!L30,selector,3,0)","ULSD - 50ppm Diesel fuel, ADO, AGO"
+Output ,4,1,A4,Grade to be Loaded,Grade to be Loaded
+Output ,4,2,B4,"=VLOOKUP(Select!N30,selector,2,0)",UN 1223 & 1863
+Output ,4,3,C4,"=VLOOKUP(Select!N30,selector,3,0)","Jet A1, AVTUR, Aviation Fuel"
+Output ,6,1,A6,Recommended Cleaning Regime ,Recommended Cleaning Regime 
+Output ,6,3,C6,"Previous cargo is acceptable, so long as the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the Individual Tank capacity does not meet the well drained criteria.","Previous cargo is acceptable, so long as the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the Individual Tank capacity does not meet the well drained criteria."
+Output ,9,3,C9,"=IF(C4=C3,""Grades loaded and discharged are the same - Did you mean to do that?"","""")",
+Output ,10,3,C10,"=IF(LEFT(C4,4)=""Etha"",""Additional cleaning required for Food Grade Ethanol - Seek OTS/321 Advice. For Technical"","""")",
+Output ,11,3,C11,"=IF(LEFT(C4,4)=""Etha"",""Grade Ethanol (not Mogas blending) Wall Wash Test and Chloride Standard always required."","""")",

@@ -1,0 +1,11 @@
+﻿Output,,WARNING: ALWAYS check that the grades listed below match your intended selection. 
+,UN Code,Product Name
+Grade Discharged,"=VLOOKUP(Select!L30,selector,2,0)","=VLOOKUP(Select!L30,selector,3,0)"
+Grade to be Loaded,"=VLOOKUP(Select!N30,selector,2,0)","=VLOOKUP(Select!N30,selector,3,0)"
+,,
+Recommended Cleaning Regime ,,"Previous cargo is acceptable, so long as the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the Individual Tank capacity does not meet the well drained criteria."
+,,
+,,
+,,"=IF(C4=C3,""Grades loaded and discharged are the same - Did you mean to do that?"","""")"
+,,"=IF(LEFT(C4,4)=""Etha"",""Additional cleaning required for Food Grade Ethanol - Seek OTS/321 Advice. For Technical"","""")"
+,,"=IF(LEFT(C4,4)=""Etha"",""Grade Ethanol (not Mogas blending) Wall Wash Test and Chloride Standard always required."","""")"

@@ -214,15 +214,39 @@
     "rank_physical": 1
   },
   {
-    "Source": "Shell Tank Cleaning Procedure",
+    "Source": "Shell Tank Cleaning Guide 2016.pdf",
     "Edition": "Ship Pre-Cargo Matrix",
     "Category": "oil",
     "rank_cleaning": 1
   },
   {
-    "Source": "Shell Tank Cleanning Data",
-    "Edition": "Ship Pre-Cargo Matrix - Cargo Master",
+    "Source": "Shell White Oil Tank Cleaning Guide",
+    "Edition": "White Oil",
     "Category": "oil",
+    "rank_cleaning": 1
+  },
+  {
+    "Source": "HM Tank Cleaning Guide By Energy Institute",
+    "Edition": "HM 50",
+    "Category": "oil",
+    "rank_cleaning": 1
+  },
+  {
+    "Source": "BP Tank Cleaning Guide",
+    "Edition": "Unknown",
+    "Category": "oil",
+    "rank_cleaning": 1
+  },
+  {
+    "Source": "Dr Verweys Tank Cleaning Guide - Oil",
+    "Edition": "Oil",
+    "Category": "oil",
+    "rank_cleaning": 1
+  },
+  {
+    "Source": "VAPDENS.XLSX",
+    "Edition": "Unknown",
+    "Category": "gas",
     "rank_physical": 3
   }
 ]

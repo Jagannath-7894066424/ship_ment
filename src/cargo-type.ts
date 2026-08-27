@@ -10,7 +10,7 @@ import { CargoType } from "../generated/prisma/enums.js";
  *
  *     CHEMICAL -> cargo_chemical
  *     OIL      -> crude_oil
- *     GAS      -> gas
+ *     GAS      -> cargo_gas
  *
  * A PostgreSQL foreign key cannot retarget itself per row, so those columns
  * carry no FK and Prisma models no relation for them. Integrity is enforced
@@ -27,7 +27,7 @@ export { CargoType };
 export const CARGO_MASTER_TABLE: Record<CargoType, string> = {
   [CargoType.CHEMICAL]: "cargo_chemical",
   [CargoType.OIL]: "crude_oil",
-  [CargoType.GAS]: "gas",
+  [CargoType.GAS]: "cargo_gas",
 };
 
 /** The three polymorphic columns, so callers and errors agree on the names. */
@@ -69,7 +69,7 @@ export async function cargoExists(
     case CargoType.OIL:
       return (await prisma.crude_oil.count({ where: { id } })) > 0;
     case CargoType.GAS:
-      return (await prisma.gas.count({ where: { id } })) > 0;
+      return (await prisma.cargo_gas.count({ where: { id } })) > 0;
   }
 }
 
@@ -136,7 +136,7 @@ export async function cargoName(
       return row?.oil_name ?? null;
     }
     case CargoType.GAS: {
-      const row = await prisma.gas.findUnique({
+      const row = await prisma.cargo_gas.findUnique({
         where: { id },
         select: { gas_name: true },
       });
@@ -174,7 +174,7 @@ export async function findCargoIdsByName(
       ).map((r) => r.id);
     case CargoType.GAS:
       return (
-        await prisma.gas.findMany({ where: { gas_name: eq }, select: { id: true } })
+        await prisma.cargo_gas.findMany({ where: { gas_name: eq }, select: { id: true } })
       ).map((r) => r.id);
   }
 }

@@ -1,12 +1,12 @@
 # ETL input files
 
 Source spreadsheets / CSVs that the `etl/*.py` loaders import. This is the
-default location: `etl/_paths.py` looks here whenever `SHIP_DATA_DIR` is unset
+default location: `etl/common/_paths.py` looks here whenever `SHIP_DATA_DIR` is unset
 in the repo-root `.env` (which is the normal setup now — the files live in the
 repo, so every developer has them on clone).
 
 To use a different local data folder for a run, set `SHIP_DATA_DIR` in `.env`,
-or pass an explicit path to a loader (e.g. `python3 etl/master_loader.py <path>`).
+or pass an explicit path to a loader (e.g. `python3 etl/chemical/master_loader.py <path>`).
 
 ## Files and the loader that reads each
 
@@ -27,6 +27,12 @@ or pass an explicit path to a loader (e.g. `python3 etl/master_loader.py <path>`
 | `DMM_Chemical_DB_Schema.xlsx - 20 - Source Authority Matrix.csv` | source authority reference |
 | `Operational_References_Master.csv` | operational reference |
 | `washing_requirement - Washing Requirement.csv` | washing-requirement reference |
+| `Shell White Oil Tank Cleaning Guide - cargo names.xlsx` | `oil/shell_white_oil_cargo.py` |
+| `Shell White Oil Tank Cleaning Guide - procedure templates.xlsx` | `oil/shell_white_oil_procedure_templates.py` |
+| `Shell White Oil Tank Cleaning Guide - procedure template steps.xlsx` | `oil/shell_white_oil_procedure_templates.py` |
+| `Shell White Oil Tank Cleaning Guide - cleaning process.xlsx` | `oil/shell_white_oil_matrix.py` |
+| `Shell White Oil Tank Cleaning Guide - compatibility.xlsx` | `oil/shell_white_oil_matrix.py` |
+| `Shell White Oil Tank Cleaning Guide - compatibility exceptions.xlsx` | `oil/shell_white_oil_matrix.py` |
 
 ## Not committed
 The large source PDFs (`USCG Chemical Data guide Book.pdf`, `Miracle Tank

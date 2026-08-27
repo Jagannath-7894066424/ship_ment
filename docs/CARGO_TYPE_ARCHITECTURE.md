@@ -352,8 +352,8 @@ reports an empty diff — schema and database agree exactly.
 
 ### ETL loaders updated
 
-- `etl/verwey_cleaning.py`, `etl/drew_ameroid.py` — `ON CONFLICT` target extended with `COALESCE(condition, '')` to match the rebuilt pair key.
-- `etl/verwey_cleaning.py`, `etl/drew_ameroid.py`, `etl/verwey_pdf_book_matrix.py` — resolve `procedure_template_id` explicitly, since the composite FK that used to imply it is gone.
+- `etl/chemical/verwey_cleaning.py`, `etl/chemical/drew_ameroid.py` — `ON CONFLICT` target extended with `COALESCE(condition, '')` to match the rebuilt pair key.
+- `etl/chemical/verwey_cleaning.py`, `etl/chemical/drew_ameroid.py`, `etl/chemical/verwey_pdf_book_matrix.py` — resolve `procedure_template_id` explicitly, since the composite FK that used to imply it is gone.
 
 No loader sets `cargo_type`: they all load chemical sources and the column
 default is correct. A future oil or gas loader must set it explicitly.
@@ -412,18 +412,23 @@ No oil or gas cargo-transition data is invented here — none is available.
 
 ## 11. Shell Ship Pre-Cargo Matrix
 
-**Page 2 is now loaded; page 3 is not.** The Shell procedure definitions were
-imported on 2026-08-19 as source 24 — see
-[Shell Procedure Import](SHELL_PROCEDURE_IMPORT.md). The cargo-to-cargo matrix on
-page 3 still has no data in the repository, so the rest of this section remains a
-mapping rather than an implementation, using only the codes and conditions stated
-in the requirement.
+**Neither page is loaded.** The Shell procedure definitions were imported on
+2026-08-19 as source 24 and **removed permanently on 2026-08-20** — see
+`prisma/migrations/20260820110000_delete_shell_procedure_data/`. The importer,
+its workbook builder, its tests and its documentation were deleted with the data,
+so nothing in the repository loads these procedures any more. The cargo-to-cargo
+matrix on page 3 never had data. The rest of this section is therefore a record
+of the source material and the mapping it would take, not an implementation.
 
-### Page 2 — the legend → `procedure_templates` — **DONE**
+`procedure_templates` still holds the 338 Dr Verwey and Drew Ameroid procedures,
+which are unaffected — the deletion was scoped by `source_id`.
 
-One row per code, `source_page_ref = "2"` (the source file leaves that column
-blank, so it is currently NULL). All 11 loaded, each with its ordered steps, its
-requirements and the source's own wording in `source_definition`:
+### Page 2 — the legend → `procedure_templates` — **REMOVED**
+
+The 11 codes below are what the source document defines. They were loaded as one
+row per code, each with its ordered steps, its requirements and the source's own
+wording in `source_definition`, and are retained here as a description of the
+source only:
 
 | procedure_code | template_name |
 |---|---|
@@ -439,12 +444,13 @@ requirements and the source's own wording in `source_definition`:
 | `HFW` | Hot Fresh Water |
 | `NC` | Not Compatible |
 
-The operations behind each code are stored as `procedure_template_steps`, the
+The operations behind each code were stored as `procedure_template_steps`, the
 rules and limits as `procedure_template_requirement` (including the
 "ventilate OR purge" disjunction, which a step cannot express), and the source's
-statements as `procedure_template_instruction`.
+statements as `procedure_template_instruction`. Those tables remain in the schema
+and are still used by the chemical-branch sources.
 
-`NC` is a template like the others — `loading_allowed = false` and no steps. No
+`NC` was a template like the others — `loading_allowed = false` and no steps. No
 separate compatibility table.
 
 ### Page 3 — the matrix → `cleaning_process`

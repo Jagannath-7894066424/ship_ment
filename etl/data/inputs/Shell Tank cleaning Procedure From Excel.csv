@@ -1,0 +1,170 @@
+regime_code,instruction_1,instruction_2,steps
+1,The grade to be loaded is identical or nearly identical to the previous cargo and no additional cleaning or draining is required.,,"1. No additional cleaning or draining required.
+2. Previous and next cargo are identical or nearly identical."
+2,"Previous cargo is acceptable, so long as the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the Individual Tank capacity does not meet the well drained criteria.",,"1. Perform WD (Well Drained) procedure.
+2. Remove all free-standing water/product."
+3,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product.",,"1. Perform WD (Well Drained) procedure.
+2. Wash cargo tank(s) as specified in the instruction.
+3. Water flush the lines.
+4. Drain tank and lines well.
+5. Remove all free-standing water/product."
+4,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry.",,"1. Perform WD (Well Drained) procedure.
+2. Wash cargo tank(s) as specified in the instruction.
+3. Water flush the lines.
+4. Drain tank and lines well.
+5. Remove all free-standing water/product.
+6. Prepare tanks for entry.
+7. Meticulously drain pumps and lines, then mop tanks dry."
+5,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using hot sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product.",,"1. Perform WD (Well Drained) procedure.
+2. Wash cargo tank(s) as specified in the instruction.
+3. Water flush the lines.
+4. Drain tank and lines well.
+5. Remove all free-standing water/product."
+6,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using hot sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry.",,"1. Perform WD (Well Drained) procedure.
+2. Wash cargo tank(s) as specified in the instruction.
+3. Water flush the lines.
+4. Drain tank and lines well.
+5. Remove all free-standing water/product.
+6. Prepare tanks for entry.
+7. Meticulously drain pumps and lines, then mop tanks dry."
+7,See black oil cleaning matrix or refer to OTS/321,,1. Follow the cleaning instruction for regime 7.
+8,"On discharge, ensure the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the Individual Tank capacity does not meet the well drained criteria.",,"1. Perform WD (Well Drained) procedure.
+2. Wash cargo tank(s) as specified in the instruction.
+3. Water flush the lines.
+4. Drain tank and lines well.
+5. Remove all free-standing water/product.
+6. Prepare tanks for entry.
+7. Meticulously drain pumps and lines, then mop tanks dry.
+8. Apply the chemical-grade-specific washing requirement stated in the instruction."
+9,"On discharge, ensure the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the Individual Tank capacity does not meet the well drained criteria.","Where the grade to be loaded is a chemical grade, additionally cargo tank(s) are to be machine washed using hot sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry.","1. Perform WD (Well Drained) procedure.
+2. Wash cargo tank(s) as specified in the instruction.
+3. Water flush the lines.
+4. Drain tank and lines well.
+5. Remove all free-standing water/product.
+6. Prepare tanks for entry.
+7. Meticulously drain pumps and lines, then mop tanks dry.
+8. Apply the chemical-grade-specific washing requirement stated in the instruction."
+10,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be bottom flushed or machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion, if inert gas is fitted purge to <2% HC by volume or if IG is not fitted, gas free to <40% LEL",,"1. Perform WD (Well Drained) procedure.
+2. Wash cargo tank(s) as specified in the instruction.
+3. Water flush the lines.
+4. Drain tank and lines well.
+5. Remove all free-standing water/product.
+6. Purge tank atmosphere as specified.
+7. Where permitted by the instruction, bottom flush with seawater may replace machine washing."
+11,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion, if inert gas is fitted purge to <2% HC by volume or if IG is not fitted, gas free to <40% LEL",,"1. Perform WD (Well Drained) procedure.
+2. Wash cargo tank(s) as specified in the instruction.
+3. Water flush the lines.
+4. Drain tank and lines well.
+5. Remove all free-standing water/product.
+6. Purge tank atmosphere as specified."
+12,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using hot sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product.","If the product to be loaded is chemical grade, additionally, tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry. If the product is to be used for Mogas blending, mopping is not required.","1. Perform WD (Well Drained) procedure.
+2. Wash cargo tank(s) as specified in the instruction.
+3. Water flush the lines.
+4. Drain tank and lines well.
+5. Remove all free-standing water/product.
+6. Prepare tanks for entry.
+7. Meticulously drain pumps and lines, then mop tanks dry.
+8. Apply the chemical-grade-specific washing requirement stated in the instruction.
+9. For Mogas blending, apply the seawater/washing and mopping exception stated in the instruction."
+13,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed, lines water flushed and both tank and lines drained well to remove all free-standing water/product.","If the product to be loaded is chemical grade, the wash water should be hot and fresh and tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry. If the product is to be used for Mogas blending, the wash water should be cold sea water and mopping is not required.","1. Perform WD (Well Drained) procedure.
+2. Wash cargo tank(s) as specified in the instruction.
+3. Water flush the lines.
+4. Drain tank and lines well.
+5. Remove all free-standing water/product.
+6. Prepare tanks for entry.
+7. Meticulously drain pumps and lines, then mop tanks dry.
+8. Apply the chemical-grade-specific washing requirement stated in the instruction.
+9. For Mogas blending, apply the seawater/washing and mopping exception stated in the instruction."
+14,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be cold machine washed, lines water flushed and both tank and lines drained well to remove all free-standing water/product.","If the product to be loaded is chemical grade, the wash water should be fresh. If the product is to be used for Mogas blending, the wash water should be sea water.","1. Perform WD (Well Drained) procedure.
+2. Wash cargo tank(s) as specified in the instruction.
+3. Water flush the lines.
+4. Drain tank and lines well.
+5. Remove all free-standing water/product.
+6. Apply the chemical-grade-specific washing requirement stated in the instruction.
+7. For Mogas blending, apply the seawater/washing and mopping exception stated in the instruction."
+15,"On discharge, ensure the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the Individual Tank capacity does not meet the well drained criteria.","Where the grade discharged has contained oxygenates (MTBE, ETBE) or ethanol, additionally cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry.","1. Perform WD (Well Drained) procedure.
+2. Wash cargo tank(s) as specified in the instruction.
+3. Water flush the lines.
+4. Drain tank and lines well.
+5. Remove all free-standing water/product.
+6. Prepare tanks for entry.
+7. Meticulously drain pumps and lines, then mop tanks dry."
+16,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product.","If the gasoline discharged has contained no oxygenates (MTBE, ETBE) a bottom flush with sea water may be used instead of the machine wash.","1. Perform WD (Well Drained) procedure.
+2. Wash cargo tank(s) as specified in the instruction.
+3. Water flush the lines.
+4. Drain tank and lines well.
+5. Remove all free-standing water/product.
+6. Where permitted by the instruction, bottom flush with seawater may replace machine washing."
+17,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product.","If the tank coatings are in good condition, a bottom flush with sea water may be used instead of the machine wash.","1. Perform WD (Well Drained) procedure.
+2. Wash cargo tank(s) as specified in the instruction.
+3. Water flush the lines.
+4. Drain tank and lines well.
+5. Remove all free-standing water/product.
+6. Where permitted by the instruction, bottom flush with seawater may replace machine washing."
+18,"If the condensate to be discharged has a clour undarker than 2.5 NPA then on discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using hot sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry.",Condensate darker than 2.5NPA is NOT COMPATIBLE with the aviation grade to be loaded.,"1. Perform WD (Well Drained) procedure.
+2. Wash cargo tank(s) as specified in the instruction.
+3. Water flush the lines.
+4. Drain tank and lines well.
+5. Remove all free-standing water/product.
+6. Prepare tanks for entry.
+7. Meticulously drain pumps and lines, then mop tanks dry.
+8. Do not load the cargo where the instruction identifies it as NOT COMPATIBLE."
+19,"On discharge, ensure the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the Individual Tank capacity does not meet the well drained criteria.","Where the grade to be loaded is a chemical grade, additionally cargo tank(s) are to be machine washed using cold fresh water, lines water flushed and both tank and lines drained well to remove all free-standing water/product.","1. Perform WD (Well Drained) procedure.
+2. Wash cargo tank(s) using cold fresh water.
+3. Water flush the lines.
+4. Drain tank and lines well.
+5. Remove all free-standing water/product.
+6. Apply the chemical-grade-specific washing requirement stated in the instruction."
+20,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be hot machine washed, lines water flushed and both tank and lines drained well to remove all free-standing water/product.","If the product to be loaded is chemical grade, the wash water should be hot and fresh whereas if the product is to be used for Mogas blending, the wash water should be hot sea-water.","1. Perform WD (Well Drained) procedure.
+2. Wash cargo tank(s) as specified in the instruction.
+3. Water flush the lines.
+4. Drain tank and lines well.
+5. Remove all free-standing water/product.
+6. Apply the chemical-grade-specific washing requirement stated in the instruction.
+7. For Mogas blending, apply the seawater/washing and mopping exception stated in the instruction."
+21,No recommended cleaning regime available for this combination within this white oil cleaning reference. Please refer to STASCO OTS/321,,1. Follow the cleaning instruction for regime 21.
+22,"If the condensate loaded is for use as a crude oil feedstock, on discharge, ensure the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the Individual Tank capacity does not meet the well drained criteria.","If the condensate is to be used for any other purpose, the last cargo is ""Not Compatible"" with the product to be loaded and therefore the product should not be loaded into the tank(s).","1. Perform WD (Well Drained) procedure.
+2. Remove all free-standing water/product.
+3. Do not load the cargo where the instruction identifies it as NOT COMPATIBLE."
+23,"If the product to be loaded is not a chemical grade the previous cargo is acceptable, so long as the cargo tank, pump columns and pipe lines are ""Well Drained"" by the ship's stripping system to minimise the ROB - any ROB that does remain should only ever be in the pump well, where fitted. Pump columns, pipe lines and drops should be cleared and drained free of all free-standing product and water. An ROB volume in excess of 0.05% of the individual tank capacity does not meet the well drained criteria.","If the product to be loaded is a chemical grade, the last cargo is ""Not Compatible"" with the product to be loaded and therefore the product should not be loaded into the tank(s).","1. Perform WD (Well Drained) procedure.
+2. Remove all free-standing water/product.
+3. Apply the chemical-grade-specific washing requirement stated in the instruction.
+4. Do not load the cargo where the instruction identifies it as NOT COMPATIBLE."
+24,"The last cargo is ""Not Compatible"" with the product to be loaded and therefore the product should not be loaded into the tank(s).",,1. Do not load the cargo where the instruction identifies it as NOT COMPATIBLE.
+25,"If the product to be loaded is not a chemical grade, on discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using hot sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product.","If the product to be loaded is a chemical grade, the last cargo is ""Not Compatible"" with the product to be loaded and therefore the product should not be loaded into the tank(s).","1. Perform WD (Well Drained) procedure.
+2. Wash cargo tank(s) as specified in the instruction.
+3. Water flush the lines.
+4. Drain tank and lines well.
+5. Remove all free-standing water/product.
+6. Apply the chemical-grade-specific washing requirement stated in the instruction.
+7. Do not load the cargo where the instruction identifies it as NOT COMPATIBLE."
+26,"If the grade loaded is for use in mogas blending, on discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product.","If the product to be loaded is a chemical grade, the last cargo is ""Not Compatible"" with the product to be loaded and therefore the product should not be loaded into the tank(s).","1. Perform WD (Well Drained) procedure.
+2. Wash cargo tank(s) as specified in the instruction.
+3. Water flush the lines.
+4. Drain tank and lines well.
+5. Remove all free-standing water/product.
+6. Apply the chemical-grade-specific washing requirement stated in the instruction.
+7. For Mogas blending, apply the seawater/washing and mopping exception stated in the instruction.
+8. Do not load the cargo where the instruction identifies it as NOT COMPATIBLE."
+27,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product.","Where the grade to be loaded is a chemical grade, cargo tank(s) are to be machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion tanks are to be prepared for entry, pumps and lines meticulously drained and tanks mopped dry.","1. Perform WD (Well Drained) procedure.
+2. Wash cargo tank(s) as specified in the instruction.
+3. Water flush the lines.
+4. Drain tank and lines well.
+5. Remove all free-standing water/product.
+6. Prepare tanks for entry.
+7. Meticulously drain pumps and lines, then mop tanks dry.
+8. Apply the chemical-grade-specific washing requirement stated in the instruction."
+28,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be bottom flushed or machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product.",,"1. Perform WD (Well Drained) procedure.
+2. Wash cargo tank(s) as specified in the instruction.
+3. Water flush the lines.
+4. Drain tank and lines well.
+5. Remove all free-standing water/product.
+6. Where permitted by the instruction, bottom flush with seawater may replace machine washing."
+29,Please check that you have selected one discharged grade and one grade to load.,,1. Follow the cleaning instruction for regime 29.
+30,"On discharge, ensure that the cargo tank, pump columns and pipelines are ""Well Drained"" by the ship's stripping system to minimise the ROB then the cargo tank(s) are to be bottom flushed or machine washed using cold sea-water, lines water flushed and both tank and lines drained well to remove all free-standing water/product. On completion, if inert gas is fitted purge, or if IG is not fitted gas free to remove all ethanol vapours.",,"1. Perform WD (Well Drained) procedure.
+2. Wash cargo tank(s) as specified in the instruction.
+3. Water flush the lines.
+4. Drain tank and lines well.
+5. Remove all free-standing water/product.
+6. Purge tank atmosphere as specified.
+7. Where permitted by the instruction, bottom flush with seawater may replace machine washing."

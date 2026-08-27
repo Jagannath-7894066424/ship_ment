@@ -16,7 +16,7 @@ tables it writes to.
 
 * Source files: the input spreadsheets/CSVs are now VENDORED IN THE REPO at
                etl/data/inputs/ . SHIP_DATA_DIR is left UNSET in .env, so
-               etl/_paths.py falls back to etl/data/inputs/ automatically.
+               etl/common/_paths.py falls back to etl/data/inputs/ automatically.
                => a fresh clone can run the ETL with no extra setup.
                To use a different local folder, set SHIP_DATA_DIR in .env, or
                pass an explicit path to a loader (most take one).
@@ -51,7 +51,7 @@ field_definition.py
             used by cargo_property_values (e.g. flash_point, vapour_pressure,
             reid_vapor_pressure, flammable_limits).
   Input   : hardcoded FIELDS list inside the script (no external file).
-  Run     : python3 etl/field_definition.py
+  Run     : python3 etl/common/field_definition.py
   Writes  : field_definitions
   Note    : A property is only saved by other loaders if its field_name exists
             here. Run this BEFORE the data loaders.
@@ -62,8 +62,8 @@ source.py
   Purpose : Loads the 17 curated source authorities and their rank_* priorities
             (which source "wins" on conflicting values).
   Input   : etl/data/source.json
-  Run     : python3 etl/source.py            (add --dry-run to preview)
-            python3 etl/source.py --file other.json
+  Run     : python3 etl/common/source.py            (add --dry-run to preview)
+            python3 etl/common/source.py --file other.json
   Writes  : source        (skips a row if the name already exists)
 
 ===============================================================================
@@ -76,8 +76,8 @@ cargo_chemicals.py
   Purpose : Base chemical records from the LARS specifications.
   Input   : Lars Stole Birkeland - Chemical Cargo specifications - 2002.xlsx
             - CGOSPEC.csv
-  Run     : python3 etl/cargo_chemicals.py
-            python3 etl/cargo_chemicals.py --file <path>
+  Run     : python3 etl/chemical/cargo_chemicals.py
+            python3 etl/chemical/cargo_chemicals.py --file <path>
   Writes  : cargo_chemical          (identity, heating fields)
             cargo_property_values   (measurable properties)
             cargo_un_number         (UN numbers)
@@ -89,8 +89,8 @@ cargo_synonym.py   /   import_synonyms.py
 -------------------------------------------------------------------------------
   Purpose : Alternate names / synonyms for cargoes.
   Input   : Lars ... CGOSPEC.csv
-  Run     : python3 etl/cargo_synonym.py
-            python3 etl/import_synonyms.py
+  Run     : python3 etl/chemical/cargo_synonym.py
+            python3 etl/chemical/import_synonyms.py
   Writes  : synonyms        (the synonym text)
             cargo_synonym    (link cargo_chemical <-> synonym)
 
@@ -99,7 +99,7 @@ master_cargo_chemical_group_details.py
 -------------------------------------------------------------------------------
   Purpose : Cargo group classification details.
   Input   : cargo_chemicals_groupData.csv
-  Run     : python3 etl/master_cargo_chemical_group_details.py
+  Run     : python3 etl/chemical/master_cargo_chemical_group_details.py
   Writes  : cargo_chemical_group_details
 
 ===============================================================================
@@ -116,13 +116,13 @@ master_loader.py
   Input   : any supported .csv/.xlsx/.xls  (default = Miracle Tank Cleaning Guide)
   Run     :  (files live in etl/data/inputs/ ; the default is Miracle)
      # Miracle (default)
-     python3 etl/master_loader.py
+     python3 etl/chemical/master_loader.py
 
      # CHEM products
-     python3 etl/master_loader.py "etl/data/inputs/Unknown - Products CHEM - 1996.XLS"
+     python3 etl/chemical/master_loader.py "etl/data/inputs/Unknown - Products CHEM - 1996.XLS"
 
      # USCG Chemical Data Guide -> reuse existing source id 20
-     python3 etl/master_loader.py "etl/data/inputs/USCG Chemical Data Guide For Bulk Shipment By Water [7th Edition 1990]_reviewed.csv" --source-id 20
+     python3 etl/chemical/master_loader.py "etl/data/inputs/USCG Chemical Data Guide For Bulk Shipment By Water [7th Edition 1990]_reviewed.csv" --source-id 20
 
   Flags   : --dry-run          parse only, no writes
             --source-id N       target an existing source row
@@ -155,7 +155,7 @@ cargo_compatibility.py
 -------------------------------------------------------------------------------
   Purpose : Cargo-to-cargo compatibility chart + reactive groups.
   Input   : Cargo Library 3 TABLE OF CHEMICAL CARGO.xlsx
-  Run     : python3 etl/cargo_compatibility.py
+  Run     : python3 etl/chemical/cargo_compatibility.py
   Writes  : compatibility
             compatibility_exception
             reactive_groups
@@ -167,7 +167,7 @@ compatibility_exception_loader.py
   Purpose : Specific compatibility EXCEPTIONS (pairs that differ from the group
             rule) from the USCG CHRIS guide.
   Input   : USCG CHRIS Chemical Data Guides_chemical_exceptions.csv
-  Run     : python3 etl/compatibility_exception_loader.py
+  Run     : python3 etl/chemical/compatibility_exception_loader.py
   Writes  : compatibility_exception
             cargo_chemical (lookup/upsert as needed)
 
@@ -175,8 +175,8 @@ compatibility_exception_loader.py
 reactive_group.py   /   link_cargo_reactive_groups.py
 -------------------------------------------------------------------------------
   Purpose : Reactive-group definitions and linking cargoes to their groups.
-  Run     : python3 etl/reactive_group.py
-            python3 etl/link_cargo_reactive_groups.py
+  Run     : python3 etl/chemical/reactive_group.py
+            python3 etl/chemical/link_cargo_reactive_groups.py
   Writes  : reactive_groups          (reactive_group.py)
             cargo_reactive_group     (link_cargo_reactive_groups.py)
 
@@ -189,8 +189,8 @@ cargo_operational_requirement.py
 -------------------------------------------------------------------------------
   Purpose : Carriage / operational requirements from the IBC Code.
   Input   : IBC Code.xlsx     (default filename fixed; bare run works now)
-  Run     : python3 etl/cargo_operational_requirement.py
-            python3 etl/cargo_operational_requirement.py "etl/data/inputs/IBC Code.xlsx"
+  Run     : python3 etl/chemical/cargo_operational_requirement.py
+            python3 etl/chemical/cargo_operational_requirement.py "etl/data/inputs/IBC Code.xlsx"
   Writes  : operational_requirement
             cargo_operational_requirement   (link cargo <-> requirement)
 
@@ -204,7 +204,7 @@ proceduretemplate.py
   Purpose : Dr. Verwey cleaning PROCEDURE TEMPLATES (Table T-2) — reusable
             named procedures (procedure_code) with ordered steps.
   Input   : Dr. Verwey's Tank Cleaning Table 4.xlsx - CLEANING PROCEDURES (T-2).csv
-  Run     : python3 etl/proceduretemplate.py
+  Run     : python3 etl/chemical/proceduretemplate.py
   Writes  : procedure_templates
             procedure_template_steps
 
@@ -215,7 +215,7 @@ verwey_cleaning.py
             ("after cargo X, to load cargo Y, run procedure Z").
   Input   : Dr. Verwey's Tank Cleaning Table 4.xlsx - CLEANING PROCEDURES (T-2).csv
             Dr. Verwey's Tank Cleaning Table 4.xlsx - CLEANING chemical_to_chemical.csv
-  Run     : python3 etl/verwey_cleaning.py
+  Run     : python3 etl/chemical/verwey_cleaning.py
   Writes  : cleaning_process         (templates + from/to matrix rows)
             cleaning_process_step     (the ordered steps)
 
@@ -229,8 +229,8 @@ dot_hmt_extract.py
   Purpose : Convert the DOT Hazardous Materials Table CSV into structured JSON.
             (Extraction only — does NOT touch the database.)
   Input   : Cargo Library 2 DOT_hazardous_materials.xlsx - HM Table.csv
-  Run     : python3 etl/dot_hmt_extract.py
-            python3 etl/dot_hmt_extract.py <input.csv> <output.json>
+  Run     : python3 etl/chemical/dot_hmt_extract.py
+            python3 etl/chemical/dot_hmt_extract.py <input.csv> <output.json>
   Writes  : a .json file (default: next to the input CSV). No DB write.
 
 -------------------------------------------------------------------------------
@@ -241,8 +241,8 @@ dot_hazmat_symbol_loader.py
             Matches DOT entries to cargoes by UN number, then by name.
             INSERTS new rows under a DOT source_id (does NOT overwrite USCG rows).
   Input   : Cargo Library 2 DOT_hazardous_materials.xlsx - HM Table.csv
-  Run     : python3 etl/dot_hazmat_symbol_loader.py            (add --dry-run to preview)
-            python3 etl/dot_hazmat_symbol_loader.py <input.csv>
+  Run     : python3 etl/chemical/dot_hazmat_symbol_loader.py            (add --dry-run to preview)
+            python3 etl/chemical/dot_hazmat_symbol_loader.py <input.csv>
   Writes  : cargo_hazard_data.dot_symbol   (new rows under the DOT source)
             source                         (reuses by file name, else creates)
   Related : dot_hazmat_symbol table (the 6-symbol legend) is seeded by a
@@ -258,9 +258,9 @@ cargo_dot_hazad_loader.py
             EXACTLY matches a canonical_name. Idempotent (row_hash key); a
             cargo_id set later is never clobbered on re-import.
   Input   : Cargo Library 2 DOT_hazardous_materials.xlsx - HM Table.csv
-  Run     : python3 etl/cargo_dot_hazad_loader.py             (add --dry-run to preview)
-            python3 etl/cargo_dot_hazad_loader.py <input.csv>
-            python3 etl/cargo_dot_hazad_loader.py --relink    (only re-match NULL cargo_id rows)
+  Run     : python3 etl/chemical/cargo_dot_hazad_loader.py             (add --dry-run to preview)
+            python3 etl/chemical/cargo_dot_hazad_loader.py <input.csv>
+            python3 etl/chemical/cargo_dot_hazad_loader.py --relink    (only re-match NULL cargo_id rows)
   Writes  : cargo_dot_hazad                (~3594 rows, entry_type-classified)
             source                         (reuses by file name, else creates)
   Note    : classifies each row as material | generic | forbidden |
@@ -299,42 +299,42 @@ cargo_dot_hazad_loader.py
 
 Foundation (run first)
 
-python3 etl/field_definition.py            # property vocabulary  -> field_definitions
-python3 etl/source.py                      # 17 source authorities -> source
+python3 etl/common/field_definition.py            # property vocabulary  -> field_definitions
+python3 etl/common/source.py                      # 17 source authorities -> source
 
 Core cargo
 
-python3 etl/cargo_chemicals.py             # LARS -> cargo_chemical, properties, un_number, synonyms
-python3 etl/cargo_synonym.py               # -> synonyms + cargo_synonym
-python3 etl/import_synonyms.py             # -> synonyms
-python3 etl/master_cargo_chemical_group_details.py   # -> cargo_chemical_group_details
+python3 etl/chemical/cargo_chemicals.py             # LARS -> cargo_chemical, properties, un_number, synonyms
+python3 etl/chemical/cargo_synonym.py               # -> synonyms + cargo_synonym
+python3 etl/chemical/import_synonyms.py             # -> synonyms
+python3 etl/chemical/master_cargo_chemical_group_details.py   # -> cargo_chemical_group_details
 
 Master multi-format loader (auto-detects format)
 
-python3 etl/master_loader.py                                              # Miracle (default)
-python3 etl/master_loader.py "etl/data/inputs/Unknown - Products CHEM - 1996.XLS"
-python3 etl/master_loader.py "etl/data/inputs/USCG Chemical Data Guide For Bulk Shipment By Water [7th Edition 1990]_reviewed.csv" --source-id 20
+python3 etl/chemical/master_loader.py                                              # Miracle (default)
+python3 etl/chemical/master_loader.py "etl/data/inputs/Unknown - Products CHEM - 1996.XLS"
+python3 etl/chemical/master_loader.py "etl/data/inputs/USCG Chemical Data Guide For Bulk Shipment By Water [7th Edition 1990]_reviewed.csv" --source-id 20
 # flags: --dry-run  --source-id N  --create-source  --wipe-source  --limit N  --sheet NAME
 
 Compatibility
 
-python3 etl/cargo_compatibility.py             # -> compatibility, compatibility_exception, reactive_groups
-python3 etl/compatibility_exception_loader.py  # -> compatibility_exception
-python3 etl/reactive_group.py                  # -> reactive_groups
-python3 etl/link_cargo_reactive_groups.py      # -> cargo_reactive_group
+python3 etl/chemical/cargo_compatibility.py             # -> compatibility, compatibility_exception, reactive_groups
+python3 etl/chemical/compatibility_exception_loader.py  # -> compatibility_exception
+python3 etl/chemical/reactive_group.py                  # -> reactive_groups
+python3 etl/chemical/link_cargo_reactive_groups.py      # -> cargo_reactive_group
 
 Operational requirements (IBC Code) — default fixed, bare run works now
 
-python3 etl/cargo_operational_requirement.py   # -> operational_requirement, cargo_operational_requirement
+python3 etl/chemical/cargo_operational_requirement.py   # -> operational_requirement, cargo_operational_requirement
 
 Cleaning (Dr. Verwey)
 
-python3 etl/proceduretemplate.py           # -> procedure_templates, procedure_template_steps
-python3 etl/verwey_cleaning.py             # -> cleaning_process, cleaning_process_step
+python3 etl/chemical/proceduretemplate.py           # -> procedure_templates, procedure_template_steps
+python3 etl/chemical/verwey_cleaning.py             # -> cleaning_process, cleaning_process_step
 
 DOT Hazardous Materials Table (49 CFR 172.101)
 
-python3 etl/dot_hmt_extract.py             # CSV -> JSON (no DB write)
-python3 etl/dot_hazmat_symbol_loader.py    # -> cargo_hazard_data.dot_symbol   (add --dry-run)
-python3 etl/cargo_dot_hazad_loader.py      # -> cargo_dot_hazad (full HMT, ~3594 rows)
-python3 etl/cargo_dot_hazad_loader.py --relink   # re-match NULL cargo_id rows only
+python3 etl/chemical/dot_hmt_extract.py             # CSV -> JSON (no DB write)
+python3 etl/chemical/dot_hazmat_symbol_loader.py    # -> cargo_hazard_data.dot_symbol   (add --dry-run)
+python3 etl/chemical/cargo_dot_hazad_loader.py      # -> cargo_dot_hazad (full HMT, ~3594 rows)
+python3 etl/chemical/cargo_dot_hazad_loader.py --relink   # re-match NULL cargo_id rows only
