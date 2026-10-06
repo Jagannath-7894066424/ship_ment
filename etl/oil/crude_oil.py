@@ -135,6 +135,11 @@ class SourceSpec:
         return names
 
 
+# The basic sheet's own two-line headers, used verbatim as field names.
+BASIC_GRAVITY = "Gravity (API)"
+BASIC_SULFUR = "Sulfur (Weight%)"
+BASIC_POUR = "Pour Point (F)"
+
 BASIC = SourceSpec(
     key="basic",
     source_name="Crude Oil Basic Properties",
@@ -144,9 +149,9 @@ BASIC = SourceSpec(
     col_name=0,
     col_country=1,
     scalar_columns=(
-        ("API",        2, "°API", False),
-        ("SULFUR",     3, "wt%",  True),
-        ("POUR_POINT", 4, "°F",   False),
+        (BASIC_GRAVITY, 2, "°API", False),
+        (BASIC_SULFUR,  3, "wt%",  True),
+        (BASIC_POUR,    4, "°F",   False),
     ),
     drop_rows_without_data=True,
 )

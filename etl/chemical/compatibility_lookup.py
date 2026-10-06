@@ -2,17 +2,20 @@
 """
 Compatibility resolution for two cargoes (46 CFR Part 150).
 
-The lookup ALWAYS follows this order — an Appendix I exception overrides the
-reactive-group matrix:
+Each source has its own cargo_chemical row, so both cargoes are first expanded to
+every row of the same chemical with the DB function cargo_identity(id):
+  strict = same normalized name, loose = one non-ambiguous synonym hop.
 
-    1. Search compatibility_exception using (cargo_a_id, cargo_b_id).
-    2. If an exception exists, return that result immediately.
-    3. Otherwise, determine the reactive groups of both cargoes.
-    4. Query the compatibility matrix for those groups.
-    5. Return the matrix result.
+Then, most specific rule first:
 
-Both `compatibility` and `compatibility_exception` store each pair once, in
-canonical order (smaller id first), so every lookup canonicalises the pair.
+    1. Chemical-pair exception between the two identities (either stored order).
+    2. Cargo->group exception: one cargo against a reactive group of the other.
+    3. Reactive-group matrix (compatibility) for the cargoes' groups.
+
+Within a step the most restrictive result wins. Loose (synonym) matches may only
+make a result incompatible; a "compatible" exception must match strictly.
+Group 0 ("Unassigned Cargoes") has no matrix entries and is never "same group =>
+compatible": an unassigned cargo is decided only by an exception, else unknown.
 
 Usage (manual test):
     python compatibility_lookup.py <cargo_a_id> <cargo_b_id>
@@ -23,70 +26,103 @@ Reads DATABASE_URL from the .env file in this directory.
 import os
 import sys
 from pathlib import Path
-from typing import Optional, Set, Tuple
+from typing import Dict, Optional, Set, Tuple
 
 import psycopg2
 from dotenv import load_dotenv
 
+UNASSIGNED_CODE = 0
+EXC_COLS = "id, cargo_a_id, cargo_b_id, group_b_id, compatible, exception_type"
+
 
 def _canonical(a: int, b: int) -> Tuple[int, int]:
-    """Return the pair in canonical order (smaller id first)."""
     return (a, b) if a <= b else (b, a)
 
 
-def _reactive_group_ids(cur, cargo_id: int) -> Set[int]:
-    """Reactive-group ids a cargo belongs to (via cargo_reactive_group)."""
+def _identity(cur, cargo_id: int) -> Tuple[Set[int], Set[int]]:
+    """(strict ids, all ids) of the chemical cargo_id belongs to."""
+    cur.execute("SELECT cargo_id, strict FROM cargo_identity(%s)", (cargo_id,))
+    rows = cur.fetchall()
+    return {i for i, st in rows if st}, {i for i, _ in rows}
+
+
+def _reactive_groups(cur, cargo_ids: Set[int]) -> Dict[int, int]:
+    """{reactive_group_id: group_code} over the given cargo rows."""
     cur.execute(
-        "SELECT reactive_group_id FROM cargo_reactive_group WHERE cargo_id = %s",
-        (cargo_id,),
+        "SELECT DISTINCT reactive_group_id, group_code FROM cargo_reactive_group WHERE cargo_id = ANY(%s)",
+        (list(cargo_ids),),
     )
-    return {r[0] for r in cur.fetchall()}
+    return dict(cur.fetchall())
+
+
+def _pick(rows, is_strict) -> Optional[dict]:
+    """Incompatible (strict or loose) beats compatible; compatible must be strict."""
+    for want in (False, True):
+        hits = [r for r in rows if r[4] is want and (want is False or is_strict(r))]
+        if hits:
+            r = next((h for h in hits if is_strict(h)), hits[0])
+            return {
+                "compatible": r[4],
+                "source": "exception",
+                "detail": {"exception_id": r[0], "match": "exact" if is_strict(r) else "synonym",
+                           "exception_type": r[5], "group_id": r[3]},
+            }
+    return None
 
 
 def resolve_compatibility(cur, cargo_a_id: int, cargo_b_id: int) -> dict:
-    """Resolve whether two cargoes are compatible, exceptions first.
+    """Resolve whether two cargoes are compatible.
 
-    Returns a dict:
-        {
-          "compatible": bool | None,     # None => undetermined (no data)
-          "source": "exception" | "matrix" | "unknown",
-          "detail": ...                  # extra context per source
-        }
+    Returns {"compatible": bool | None, "source": "exception" | "matrix" | "unknown",
+             "detail": {...}}; None => undetermined.
     """
-    a, b = _canonical(cargo_a_id, cargo_b_id)
+    strict_a, all_a = _identity(cur, cargo_a_id)
+    strict_b, all_b = _identity(cur, cargo_b_id)
 
-    # 1–2) Exception overrides everything.
+    # 1) Chemical-pair exception between the identities, either order.
     cur.execute(
-        "SELECT compatible, exception_type, appendix, section, reason "
-        "FROM compatibility_exception WHERE cargo_a_id = %s AND cargo_b_id = %s",
-        (a, b),
+        f"SELECT {EXC_COLS} FROM compatibility_exception "
+        "WHERE (cargo_a_id = ANY(%s) AND cargo_b_id = ANY(%s)) "
+        "   OR (cargo_a_id = ANY(%s) AND cargo_b_id = ANY(%s))",
+        (list(all_a), list(all_b), list(all_b), list(all_a)),
     )
-    row = cur.fetchone()
-    if row:
-        return {
-            "compatible": row[0],
-            "source": "exception",
-            "detail": {
-                "exception_type": row[1],
-                "appendix": row[2],
-                "section": row[3],
-                "reason": row[4],
-            },
-        }
+    hit = _pick(cur.fetchall(), lambda r: (r[1] in strict_a and r[2] in strict_b)
+                or (r[1] in strict_b and r[2] in strict_a))
+    if hit:
+        hit["detail"]["kind"] = "pair"
+        return hit
 
-    # 3) Reactive groups of both cargoes.
-    groups_a = _reactive_group_ids(cur, cargo_a_id)
-    groups_b = _reactive_group_ids(cur, cargo_b_id)
+    groups_a = _reactive_groups(cur, strict_a)
+    groups_b = _reactive_groups(cur, strict_b)
+
+    # 2) Cargo->group exception: A against B's groups, or B against A's groups.
+    cur.execute(
+        f"SELECT {EXC_COLS} FROM compatibility_exception WHERE cargo_b_id IS NULL AND ("
+        "(cargo_a_id = ANY(%s) AND group_b_id = ANY(%s)) OR (cargo_a_id = ANY(%s) AND group_b_id = ANY(%s)))",
+        (list(all_a), list(groups_b), list(all_b), list(groups_a)),
+    )
+    hit = _pick(cur.fetchall(), lambda r: (r[1] in strict_a and r[3] in groups_b)
+                or (r[1] in strict_b and r[3] in groups_a))
+    if hit:
+        hit["detail"]["kind"] = "cargo_group"
+        return hit
+
     if not groups_a or not groups_b:
         return {"compatible": None, "source": "unknown",
                 "detail": {"reason": "one or both cargoes have no reactive group"}}
 
-    # 4) Query the matrix for every group combination (canonical order). The most
-    #    restrictive result wins: if ANY group pair is incompatible, so is the pair.
+    # 3) Matrix. Unassigned (group 0) cargoes have no chart entry.
+    assigned_a = {g for g, code in groups_a.items() if code != UNASSIGNED_CODE}
+    assigned_b = {g for g, code in groups_b.items() if code != UNASSIGNED_CODE}
+    if not assigned_a or not assigned_b:
+        return {"compatible": None, "source": "unknown",
+                "detail": {"reason": "unassigned cargo (group 0): no chart entry and no "
+                                     "Appendix I exception; decide case by case"}}
+
     incompatible_hit = None
     matched = False
-    for ga in groups_a:
-        for gb in groups_b:
+    for ga in assigned_a:
+        for gb in assigned_b:
             if ga == gb:                      # same group => compatible with itself
                 matched = True
                 continue
@@ -100,10 +136,9 @@ def resolve_compatibility(cur, cargo_a_id: int, cargo_b_id: int) -> dict:
             if m is None:
                 continue
             matched = True
-            if m[0] is False:                 # incompatible found -> most restrictive
+            if m[0] is False:
                 incompatible_hit = (x, y, m[1])
 
-    # 5) Return the matrix result.
     if incompatible_hit:
         return {
             "compatible": False,

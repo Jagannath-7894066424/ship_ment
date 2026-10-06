@@ -98,6 +98,64 @@ FIELDS = [
     {"field_name": "date_last_updated",        "display_name": "Date Last Updated",       "data_type": "date",    "unit": None,      "category": "Identity",   "sql_type": "timestamp"},
     {"field_name": "date_example",             "display_name": "Date Example",            "data_type": "date",    "unit": None,      "category": "Identity",   "sql_type": "timestamp"},
 
+    # ---- IBC Code chapter 17 carriage requirements -------------------------
+    # Twelve of these thirteen ALREADY EXIST as cargo_chemical columns, owned by
+    # Prisma and filled for three sources (IBC Code, Miracle, LARS). They are
+    # listed here as catalog_only so that:
+    #
+    #   * the catalog row exists - cargo_property_values.field_name FKs
+    #     field_definitions, so a value cannot be written without it;
+    #   * this script never DROPs the columns. `stale = catalogued - desired`
+    #     above, so a name absent from FIELDS is deleted from the catalog and
+    #     CASCADEs away every cargo_property_values row using it. Removing any
+    #     line below silently destroys the 9,315 values that
+    #     etl/chemical/ibc_carriage_to_property_values.py moved out of the wide
+    #     columns.
+    #
+    # catalog_only, not a managed column: the columns already exist and belong
+    # to Prisma, and this script must not try to create or own them.
+    #
+    # Names are deliberately NOT prefixed `ibc_`. Miracle and LARS fill the same
+    # columns, so a second chemical source's answer to the same regulatory
+    # question has to land in the same field for the comparison to be possible;
+    # which source said it is carried by source_id on each value.
+    {"field_name": "hazards",                                "display_name": "Hazards",                        "data_type": "text",    "unit": None,      "category": "Regulatory", "catalog_only": True},
+    {"field_name": "ship_type",                              "display_name": "Ship Type",                      "data_type": "text",    "unit": None,      "category": "Regulatory", "catalog_only": True},
+    {"field_name": "tank_type",                              "display_name": "Tank Type",                      "data_type": "text",    "unit": None,      "category": "Regulatory", "catalog_only": True},
+    # CHEM products sheet (source 16): readings at another temperature, pointers to an
+    # outside correction table, and density cells kept exactly as printed.
+    {"field_name": "density_20c", "display_name": "Density at 20°C", "data_type": "number", "unit": "kg/l", "category": "Physical", "catalog_only": True},
+    {"field_name": "density_50c", "display_name": "Density at 50°C", "data_type": "number", "unit": "kg/l", "category": "Physical", "catalog_only": True},
+    {"field_name": "correction_factor_table", "display_name": "Correction Factor Table", "data_type": "text", "unit": None, "category": "Physical", "catalog_only": True},
+    {"field_name": "density_as_printed", "display_name": "Density As Printed", "data_type": "text", "unit": None, "category": "Physical", "catalog_only": True},
+    # Lars Stole Birkeland CGOSPEC columns, named as the sheet prints them (source 13).
+    {"field_name": "SpGr", "display_name": "SpGr", "data_type": "number", "unit": "kg/l", "category": "Physical", "catalog_only": True},
+    {"field_name": "Temp", "display_name": "Temp", "data_type": "number", "unit": "°C", "category": "Physical", "catalog_only": True},
+    {"field_name": "Correction factor", "display_name": "Correction factor", "data_type": "number", "unit": None, "category": "Physical", "catalog_only": True},
+    {"field_name": "Ship Type", "display_name": "Ship Type", "data_type": "text", "unit": None, "category": "Regulatory", "catalog_only": True},
+    {"field_name": "Tank Type", "display_name": "Tank Type", "data_type": "text", "unit": None, "category": "Regulatory", "catalog_only": True},
+    {"field_name": "Pollution cat", "display_name": "Pollution cat", "data_type": "text", "unit": None, "category": "Regulatory", "catalog_only": True},
+    {"field_name": "Compliance", "display_name": "Compliance", "data_type": "text", "unit": None, "category": "Regulatory", "catalog_only": True},
+    {"field_name": "USCG compat", "display_name": "USCG compat", "data_type": "text", "unit": None, "category": "Regulatory", "catalog_only": True},
+    {"field_name": "Boiling point", "display_name": "Boiling point", "data_type": "number", "unit": "°C", "category": "Physical", "catalog_only": True},
+    {"field_name": "Melting point", "display_name": "Melting point", "data_type": "number", "unit": "°C", "category": "Physical", "catalog_only": True},
+    {"field_name": "Flash point", "display_name": "Flash point", "data_type": "number", "unit": "°C", "category": "Physical", "catalog_only": True},
+    {"field_name": "Heat adjacent", "display_name": "Heat adjacent", "data_type": "number", "unit": "°C", "category": "Carriage", "catalog_only": True},
+    {"field_name": "Heat req V", "display_name": "Heat req V", "data_type": "number", "unit": "°C", "category": "Carriage", "catalog_only": True},
+    {"field_name": "Heat req D", "display_name": "Heat req D", "data_type": "number", "unit": "°C", "category": "Carriage", "catalog_only": True},
+    {"field_name": "Colour", "display_name": "Colour", "data_type": "text", "unit": None, "category": "Physical", "catalog_only": True},
+    {"field_name": "Solubility", "display_name": "Solubility", "data_type": "text", "unit": "g/g", "category": "Physical", "catalog_only": True},
+    {"field_name": "UnNr", "display_name": "UnNr", "data_type": "text", "unit": None, "category": "Regulatory", "catalog_only": True},
+    {"field_name": "tank_vents",                             "display_name": "Tank Vents",                     "data_type": "text",    "unit": None,      "category": "Regulatory", "catalog_only": True},
+    {"field_name": "tank_environment_control",               "display_name": "Tank Environment Control",       "data_type": "text",    "unit": None,      "category": "Regulatory", "catalog_only": True},
+    {"field_name": "electrical_equipment_apparatus_group",   "display_name": "Electrical Apparatus Group",     "data_type": "text",    "unit": None,      "category": "Regulatory", "catalog_only": True},
+    {"field_name": "electrical_equipment_temperature_class", "display_name": "Electrical Temperature Class",   "data_type": "text",    "unit": None,      "category": "Regulatory", "catalog_only": True},
+    {"field_name": "flashpoint_requirement",                 "display_name": "Flashpoint Requirement",         "data_type": "text",    "unit": None,      "category": "Regulatory", "catalog_only": True},
+    {"field_name": "gauging",                                "display_name": "Gauging",                        "data_type": "text",    "unit": None,      "category": "Regulatory", "catalog_only": True},
+    {"field_name": "vapour_detection",                       "display_name": "Vapour Detection",               "data_type": "text",    "unit": None,      "category": "Regulatory", "catalog_only": True},
+    {"field_name": "fire_protection",                        "display_name": "Fire Protection",                "data_type": "text",    "unit": None,      "category": "Regulatory", "catalog_only": True},
+    {"field_name": "emergency_equipment",                    "display_name": "Emergency Equipment Required",   "data_type": "boolean", "unit": None,      "category": "Regulatory", "catalog_only": True},
+
     # ---- Catalog-only property vocabulary (cargo_property_values field_name) --
     # These define valid property keys for per-source physical values. They are
     # NOT materialized as cargo_chemical columns (catalog_only=True).
@@ -147,6 +205,57 @@ sys.path.insert(0, str(_ETL_ROOT / "chemical"))
 from sittig_handbook import NEW_FIELDS as SITTIG_FIELDS  # noqa: E402
 
 FIELDS += SITTIG_FIELDS
+
+# ----------------------------------------------------------------------------
+# Miracle Tank Cleaning Guide "Chemicals" sheet: columns that had no home.
+# All catalog_only - they are per-source statements from one guide, not facts
+# about the chemical that every source would restate, so they belong in
+# cargo_property_values rather than as cargo_chemical columns.
+# ----------------------------------------------------------------------------
+MIRACLE_FIELDS = [
+    # The sheet heads this "Env. Hazard" but prints tank-atmosphere control -
+    # Inert / Dry / Open, or "No" for none required. It is ALSO mapped to the
+    # cargo_chemical.tank_environment_control column, which is what those values
+    # mean; this field keeps the guide's own wording under its own heading, so
+    # the source stays quotable without reading the interpretation back.
+    {"field_name": "env_hazard",           "display_name": "Env. Hazard (tank atmosphere)", "data_type": "text", "unit": None, "category": "Carriage",   "sql_type": "text", "catalog_only": True},
+    {"field_name": "eri_card",             "display_name": "ERI Card",                "data_type": "text",   "unit": None, "category": "Regulatory", "sql_type": "text", "catalog_only": True},
+    {"field_name": "cleanliness_standard", "display_name": "Cleanliness Standard",    "data_type": "text",   "unit": None, "category": "Cleaning",   "sql_type": "text", "catalog_only": True},
+    {"field_name": "fosfa_niop_status",    "display_name": "FOSFA / NIOP Status",     "data_type": "text",   "unit": None, "category": "Regulatory", "sql_type": "text", "catalog_only": True},
+    {"field_name": "safety_remarks",       "display_name": "Safety Remarks",          "data_type": "text",   "unit": None, "category": "Health",     "sql_type": "text", "catalog_only": True},
+    {"field_name": "info_after_discharge", "display_name": "Info After Discharge",    "data_type": "text",   "unit": None, "category": "Cleaning",   "sql_type": "text", "catalog_only": True},
+    {"field_name": "cleaning_method_count","display_name": "Number of Cleaning Methods","data_type": "number","unit": None, "category": "Cleaning",   "sql_type": "integer", "catalog_only": True},
+]
+
+FIELDS += MIRACLE_FIELDS
+
+# ----------------------------------------------------------------------------
+# USCG Chemical Data Guide (7th ed. 1990): columns with no existing field of the
+# same meaning. Columns that DO match an existing field (first_aid, osha_pel,
+# spill_handling, ...) reuse it; see USCG_PROPERTY_MAP in chemical/master_loader.py.
+# Kept separate from look-alikes on purpose: electrical_group is the US NEC
+# class (C/D), not the IEC apparatus group; health_hazard_rating is the USCG
+# three-digit rating, not NFPA; material_compatibility is corrosion of tank
+# materials, not chemical incompatibility.
+# ----------------------------------------------------------------------------
+USCG_FIELDS = [
+    {"field_name": "fire_grade",                       "display_name": "Fire Grade",                       "data_type": "text", "unit": None, "category": "Physical",   "catalog_only": True},
+    {"field_name": "electrical_group",                 "display_name": "Electrical Group (NEC)",           "data_type": "text", "unit": None, "category": "Regulatory", "catalog_only": True},
+    {"field_name": "special_fire_procedures",          "display_name": "Special Fire Procedures",          "data_type": "text", "unit": None, "category": "Health",     "catalog_only": True},
+    {"field_name": "health_hazard_rating",             "display_name": "Health Hazard Rating (USCG)",      "data_type": "text", "unit": None, "category": "Health",     "catalog_only": True},
+    {"field_name": "symptoms",                         "display_name": "Symptoms",                         "data_type": "text", "unit": None, "category": "Health",     "catalog_only": True},
+    {"field_name": "short_term_exposure",              "display_name": "Short-Term Exposure Tolerance",    "data_type": "text", "unit": None, "category": "Health",     "catalog_only": True},
+    {"field_name": "stability",                        "display_name": "Stability",                        "data_type": "text", "unit": None, "category": "Physical",   "catalog_only": True},
+    {"field_name": "material_compatibility",           "display_name": "Material Compatibility",           "data_type": "text", "unit": None, "category": "Carriage",   "catalog_only": True},
+    {"field_name": "hazardous_decomposition_products", "display_name": "Hazardous Decomposition Products", "data_type": "text", "unit": None, "category": "Health",     "catalog_only": True},
+    {"field_name": "hazardous_polymerization",         "display_name": "Hazardous Polymerization",         "data_type": "text", "unit": None, "category": "Physical",   "catalog_only": True},
+    {"field_name": "cargo_compatibility_group",        "display_name": "Cargo Compatibility Group",        "data_type": "text", "unit": None, "category": "Carriage",   "catalog_only": True},
+    {"field_name": "remarks",                          "display_name": "Remarks",                          "data_type": "text", "unit": None, "category": "Identity",   "catalog_only": True},
+    {"field_name": "general_hazard_note",              "display_name": "General Hazard Note",              "data_type": "text", "unit": None, "category": "Health",     "catalog_only": True},
+    {"field_name": "note",                             "display_name": "Note",                             "data_type": "text", "unit": None, "category": "Identity",   "catalog_only": True},
+]
+
+FIELDS += USCG_FIELDS
 # ----------------------------------------------------------------------------
 
 logging.basicConfig(

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Load the Shell White Oil Tank Cleaning Guide cargo-to-cargo grid into
-cleaning_process AND crude_oil_compatibility.
+cleaning_process, crude_oil_compatibility AND crude_oil_compatibility_exception.
 
 SOURCE
 ------
@@ -33,7 +33,7 @@ INPUTS - THE SAME 256 PAIRS, TWICE, PLUS AN OVERLAY
 
        id | cargo_oil_name_from | cargo_oil_name_to | exception
 
-   An overlay on 9 of the 256 pairs, not a table of its own - see EXCEPTIONS.
+   Flags 9 of the 256 pairs as exceptions - see EXCEPTIONS.
 
 Note the column order differs between (1) and (2): sheet 1 names the cargo being
 LOADED first, sheet 2 names the PREVIOUS cargo first. Both describe the same
@@ -46,19 +46,22 @@ agree. The direction stored is always previous -> next:
 The two sheets are cross-checked pair by pair before anything is written; if
 they state different pair sets or disagree on a status, nothing is imported.
 
-ONE GRID, TWO FACTS, TWO TABLES
--------------------------------
+ONE GRID, THREE FACTS, THREE TABLES
+------------------------------------
     cleaning process procedure_code -> cleaning_process (+ procedure_template_id)
     compatibility  is_compatible    -> crude_oil_compatibility.compatible
     compatibility  procedure_code   -> crude_oil_compatibility.procedure_code,
                                        verbatim, X and all
     compatibility_status            -> cleaning_process.notes and the
                                        compatibility row's notes
+    exceptions sheet                -> crude_oil_compatibility_exception,
+                                       one row per flagged pair (see EXCEPTIONS)
 
-crude_oil_compatibility exists because neither `compatibility` (FKs
-reactive_groups) nor `compatibility_exception` (FKs cargo_chemical) can
-reference crude_oil. It is DIRECTIONAL, which this grid needs: Avgas -> SBP is
-X while SBP -> Avgas is code 1.
+crude_oil_compatibility and crude_oil_compatibility_exception exist because
+neither `compatibility` (FKs reactive_groups) nor `compatibility_exception`
+(FKs cargo_chemical) can reference crude_oil. crude_oil_compatibility is
+DIRECTIONAL, which this grid needs: Avgas -> SBP is X while SBP -> Avgas is
+code 1.
 
 THE THREE STATUSES
 ------------------
@@ -79,14 +82,12 @@ verbatim "X/2" / "X/4" stays in procedure_code, so a reader never sees a bare
 EXCEPTIONS
 ----------
 The exception sheet's 9 rows are exactly the 9 CONDITIONAL pairs (Naphtha,
-Naphtha (Lead Free), Natural Gasoline -> Avgas, Avtag, Avtur). There is no
-oil-side exception table: compatibility_exception has FKs to cargo_chemical and
-cannot hold an oil cargo. Creating one was the alternative considered and was
-rejected on instruction, because the flag adds nothing the pair does not already
-carry - those rows are already CONDITIONAL, already hold the aviation reason,
-and already keep the "X/2" the guide prints. So the sheet is loaded as an
-OVERLAY: it appends its flag to the notes of the crude_oil_compatibility row it
-names, and a row it names that is NOT conditional is a hard error, because that
+Naphtha (Lead Free), Natural Gasoline -> Avgas, Avtag, Avtur). compatibility_
+exception can't hold them (it FKs cargo_chemical, not crude_oil), so each gets
+its own row in crude_oil_compatibility_exception instead - same pair, same
+compatible/procedure_code/reason as its crude_oil_compatibility row, since the
+exception IS that pair, not a separate verdict. A row the exception sheet names
+that is NOT conditional in the compatibility sheet is a hard error, because that
 would mean the two sheets disagree about which pairs are exceptional.
 
 DATES
@@ -102,9 +103,9 @@ procedure_template_id NULL and is reported.
 IDEMPOTENCY
 -----------
 cleaning_process upserts on cleaning_process_pair_key (from_cargo_id,
-to_cargo_id, source_id, COALESCE(condition,'')); crude_oil_compatibility on
-(from_crude_oil_id, to_crude_oil_id, source_id). One transaction; any error
-rolls the whole import back.
+to_cargo_id, source_id, COALESCE(condition,'')); crude_oil_compatibility and
+crude_oil_compatibility_exception both on (from_crude_oil_id, to_crude_oil_id,
+source_id). One transaction; any error rolls the whole import back.
 
 Usage:
     python3 etl/oil/shell_white_oil_matrix.py
@@ -388,17 +389,13 @@ def cross_check(cleaning: Dict[Tuple[str, str], dict],
     return errors
 
 
-def build_notes(status: Optional[str], reason: Optional[str],
-                exception: Optional[str]) -> Optional[str]:
+def build_notes(status: Optional[str], reason: Optional[str]) -> Optional[str]:
     """One readable line, in the source's own words."""
     parts = []
     if status:
         parts.append(f"Shell White Oil status: {status}.")
     if reason:
         parts.append(reason if reason.endswith(".") else reason + ".")
-    if exception:
-        parts.append(f"Listed in the guide's compatibility exceptions "
-                     f"(exception = {exception}).")
     return " ".join(parts) or None
 
 
@@ -476,6 +473,7 @@ def main() -> int:
             unknown_code: Dict[str, int] = {}
             cp_rows: List[tuple] = []
             compat_rows: List[tuple] = []
+            exception_rows: List[tuple] = []
 
             for key in sorted(compat):
                 frm, to = key
@@ -487,8 +485,7 @@ def main() -> int:
                     continue
 
                 c_row = compat[key]
-                notes = build_notes(c_row["status"], c_row["reason"],
-                                    exceptions.get(key))
+                notes = build_notes(c_row["status"], c_row["reason"])
 
                 # The operational code comes from the cleaning sheet; the
                 # compatibility sheet's is the guide's verbatim printing.
@@ -499,6 +496,13 @@ def main() -> int:
                 cp_rows.append((CARGO_TYPE, fid, tid, code, source_id, notes))
                 compat_rows.append((fid, tid, c_row["compatible"], source_id,
                                     c_row["procedure_code"], notes))
+
+                # Flagged by the exceptions sheet: its own row, same pair, same
+                # compatible/procedure_code/reason as crude_oil_compatibility
+                # above - see EXCEPTIONS.
+                if key in exceptions:
+                    exception_rows.append((fid, tid, c_row["compatible"], source_id,
+                                           c_row["procedure_code"], notes))
 
             for name, n in sorted(unknown_cargo.items()):
                 log.error("cargo %r has no crude_oil row under this source (%d pair(s)). "
@@ -517,8 +521,9 @@ def main() -> int:
                      "loaded): %d", sum(1 for r in cp_rows if r[3] is None))
 
             if args.dry_run:
-                log.info("--dry-run: %d cleaning_process + %d crude_oil_compatibility "
-                         "row(s) prepared, nothing written.", len(cp_rows), len(compat_rows))
+                log.info("--dry-run: %d cleaning_process + %d crude_oil_compatibility + "
+                         "%d crude_oil_compatibility_exception row(s) prepared, nothing "
+                         "written.", len(cp_rows), len(compat_rows), len(exception_rows))
                 conn.rollback()
                 return 0
 
@@ -562,6 +567,40 @@ def main() -> int:
                     page_size=BATCH,
                 )
 
+            if exception_rows:
+                for start in range(0, len(exception_rows), BATCH):
+                    execute_values(
+                        cur,
+                        """
+                        INSERT INTO crude_oil_compatibility_exception
+                            (from_crude_oil_id, to_crude_oil_id, compatible, source_id,
+                             procedure_code, notes, created_at, updated_at)
+                        VALUES %s
+                        ON CONFLICT (from_crude_oil_id, to_crude_oil_id, source_id)
+                        DO UPDATE SET compatible     = EXCLUDED.compatible,
+                                      procedure_code = EXCLUDED.procedure_code,
+                                      notes          = EXCLUDED.notes,
+                                      updated_at     = now()
+                        """,
+                        exception_rows[start:start + BATCH],
+                        template="(%s,%s,%s,%s,%s,%s,now(),now())",
+                        page_size=BATCH,
+                    )
+            # A pair the exceptions sheet no longer names is no longer an exception.
+            current_pairs = {(fid, tid) for fid, tid, *_ in exception_rows}
+            cur.execute(
+                "SELECT id, from_crude_oil_id, to_crude_oil_id "
+                "FROM crude_oil_compatibility_exception WHERE source_id = %s",
+                (source_id,),
+            )
+            stale_ids = [rid for rid, fid, tid in cur.fetchall()
+                        if (fid, tid) not in current_pairs]
+            if stale_ids:
+                cur.execute(
+                    "DELETE FROM crude_oil_compatibility_exception WHERE id = ANY(%s)",
+                    (stale_ids,),
+                )
+
             cur.execute(
                 """
                 UPDATE cleaning_process cp
@@ -587,12 +626,16 @@ def main() -> int:
                              FROM crude_oil_compatibility WHERE source_id = %s""",
                         (source_id,))
             c_total, c_yes = cur.fetchone()
+            cur.execute("SELECT count(*) FROM crude_oil_compatibility_exception "
+                       "WHERE source_id = %s", (source_id,))
+            exc_total = cur.fetchone()[0]
 
         conn.commit()
         log.info("✓ Committed. cleaning_process: %d row(s), %d linked this run, "
                  "%d of %d carry a template | crude_oil_compatibility: %d row(s) "
-                 "(%d compatible, %d not)",
-                 cp_total, linked, cp_linked, cp_total, c_total, c_yes, c_total - c_yes)
+                 "(%d compatible, %d not) | crude_oil_compatibility_exception: %d row(s)",
+                 cp_total, linked, cp_linked, cp_total, c_total, c_yes, c_total - c_yes,
+                 exc_total)
         return 0
     except Exception:
         conn.rollback()

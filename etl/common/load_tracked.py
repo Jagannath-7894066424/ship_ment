@@ -53,7 +53,7 @@ LOADERS: List[Tuple[str, List[str]]] = [
     # core cargo
     ("master_loader (LARS)",        ["python3", "etl/chemical/master_loader.py", f"{INPUTS}/Lars Stole Birkeland - Chemical Cargo specifications - 2002.xlsx - CGOSPEC.csv"]),
     ("master_loader (CHEM)",        ["python3", "etl/chemical/master_loader.py", f"{INPUTS}/Unknown - Products CHEM - 1996.XLS"]),
-    ("master_loader (USCG)",        ["python3", "etl/chemical/master_loader.py", f"{INPUTS}/USCG Chemical Data Guide For Bulk Shipment By Water [7th Edition 1990]_reviewed.csv"]),
+    ("master_loader (USCG)",        ["python3", "etl/chemical/master_loader.py", f"{INPUTS}/USCG Chemical Data Guide For Bulk Shipment By Water [7th Edition 1990]_reviewed.csv", "--source-name", "USCG CHRIS Chemical Data Guide"]),
     ("master_loader (IBC Code)",    ["python3", "etl/chemical/master_loader.py", f"{INPUTS}/IBC Code.xlsx"]),
     ("master_loader (Miracle)",     ["python3", "etl/chemical/master_loader.py"]),
     # Sittig
@@ -61,7 +61,7 @@ LOADERS: List[Tuple[str, List[str]]] = [
     # reactive groups + compatibility
     ("reactive_group",              ["python3", "etl/chemical/reactive_group.py"]),
     ("cargo_compatibility",         ["python3", "etl/chemical/cargo_compatibility.py"]),
-    ("compatibility_exceptions",    ["python3", "etl/chemical/compatibility_exception_loader.py"]),
+    ("compatibility_exceptions",    ["python3", "etl/chemical/compatibility_exception_loader.py", "--all-under-source", "--source-name", "USCG CHRIS Chemical Data Guide"]),
     ("link_cargo_reactive_groups",  ["python3", "etl/chemical/link_cargo_reactive_groups.py"]),
     ("group_details",               ["python3", "etl/chemical/master_cargo_chemical_group_details.py"]),
     # operational requirements
@@ -86,6 +86,32 @@ LOADERS: List[Tuple[str, List[str]]] = [
     ("crude_oil_match_report",      ["python3", "etl/oil/crude_oil_match_report.py"]),
     ("shell_procedure_templates",   ["python3", "etl/oil/shell_procedure_templates.py"]),
     ("shell_cargo_master",          ["python3", "etl/oil/shell_cargo_master.py"]),
+    ("shell_cleaning_matrix_products", ["python3", "etl/oil/shell_cleaning_matrix_products.py"]),
+    ("shell_cleaning_matrix_regimes",  ["python3", "etl/oil/shell_cleaning_matrix_regimes.py"]),
+    ("shell_cleaning_matrix_compat",   ["python3", "etl/oil/shell_cleaning_matrix_compatibility.py"]),
+
+    # --- cargo_gas branch -----------------------------------------------------
+    ("gas vapour_density",          ["python3", "etl/gas/vapour_density.py"]),
+    ("gas products_info",           ["python3", "etl/gas/products_info.py"]),
+    ("gas properties_of_gases",     ["python3", "etl/gas/properties_of_gases.py"]),
+    ("gas cargo_data",              ["python3", "etl/gas/cargo_data.py"]),
+    ("gas thermodynamic_data",      ["python3", "etl/gas/thermodynamic_data.py",
+                                     "--sheet", "BUTADIENE 1_3",
+                                     "--gas-name", "Butadiene 1-3"]),
+    ("gas thermodynamic (ammonia)", ["python3", "etl/gas/thermodynamic_data.py",
+                                     "--sheet", "AMMONIA",
+                                     "--gas-name", "Ammonia"]),
+    ("gas thermodynamic (ethane)",  ["python3", "etl/gas/thermodynamic_data.py",
+                                     "--sheet", "ETHANE",
+                                     "--gas-name", "Ethane"]),
+    ("gas imo_cargo_numbers",       ["python3", "etl/gas/imo_cargo_numbers.py"]),
+    ("gas products_doc",            ["python3", "etl/gas/products_doc.py"]),
+
+    # --- reference data (cross-branch) ----------------------------------------
+    # Not a branch loader: one script with a dataset registry, so a new
+    # reference extract is a new --dataset here rather than a new file.
+    ("reference_data (IGC oil)",    ["python3", "etl/common/reference_data.py",
+                                     "--dataset", "igc-oil"]),
 ]
 
 BOLD, GREEN, RED, YELLOW, DIM, RESET = (

@@ -67,6 +67,11 @@ MIRACLE_MAPPING = {
     "Fire Protection": "fire_protection",
     "Escape Eq.": "emergency_equipment",
     "Special Requirements": "stowage_notes",
+    # The sheet heads this column "Env. Hazard", but it does not hold an
+    # environmental hazard: every value is a tank-atmosphere control - Inert,
+    # Dry, Open, or "No" for none required. tank_environment_control is the
+    # column that already means exactly that, and other sources populate it.
+    "Env. Hazard": "tank_environment_control",
 }
 
 # Placeholder cell values that should be treated as missing (SQL NULL).

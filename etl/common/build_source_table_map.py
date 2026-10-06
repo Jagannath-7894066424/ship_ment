@@ -76,12 +76,10 @@ SOURCE_PIPELINE: Dict[str, Tuple[List[str], List[str]]] = {
         ["chemical/master_loader.py"]),
     "Unknown - Products CHEM - 1996": (
         ["Unknown - Products CHEM - 1996.XLS"], ["chemical/master_loader.py"]),
-    "USCG Chemical Data Guide For Bulk Shipment By Water [7th Edition 1990]_reviewed": (
-        ["USCG Chemical Data Guide For Bulk Shipment By Water [7th Edition 1990]_reviewed.csv"],
-        ["chemical/master_loader.py"]),
     "USCG CHRIS Chemical Data Guide": (
-        ["USCG CHRIS Chemical Data Guides_chemical_exceptions.csv"],
-        ["chemical/compatibility_exception_loader.py"]),
+        ["USCG Chemical Data Guide For Bulk Shipment By Water [7th Edition 1990]_reviewed.csv",
+         "USCG CHRIS Chemical Data Guides_chemical_exceptions.csv"],
+        ["chemical/master_loader.py", "chemical/compatibility_exception_loader.py"]),
     "IBC Code": (["IBC Code.xlsx", "Operational_References_Master.csv"],
                  ["chemical/master_loader.py", "chemical/cargo_operational_requirement.py"]),
     "Miracle Tank Cleaning Guide": (["Miracle Tank Cleaning Guide.xlsx"], ["chemical/master_loader.py"]),

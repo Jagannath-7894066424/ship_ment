@@ -79,11 +79,16 @@ INCOMPATIBLE = False
 # "other exceptions" pseudo-group 44) are CARGO groups.
 GROUP_TYPE_REACTIVE = "REACTIVE"
 GROUP_TYPE_CARGO = "CARGO"
+GROUP_TYPE_UNASSIGNED = "UNASSIGNED"
+# The chart has no row/column 0, but cargo lists and Appendix I use it.
+UNASSIGNED_GROUP = ("0", "Unassigned Cargoes")
 
 
 def group_type_for(code: str) -> str:
-    """REACTIVE for codes 1–22, CARGO otherwise (30–43, 44)."""
+    """UNASSIGNED for 0, REACTIVE for codes 1–22, CARGO otherwise (30–43, 44)."""
     try:
+        if int(code) == 0:
+            return GROUP_TYPE_UNASSIGNED
         return GROUP_TYPE_REACTIVE if 1 <= int(code) <= 22 else GROUP_TYPE_CARGO
     except (TypeError, ValueError):
         return GROUP_TYPE_CARGO
@@ -485,6 +490,8 @@ def insert_reactive_groups(
         (SYSTEM, source_id),
     )
     mapping: Dict[str, int] = {code: gid for code, gid in cur.fetchall()}
+    if all(code != UNASSIGNED_GROUP[0] for code, _ in groups):
+        groups = [*groups, UNASSIGNED_GROUP]
 
     inserted = 0
     for code, name in groups:
@@ -587,8 +594,10 @@ class CargoResolver:
     when nothing matches so the caller can log it for manual review.
     """
 
-    def __init__(self, cur):
-        cur.execute("SELECT id, canonical_name FROM cargo_chemical")
+    def __init__(self, cur, source_id: Optional[int] = None):
+        where = "" if source_id is None else " WHERE source_id = %(sid)s"
+        params = {"sid": source_id}
+        cur.execute("SELECT id, canonical_name FROM cargo_chemical" + where, params)
         self.by_canon: Dict[str, int] = {}
         self.by_canon_norm: Dict[str, int] = {}
         for cid, nm in cur.fetchall():
@@ -600,6 +609,9 @@ class CargoResolver:
         cur.execute(
             "SELECT cs.cargo_id, s.normalized_text "
             "FROM cargo_synonym cs JOIN synonyms s ON s.id = cs.synonym_id"
+            + ("" if source_id is None else
+               " JOIN cargo_chemical c ON c.id = cs.cargo_id WHERE c.source_id = %(sid)s"),
+            params,
         )
         self.by_syn: Dict[str, int] = {}
         for cid, norm in cur.fetchall():
@@ -632,8 +644,7 @@ def read_exception_rows(path: Path) -> List[dict]:
     """Read an Appendix I exceptions file (CSV/XLSX) into normalized dict rows.
 
     Expected columns (case-insensitive; extras ignored):
-        cargo_a, cargo_b, compatible, [exception_type], [appendix], [section],
-        [reason], [notes]
+        cargo_a, cargo_b, compatible, [exception_type], [notes]
     """
     if path.suffix.lower() in (".xlsx", ".xls"):
         df = pd.read_excel(path, dtype=str)
@@ -654,9 +665,6 @@ def read_exception_rows(path: Path) -> List[dict]:
             "cargo_b": col(r, "cargo_b", "cargo_b_name", "chemical_b", "cargo_2"),
             "compatible": col(r, "compatible"),
             "exception_type": col(r, "exception_type", "type"),
-            "appendix": col(r, "appendix") or "I",
-            "section": col(r, "section"),
-            "reason": col(r, "reason"),
             "notes": col(r, "notes"),
         })
     return rows
@@ -709,9 +717,7 @@ def import_exceptions(cur, path: Path, source_id: int, dry_run: bool) -> Tuple[i
         if (a, b) in existing or (a, b) in seen:
             continue
         seen.add((a, b))
-        to_insert.append((a, b, compatible, etype, r["appendix"] or None,
-                          r["section"] or None, r["reason"] or None,
-                          r["notes"] or None, source_id))
+        to_insert.append((a, b, compatible, etype, r["notes"] or None, source_id))
 
     if dry_run:
         log.info("Appendix I: would insert %d exceptions (%d unmatched).", len(to_insert), unmatched)
@@ -721,11 +727,11 @@ def import_exceptions(cur, path: Path, source_id: int, dry_run: bool) -> Tuple[i
         execute_values(
             cur,
             "INSERT INTO compatibility_exception "
-            "(cargo_a_id, cargo_b_id, compatible, exception_type, appendix, section, "
-            "reason, notes, source_id, created_at, updated_at) VALUES %s "
+            "(cargo_a_id, cargo_b_id, compatible, exception_type, notes, source_id, "
+            "created_at, updated_at) VALUES %s "
             "ON CONFLICT (cargo_a_id, cargo_b_id) DO NOTHING",
             to_insert,
-            template="(%s, %s, %s, %s, %s, %s, %s, %s, %s, now(), now())",
+            template="(%s, %s, %s, %s, %s, %s, now(), now())",
         )
     log.info("Inserted %d compatibility exceptions (%d unmatched, logged).", len(to_insert), unmatched)
     return len(to_insert), unmatched

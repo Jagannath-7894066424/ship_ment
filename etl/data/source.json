@@ -30,16 +30,6 @@
     "rank_health": 5
   },
   {
-    "Source": "USCG Chemical Data Guide For Bulk Shipment By Water [7th Edition 1990]_reviewed",
-    "Edition": "7th 1990",
-    "Category": "chemical",
-    "rank_regulatory": 3,
-    "rank_cleaning": 4,
-    "rank_compatibility": 1,
-    "rank_physical": 1,
-    "rank_health": 2
-  },
-  {
     "Source": "Unknown - Products CHEM - 1996",
     "Edition": "1996",
     "Category": "chemical",
@@ -150,7 +140,7 @@
     "rank_health": 5
   },
   {
-    "Source": "Lars Stole Birkeland — Chemical Cargo specifications - 2002",
+    "Source": "Lars Stole Birkeland \u2014 Chemical Cargo specifications - 2002",
     "Edition": "2002",
     "Category": "chemical",
     "rank_regulatory": 5,
@@ -171,7 +161,7 @@
   },
   {
     "Source": "Manual Entry",
-    "Edition": "—",
+    "Edition": "\u2014",
     "Category": "chemical",
     "rank_regulatory": 9,
     "rank_cleaning": 9,
@@ -226,6 +216,12 @@
     "rank_cleaning": 1
   },
   {
+    "Source": "Shell Cleaning Matrix",
+    "Edition": "Unknown",
+    "Category": "oil",
+    "rank_cleaning": 1
+  },
+  {
     "Source": "HM Tank Cleaning Guide By Energy Institute",
     "Edition": "HM 50",
     "Category": "oil",
@@ -248,5 +244,87 @@
     "Edition": "Unknown",
     "Category": "gas",
     "rank_physical": 3
+  },
+  {
+    "Source": "Products_info",
+    "Edition": "Unknown",
+    "Category": "gas",
+    "rank_physical": 2
+  },
+  {
+    "Source": "Properties of Gases Doc",
+    "Edition": "Unknown",
+    "Category": "gas",
+    "rank_physical": 1
+  },
+  {
+    "Source": "Cargo Data",
+    "Edition": "Unknown",
+    "Category": "gas",
+    "rank_physical": 4
+  },
+  {
+    "Source": "Thermodynamic Data_Properties",
+    "Edition": "Unknown",
+    "Category": "gas",
+    "rank_physical": 1
+  },
+  {
+    "Source": "IMO Cargo.XLSX",
+    "Edition": "Unknown",
+    "Category": "gas",
+    "rank_regulatory": 1
+  },
+  {
+    "Source": "Products.doc",
+    "Edition": "1998",
+    "Category": "gas",
+    "rank_regulatory": 2,
+    "rank_physical": 2
+  },
+  {
+    "Source": "Cargo Library SGS Density Table",
+    "Edition": "Unknown",
+    "Category": "gas",
+    "rank_physical": 1
+  },
+  {
+    "Source": "IGC Code 2016 Cargo Gas",
+    "Edition": "2016",
+    "Category": "gas",
+    "rank_regulatory": 1
+  },
+  {
+    "Source": "DOW LPG Change of Grade Guidelines",
+    "Edition": "Unknown",
+    "Category": "gas",
+    "rank_cleaning": 1
+  },
+  {
+    "Source": "Chemical Compatibilities of Liquefied Gases",
+    "Edition": "Unknown",
+    "Category": "gas",
+    "rank_compatibility": 1,
+    "rank_cleaning": 2
+  },
+  {
+    "Source": "TankClean Guide",
+    "Edition": "Unknown",
+    "Category": "gas",
+    "rank_cleaning": 4
+  },
+  {
+    "Source": "Norgas Class COG Time Estimation",
+    "Edition": "2013-10-31",
+    "Category": "gas",
+    "rank_cleaning": 3
+  },
+  {
+    "Source": "Tanker Safety Guide - Liquefied Gas",
+    "Edition": "Unknown",
+    "Category": "gas",
+    "rank_regulatory": 2,
+    "rank_physical": 2,
+    "rank_health": 1
   }
 ]

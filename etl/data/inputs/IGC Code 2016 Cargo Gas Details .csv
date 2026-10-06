@@ -1,0 +1,38 @@
+Product name,Ship type,Independent tank type C required,Control of vapour space within cargo tanks,Vapour detection,Gauging,Gauging Reference No,Special requirements
+Acetaldehyde,2G/2PG,–,Inert,Flammable and toxic vapour detection,Indirect or closed,"13.2.3.1, 13.2.3.2 ,13.2.3.3","14.4.3, 14.3.3.1, 17.4.1, 17.6.1"
+"Ammonia, anhydrous",2G/2PG,–,–,Toxic vapour detection,Indirect or closed,"13.2.3.1, 13.2.3.2,13.2.3.3","14.4, 17.2.1, 17.12"
+Butadiene (all isomers),2G/2PG,–,–,Flammable and toxic vapour detection,Indirect or closed,"13.2.3.1, 13.2.3.2,13.2.3.3","14.4, 17.2.2, 17.4.2, 17.4.3, 17.6, 17.8"
+Butane (all isomers),2G/2PG,–,–, Flammable vapour detection,"Indirect, closed or restricted","13.2.3.1, 13.2.3.2, 13.2.3.3, 13.2.3.4",
+Butane-propane mixture,2G/2PG,–,–, Flammable vapour detection,"Indirect, closed or restricted","13.2.3.1, 13.2.3.2, 13.2.3.3, 13.2.3.4",
+Butylenes (all isomers),2G/2PG,–,–, Flammable vapour detection,"Indirect, closed or restricted","13.2.3.1, 13.2.3.2, 13.2.3.3, 13.2.3.4",
+Carbon Dioxide (high purity),3G,–,–,Asphyxiant,"Indirect, closed or restricted","13.2.3.1, 13.2.3.2, 13.2.3.3, 13.2.3.4",17.21
+Carbon Dioxide (Reclaimed quality),3G,–,–,Asphyxiant,"Indirect, closed or restricted","13.2.3.1, 13.2.3.2, 13.2.3.3, 13.2.3.4",17.22
+Chlorine,1G,Yes,Dry,Toxic vapour detection,Indirect or closed,"13.2.3.1, 13.2.3.2","14.4, 17.3.2, 17.4.1, 17.3, 17.2, 17.9, 17.13"
+Diethyl ether*,2G/2PG,–,Inert,Flammable and toxic vapour detection,Indirect or closed,"13.2.3.1, 13.2.3.2,13.2.3.3","14.4.2, 14.4.3, 17.2.6, 17.3.1, 17.6.1, 17.9, 17.10, 17.11.2, 17.11.3"
+Dimethylamine,2G/2PG,–,–,Flammable and toxic vapour detection,Indirect or closed,"13.2.3.1, 13.2.3.2,13.2.3.3","14.4, 17.2.1"
+Dimethyl Ether,2G/2PG,–,–,Flammable and toxic vapour detection,Indirect or closed,"13.2.3.1, 13.2.3.2,13.2.3.3",
+Ethane,2G,–,–,Flammable vapour detection,"Indirect, closed or restricted","13.2.3.1, 13.2.3.2, 13.2.3.3, 13.2.3.4",
+Ethyl Chloride,2G/2PG,–,–,Flammable and toxic vapour detection,Indirect or closed,"13.2.3.1, 13.2.3.2,13.2.3.3",
+Ethylene,2G,–,–,Flammable vapour detection,"Indirect, closed or restricted","13.2.3.1, 13.2.3.2, 13.2.3.3, 13.2.3.4",
+Ethylene oxide,1G,Yes,Inert,Flammable and toxic vapour detection,Indirect or closed,"13.2.3.1, 13.2.3.2,13.2.3.3","14.4, 17.2.2, 17.3.2, 17.4.3, 17.5, 17.6.3, 17.14"
+Ethylene oxide-propylene oxide mixtures with ethylene oxide content of not more than 30% by weight*,2G/2PG,–,Inert,Flammable and toxic vapour detection,Indirect or closed,"13.2.3.1, 13.2.3.2,13.2.3.3","14.4.3, 17.3.1, 17.4.1, 17.6.1, 17.9, 17.10, 17.18"
+Isoprene* (all isomers),2G/2PG,–,–, Flammable vapour detection,"Indirect, closed or restricted ","13.2.3.1, 13.2.3.2, 13.2.3.3, 13.2.3.4","14.4.3, 17.8, 17.9, 17.11.1"
+Isoprene (part refined)*,2G/2PG,–,–, Flammable vapour detection,"Indirect, closed or restricted ","13.2.3.1, 13.2.3.2, 13.2.3.3, 13.2.3.4","14.4.3, 17.8, 17.9, 17.11.1"
+Isopropylamine*,2G/2PG,–,–,Flammable and toxic vapour detection,Indirect or closed,"13.2.3.1, 13.2.3.2,13.2.3.3","14.4.2, 14.4.3, 17.2.4, 17.9, 17.10, 17.11.1, 17.15"
+Methane (LNG),2G,–,–, Flammable vapour detection,Indirect or closed,"13.2.3.1, 13.2.3.2,13.2.3.3",
+Methyl acetylene-propadiene mixtures,2G/2PG,–,–, Flammable vapour detection,"Indirect, closed or restricted ","13.2.3.1, 13.2.3.2, 13.2.3.3, 13.2.3.4",17.16
+Methyl bromide,1G,Yes,–,Flammable and toxic vapour detection,Indirect or closed,"13.2.3.1, 13.2.3.2,13.2.3.3","14.4, 17.2.3, 17.3.2, 17.4.1, 17.5"
+Methyl chloride,2G/2PG,–,–,Flammable and toxic vapour detection,Indirect or closed,"13.2.3.1, 13.2.3.2,13.2.3.3",17.2.3
+Mixed C4 Cargoes,2G/2PG,–,–,Flammable and toxic vapour detection,Indirect or closed,"13.2.3.1, 13.2.3.2,13.2.3.3","14.4, 17.2.2, 17.4.2, 17.4.3, 17.6, 17.20"
+Monoethylamine*,2G/2PG,–,–,Flammable and toxic vapour detection,Indirect or closed,"13.2.3.1, 13.2.3.2,13.2.3.3","14.4, 17.2.1, 17.3.1, 17.9, 17.10, 17.11.1, 17.15"
+Nitrogen,3G,–,–,Asphyxiant,Indirect or closed,"13.2.3.1, 13.2.3.2,13.2.3.3",17.17
+Pentane (all isomers)*,2G/2PG,–,–,Flammable vapour detection,"Indirect, closed or restricted","13.2.3.1, 13.2.3.2, 13.2.3.3, 13.2.3.4","17.9, 17.11"
+Pentene (all isomers)*,2G/2PG,–,–,Flammable vapour detection,"Indirect, closed or restricted","13.2.3.1, 13.2.3.2, 13.2.3.3, 13.2.3.4","17.9, 17.11"
+Propane,2G/2PG,–,–,Flammable vapour detection,"Indirect, closed or restricted","13.2.3.1, 13.2.3.2, 13.2.3.3, 13.2.3.4",
+Propylene,2G/2PG,–,–,Flammable vapour detection,"Indirect, closed or restricted","13.2.3.1, 13.2.3.2, 13.2.3.3, 13.2.3.4",
+Propylene oxide*,2G/2PG,–,Inert,Flammable and toxic vapour detection,Indirect or closed,"13.2.3.1, 13.2.3.2,13.2.3.3","14.4.3, 17.3.1, 17.4.1, 17.6.1, 17.9, 17.10, 17.18"
+Refrigerant gases,3G,–,–,–,"Indirect, closed or restricted","13.2.3.1, 13.2.3.2, 13.2.3.3, 13.2.3.4",
+Sulphur dioxide,1G,Yes,Dry,Toxic vapour detection,Indirect or closed,"13.2.3.1, 13.2.3.2,13.2.3.3","14.4, 17.3.2, 17.4.1, 17.5, 17.7"
+Vinyl chloride,2G/2PG,–,–,Flammable and toxic vapour detection,Indirect or closed,"13.2.3.1, 13.2.3.2,13.2.3.3","14.4.2, 14.4.3, 17.2.2, 17.2.3, 17.3.1, 17.6, 17.19"
+Vinyl ethyl ether*,2G/2PG,–,Inert,Flammable and toxic vapour detection,Indirect or closed,"13.2.3.1, 13.2.3.2,13.2.3.3","14.4.2, 14.4.3, 17.2.2, 17.3.1, 17.6.1, 17.8, 17.9, 17.10, 17.11.2, 17.11.3"
+Vinylidene chloride*,2G/2PG,–,Inert,Flammable and toxic vapour detection,Indirect or closed,"13.2.3.1, 13.2.3.2,13.2.3.3","14.4.2, 14.4.3, 17.2.5, 17.6.1, 17.8, 17.9, 17.10"

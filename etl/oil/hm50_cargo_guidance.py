@@ -225,7 +225,14 @@ def main() -> int:
             targeted: set = set()
 
             for family, text in rows:
-                targets = FAMILY_TO_CARGOES[family] or [family]
+                # ONE property row per line of the sheet. Where the matrix splits
+                # a family into several cargoes the text is stored against the
+                # FIRST of them only, not copied onto each: the sheet states the
+                # guidance once, so the database holds it once. The family's own
+                # wording and the cargoes it covers are recorded in the row's
+                # notes, so nothing the sheet says is lost.
+                all_targets = FAMILY_TO_CARGOES[family] or [family]
+                targets = all_targets[:1]
                 own_row = not FAMILY_TO_CARGOES[family]
 
                 for name in targets:
@@ -251,11 +258,13 @@ def main() -> int:
                         note = ("HM 50 states this guidance for a cargo the "
                                 "cargo-to-cargo matrix does not list, so this row "
                                 "carries the guidance but no cleaning transitions.")
-                    elif len(targets) > 1:
+                    elif len(all_targets) > 1:
                         note = (f"HM 50 states this guidance for the family "
                                 f"{family!r}, which the matrix splits into "
-                                f"{len(targets)} cargoes; the same text is stored "
-                                f"against each.")
+                                f"{len(all_targets)} cargoes: "
+                                f"{', '.join(repr(t) for t in all_targets)}. The "
+                                f"sheet states it once, so it is stored once, "
+                                f"here on the first of them; it applies to all.")
                     else:
                         note = f"HM 50 states this guidance for {family!r}."
 

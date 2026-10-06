@@ -56,6 +56,23 @@ FIELD_DEFS: Dict[str, Tuple[str, str, Optional[str], str, str]] = {
         "Gravity (API)", "number", "°API", "Physical",
         "API gravity. The assay source quotes a Min/Max range; the basic source a single value.",
     ),
+    # The basic source ('Crude Oils-Prop.xls') keeps its own sheet headers as field
+    # names; the assay source still writes API / POUR_POINT for the same quantities.
+    "Gravity (API)": (
+        "Gravity (API)", "number", "°API", "Physical",
+        "API gravity as printed by the basic source ('Crude Oils-Prop.xls'). The assay "
+        "source records the same quantity as API.",
+    ),
+    "Sulfur (Weight%)": (
+        "Sulfur (Weight%)", "number", "wt%", "Physical",
+        "Total sulfur as printed by the basic source. Mostly wt%, some rows ppm or g/kg - "
+        "read the row's unit.",
+    ),
+    "Pour Point (F)": (
+        "Pour Point (F)", "number", "°F", "Physical",
+        "Pour point in °F as printed by the basic source. The assay source records "
+        "POUR_POINT in °C.",
+    ),
     "SULFUR": (
         "Sulfur Content", "number", "wt%", "Physical",
         "Total sulfur. Mostly wt%, but some rows are published in ppm or g/kg - read the row's unit.",

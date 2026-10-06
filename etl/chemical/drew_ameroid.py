@@ -225,16 +225,88 @@ def load_procedure_templates(cur, procedures, source_id: int, dry_run: bool
 
 
 # ---------------------------------------------------------------------------
+# Load — step 2: the guide's own cargoes, from its Product Index
+# ---------------------------------------------------------------------------
+def load_products(cur, idx_name: Dict[str, str], source_id: int, dry_run: bool
+                  ) -> Tuple[Dict[str, int], int]:
+    """One cargo_chemical row per Product Index entry. Returns ({name: id}, created).
+
+    WHY THIS SOURCE OWNS ITS CARGOES
+    --------------------------------
+    cargo_chemical is keyed (source_id, canonical_name) - one row per chemical
+    PER SOURCE - so every source that names a cargo keeps its own row. This
+    loader used to be the exception: it created none, and resolved the matrix's
+    names against whatever rows other sources had already published. That had
+    two costs.
+
+    It LOST DATA. Twenty-four of the guide's eighty-seven products are named by
+    no other source - ACID OIL, ALMOND OIL, ISOPAR, SHELLSOL, TEEPOL, VORANOL
+    and eighteen more - so every pair involving one of them was skipped. 3,574
+    of the matrix's 7,479 cells never reached the database: not a gap in the
+    guide, a gap in what was read from it.
+
+    And it MISATTRIBUTED what it did load. A cleaning_process row said "source
+    8" while its from_cargo_id pointed at a cargo_chemical row belonging to
+    LARS or Miracle, so the guide appeared to make statements about another
+    publication's cargo rows, and deleting that publication would have taken
+    this guide's matrix with it.
+
+    The Product Index is the guide's own list and the key its matrix is written
+    in - the column headers are its numbers - so it is the right thing to load.
+    The number is recorded in `notes` because it is what the matrix refers to,
+    not a property of the substance.
+
+    NAMES ARE VERBATIM, INCLUDING THE GUIDE'S SPELLING. "NAPHTALENE",
+    "SYNTETIC LATEX" and "SOLVENT NAPHTA" are how the index prints them.
+    Correcting them here would make these rows unfindable from the document
+    they came from, and cargo_chemical is per-source precisely so a source's
+    own wording can survive. Matching them to other sources' spellings is a
+    synonym question, not a loading one.
+    """
+    by_name: Dict[str, int] = {}
+    created = 0
+    for num, name in sorted(idx_name.items(), key=lambda kv: int(kv[0])):
+        note = f"Drew Ameroid Tank Cleaning Guide product index #{num}."
+        if dry_run:
+            cur.execute("SELECT id FROM cargo_chemical WHERE source_id=%s AND canonical_name=%s",
+                        (source_id, name))
+            row = cur.fetchone()
+            by_name[name] = row[0] if row else -int(num)
+            created += 0 if row else 1
+            continue
+        cur.execute(
+            """
+            INSERT INTO cargo_chemical (canonical_name, source_id, notes,
+                                        date_added, date_last_updated,
+                                        created_at, updated_at)
+            VALUES (%s, %s, %s, now(), now(), now(), now())
+            ON CONFLICT (source_id, canonical_name) DO UPDATE
+                SET notes = EXCLUDED.notes, updated_at = now()
+            RETURNING id, (xmax = 0) AS inserted
+            """,
+            (name, source_id, note),
+        )
+        cid, inserted = cur.fetchone()
+        by_name[name] = cid
+        created += 1 if inserted else 0
+    log.info("cargo_chemical: %d product(s), %d created this run", len(by_name), created)
+    return by_name, created
+
+
+# ---------------------------------------------------------------------------
 # Load — step 2: cleaning_process (matrix pairs = RELATION ONLY, no steps)
 # ---------------------------------------------------------------------------
-def load_matrix(cur, cells, source_id: int, valid_codes: set, dry_run: bool
-                ) -> Tuple[int, int]:
+def load_matrix(cur, cells, source_id: int, valid_codes: set,
+                by_name: Dict[str, int], dry_run: bool) -> Tuple[int, int]:
     """Create one cleaning_process per resolved FROM->TO pair. No steps are copied;
     the pair links to procedure_templates via (source_id, procedure_code).
 
     Returns (n_pairs, n_unmatched_names).
     """
-    resolver = CargoResolver(cur)
+    # This guide's OWN cargo rows, by the name its Product Index prints. Not
+    # CargoResolver: that searched every other source's cargoes by name, which
+    # is what skipped 3,574 pairs and pointed the rest at other publications'
+    # rows. Every matrix label is an index entry, so nothing needs resolving.
     pair_map: Dict[Tuple[int, int], Tuple[str, str]] = {}
     unmatched: set = set()
     skipped_no_template = skipped_unmatched = skipped_self = skipped_dup = 0
@@ -243,7 +315,7 @@ def load_matrix(cur, cells, source_id: int, valid_codes: set, dry_run: bool
         if code not in valid_codes:
             skipped_no_template += 1
             continue
-        fid, tid = resolver.resolve(from_name), resolver.resolve(to_name)
+        fid, tid = by_name.get(from_name), by_name.get(to_name)
         if fid is None:
             unmatched.add(from_name)
         if tid is None:
@@ -270,6 +342,25 @@ def load_matrix(cur, cells, source_id: int, valid_codes: set, dry_run: bool
 
     if dry_run or not pairs:
         return len(pairs), len(unmatched)
+
+    # Rows written before this loader owned its cargoes point at OTHER sources'
+    # cargo_chemical ids, so the upsert below cannot reach them - its key is
+    # (from_cargo_id, to_cargo_id, source_id) and both ids have changed. They
+    # would be left behind as a second, stale copy of the same matrix. Only
+    # THIS source's rows are removed; cleaning_process is shared with the
+    # chemical, oil and gas branches and the rest must not be touched.
+    cur.execute(
+        """
+        DELETE FROM cleaning_process
+         WHERE source_id = %s
+           AND from_cargo_id IS NOT NULL
+           AND from_cargo_id NOT IN (SELECT id FROM cargo_chemical WHERE source_id = %s)
+        """,
+        (source_id, source_id),
+    )
+    if cur.rowcount:
+        log.info("removed %d stale pair(s) that pointed at other sources' cargo rows",
+                 cur.rowcount)
 
     execute_values(
         cur,
@@ -358,15 +449,20 @@ def main():
             # step 1: procedure_templates (+ steps)
             codes, n_tpl, n_steps = load_procedure_templates(cur, procedures, source_id, args.dry_run)
 
-            # step 2: cleaning_process matrix pairs (relation only, no steps)
+            # step 2: the guide's own cargoes, from its Product Index
+            by_name, n_new_cargo = load_products(cur, idx_name, source_id, args.dry_run)
+
+            # step 3: cleaning_process matrix pairs (relation only, no steps)
             n_pairs = n_unmatched = 0
             if not args.no_matrix:
-                n_pairs, n_unmatched = load_matrix(cur, cells, source_id, codes, args.dry_run)
+                n_pairs, n_unmatched = load_matrix(cur, cells, source_id, codes,
+                                                   by_name, args.dry_run)
 
             log.info("=" * 64)
             log.info("SUMMARY (%s)", "DRY-RUN" if args.dry_run else "COMMIT")
             log.info("  procedure_templates        : %d", n_tpl)
             log.info("  procedure_template_steps   : %d", n_steps)
+            log.info("  cargo_chemical (products)  : %d (%d new)", len(by_name), n_new_cargo)
             if not args.no_matrix:
                 log.info("  cleaning_process (pairs)   : %d", n_pairs)
                 log.info("  unmatched cargo names      : %d", n_unmatched)

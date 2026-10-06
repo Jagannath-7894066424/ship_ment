@@ -1,0 +1,17 @@
+Product,Class IMO,UN No.,MFAG Table,Molecular Mass (g/mole),Formula,Flammable Limits (vol.%),Flash Point (°C),Boiling Point (°C),Ideal Liquid Density (kg/m³),Ideal Vapour Density (kg/m³),TLV (ppm),Odour Thresh. (ppm),Synonims
+Ammonia,2.3,1005,725,17.031,NH3,15-30,-57,-33.33,0.6818,0.8541,25,20,"AMA, NH3, Ammonia gas, Anhydrous ammonia"
+Butadiene,2.0,1010,310,54.092,C4H6,"1-12,5",-85,-4.41,0.6503,2.4208,10,1000,"BDI,Bivinyl, Diethylene, Divinyl, Vinyl ethylene"
+n-Butane,2.1,1011,310,58.124,C4H10,"1,5-9",-60,-0.49,0.6059,2.5639,600,5000,"BUT, Butanes, Methyl ethyl methane"
+iso-Butane,2.1,1011,310,58.124,C4H10,"1,8-8,5",,-11.81,,2.6749,,,"IBT, I-Butanes"
+Butene,,1012,310,56.108,C4H8,"1,5-10",-12,-6.23,,2.5282,800,stench,"BTN, Butenes, iso-Butene iso-Butylene"
+Ethylene Oxide,2.3,1040,365,44.05,C2H4O,"2,5-100",-18,+10.73,,1.8663,5,50,"EOX, EO, ETO, Oxane, Epoxy ethane"
+Isoprene,,1218,310,68.12,C5H8,2-10,-50,+34.1,,,n/a,>1,"Beta-methylbivinyl, 2 methyl 1,3 butadiene"
+Methane,,1972,620,16.04,CH4,5-16,-175,-161,,,1000,200,"MTH, LNG, Firedamp, Marsh-gas, Methyl hydrid"
+Propane,2.1,1978,310,44.097,C3H8,2-10,-105,-42.07,0.5813,2.2951,1000,stench,"PRP, Petroleum gas, Propyl hydride"
+Propylene,2.1,1077,310,42.081,C3H6,2-12,-108,-47.72,0.6091,2.2425,1000,,"PPL, Propene, Methylethene"
+Propylene Oxide,3.1,1280,365,58.08,C3H6O,2-22,-44,+33.7,,2.2765,50,200,"POX, PO,Epoxy propane, Propene oxide"
+Vinyl Chloride,2.0,1086,340,62.5,C2H3Cl,4-31,-77,-13.8,0.9719,2.8984,2,250,"VCM, VCL, Chloroethene"
+Carbondioxide,2.2,1013,,44.010,CO2,nil,nil,-78.5,,2.7193,,,CO2
+Nitrogen,2.2,1977,620,28.013,N2,nil,nil,-195.8,,4.3557,,,"NXX, LN2, Liquid nitrogen"
+Oxygen,,,,31.999,O2,nil,nil,-182.96,,4.2672,,,
+Raffinate,,1965,310,,,"1,5-10",,-18,,,,,

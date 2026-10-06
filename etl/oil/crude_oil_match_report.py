@@ -158,8 +158,9 @@ def main() -> int:
               "pour_consistent": 0, "pour_flagged": 0}
     for name in both:
         bp, apr = basic[name]["props"], assay[name]["props"]
-        av, ad = api_verdict(bp.get("API"), apr.get("API"))
-        pv, pd = pour_verdict(bp.get("POUR_POINT"), apr.get("POUR_POINT"))
+        # The basic source names fields after its sheet headers; the assay source does not.
+        av, ad = api_verdict(bp.get("Gravity (API)"), apr.get("API"))
+        pv, pd = pour_verdict(bp.get("Pour Point (F)"), apr.get("POUR_POINT"))
         if av == "consistent":
             counts["api_consistent"] += 1
         elif av:

@@ -153,6 +153,9 @@ FILE_FORMAT_CONFIG = {
         "has_parent_child": False,
         "synonym_column": None,
         "parent_column": None,
+        # Store the gauging WORDING, not the bare code. IBC only - the Miracle
+        # sheet keeps its letters. See IBC_GAUGING_EXPANSION in master_loader.
+        "expand_gauging": True,
     },
     "chem": {
         "mapping": CHEM_MAPPING,

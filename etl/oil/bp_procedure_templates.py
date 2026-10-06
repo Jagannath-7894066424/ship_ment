@@ -114,6 +114,8 @@ TEMPLATE_COLS = ["procedure_code", "template_name", "cargo_type", "description",
 STEP_COLS = ["procedure_code", "step_order", "step_name", "step_type",
              "step_description", "medium", "temperature", "duration", "cleaner",
              "mandatory", "condition"]
+# Optional: older extracts have no Notes column, so it is not in STEP_COLS.
+STEP_NOTES_COL = "Notes"
 
 # CleaningStepType members this sheet may use. RESTRICTION and CONDITION are
 # BP's own vocabulary, added by 20260826000000_cleaning_step_type_bp_values.
@@ -122,7 +124,13 @@ STEP_TYPES = {
     "DRAINING", "DRYING", "VENTILATING", "PURGING", "GAS_FREEING", "MOPPING",
     "MAIN", "REFERENCE", "CONDITIONAL", "DECISION", "WARNING",
     "RESTRICTION", "CONDITION",
+    "INSPECTION",
+    # Revised extract's own vocabulary, added by
+    # 20261005000000_cleaning_step_type_bp_extract_values.
+    "STRIP", "BLOW", "WASH", "PURGE", "GAS_FREE", "DRY", "DRAIN", "LOAD",
 }
+# Spelling variants in the sheet -> the value it means.
+STEP_TYPE_ALIASES = {"STRIPPING": "STRIP"}
 
 # Extract flag column -> the requirement it becomes when true. The three
 # default_* columns are absent here deliberately: they are empty on every row,
@@ -249,10 +257,17 @@ def build_steps(rows: List[dict], known: set) -> Tuple[Dict[str, List[dict]], Li
     by_code: Dict[str, List[dict]] = {}
     errors: List[str] = []
 
+    last_code: Optional[str] = None
     for i, r in enumerate(rows, start=2):
         code = clean(r["procedure_code"])
         if code is None:
-            continue
+            # Continuation row (merged cell in the extract): belongs to the code above.
+            if clean(r["step_name"]) is None and to_int(r["step_order"]) is None:
+                continue
+            code = last_code
+            if code is None:
+                continue
+        last_code = code
         if code not in known:
             errors.append(f"steps row {i}: steps for {code!r}, which the template "
                           f"sheet does not define")
@@ -272,6 +287,7 @@ def build_steps(rows: List[dict], known: set) -> Tuple[Dict[str, List[dict]], Li
         step_type = clean(r["step_type"])
         if step_type is not None:
             step_type = step_type.upper()
+            step_type = STEP_TYPE_ALIASES.get(step_type, step_type)
             if step_type not in STEP_TYPES:
                 errors.append(f"steps row {i}: {code!r} step {order} has step_type "
                               f"{step_type!r}, which is not a CleaningStepType value")
@@ -288,6 +304,7 @@ def build_steps(rows: List[dict], known: set) -> Tuple[Dict[str, List[dict]], Li
             "cleaner": clean(r["cleaner"]),
             "mandatory": to_bool(r["mandatory"], True),
             "condition": clean(r["condition"]),
+            "notes": clean(r.get(STEP_NOTES_COL)),
         })
 
     for code, steps in by_code.items():
@@ -335,8 +352,8 @@ def sync_steps(cur, template_id: int, steps: List[dict]) -> None:
             INSERT INTO procedure_template_steps
                 (procedure_templates_id, step_order, step_name, step_type,
                  step_description, medium, temperature, duration, cleaner,
-                 mandatory, condition, created_at, updated_at)
-            VALUES (%s, %s, %s, %s::"CleaningStepType", %s, %s, %s, %s, %s, %s, %s,
+                 mandatory, condition, notes, created_at, updated_at)
+            VALUES (%s, %s, %s, %s::"CleaningStepType", %s, %s, %s, %s, %s, %s, %s, %s,
                     now(), now())
             ON CONFLICT (procedure_templates_id, step_order) DO UPDATE SET
                 step_name        = EXCLUDED.step_name,
@@ -348,11 +365,12 @@ def sync_steps(cur, template_id: int, steps: List[dict]) -> None:
                 cleaner          = EXCLUDED.cleaner,
                 mandatory        = EXCLUDED.mandatory,
                 condition        = EXCLUDED.condition,
+                notes            = EXCLUDED.notes,
                 updated_at       = now()
             """,
             (template_id, s["step_order"], s["step_name"], s["step_type"],
              s["step_description"], s["medium"], s["temperature"], s["duration"],
-             s["cleaner"], s["mandatory"], s["condition"]),
+             s["cleaner"], s["mandatory"], s["condition"], s["notes"]),
         )
     cur.execute(
         "DELETE FROM procedure_template_steps "

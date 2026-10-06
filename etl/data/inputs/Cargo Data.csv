@@ -1,0 +1,20 @@
+cargo_name,formula,molecular_weight,un_no_imo_class,density_15c_header_value
+Ammonia,NH3,17.032,1005/2,
+Butadiene,C4H6,54.088,1010/2,
+Ethane,C2H6,30.070,1061/2,
+Methane,CH4,16.043,1972/2,
+Propane,C3H8,44.094,1978/2,0.50560
+N-Butane,C4H10,58.124,1011/2,0.58370
+I-Butane,C4H10,58.023,1011/2,0.56280
+N-Pentane,,72.151,1265/2,
+SO-Pentane,,72.151,,
+Hexane,,86.178,,
+Propylene,C3H6,42.076,1077/2,
+VCM,C2H3Cl,62.500,1086/3,
+Ethylene,C2H4,28.052,1038/2,
+Butene-1,C4H8,56.100,1012/2,
+Crude C4,,,1965/2,
+Prop.oxide,,,1280/3,58.08000
+Isoprene,C5H8,68.120,1218/3,0.68560
+LPG Mix,LPG Mix,51.109,- / 2,0.60000
+Acetaldehyd,,,,

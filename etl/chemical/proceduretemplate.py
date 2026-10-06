@@ -59,7 +59,16 @@ log = logging.getLogger("proceduretemplate")
 # Parsing helpers
 # ---------------------------------------------------------------------------
 CODE_RE = re.compile(r"^[A-Z]{1,2}$")            # A, AA, B, ... in column 0
-STEP_RE = re.compile(r"^\s*(\d+)\.\s*(.*)$")      # "1. Butterworthing ..."
+# "1. Butterworthing ...", and also "1 . " / "1) " - the guide is re-exported by
+# hand and the separator is not always tight against the number. Requiring
+# "\d+\." dropped any step written "1 . ", and because a dropped first line has
+# no step to attach to it vanished entirely and every later step shifted up one.
+# Also "3 Butterworthing ..." - a step whose separator is missing entirely.
+# Guarded by a CAPITAL letter, because a wrapped continuation line can begin
+# with a number too: procedure BB carries "...for about\n3 hours;", and taking
+# that as step 3 would invent a step and truncate the real one. A step starts a
+# sentence; a continuation carries on in lower case.
+STEP_RE = re.compile(r"^\s*(\d+)(?:\s*[.)]\s*|\s+(?=[A-Z]))(.*)$")
 NOTE_RE = re.compile(r"^\s*NOTE\b", re.I)
 LEAD_CODE_RE = re.compile(r"^\s*[A-Z]{1,2}\s*[-–]\s*")  # strip a "LL - " prefix
 
@@ -92,48 +101,199 @@ TEMP_WORDS = [
     ("cold", "Cold"), ("hot", "Hot"), ("warm", "Warm"),
     ("ambient", "Ambient"), ("boiling", "Boiling"),
 ]
-DEG_RE = re.compile(r"(\d+(?:\s*[-–]\s*\d+)?)\s*°\s*[cC]")
+# A temperature the source prints as a figure. Accepts BOTH notations: the
+# degree sign, and the spelled-out "deg C" / "degrees C" that the Drew Ameroid
+# guide uses throughout. Requiring the sign alone silently threw away every
+# figure in that guide and left only the qualitative word beside it - "Warm"
+# where the source said "warm (40-55 deg C)".
+#
+# The [cC] is guarded so a Fahrenheit figure printed beside it
+# ("(104-131 deg F)") is never taken, and the number is guarded against a
+# preceding letter or digit: one source carries the OCR typo "(B0 °C)" for
+# "(80 °C)", and reading the surviving "0" out of it asserted 0°C for a HOT
+# seawater wash - a contradiction the source never printed. A figure welded to
+# a letter is not a figure, so it falls through to the qualitative word.
+_DEG_UNIT = r"(?:°|deg(?:rees)?\.?)\s*\.?\s*[cC](?![a-zA-Z])"
+# "(50 C)" - a bare C with the degree sign lost in the export. Accepted ONLY
+# inside parentheses: there a figure followed by a lone C can be nothing but a
+# temperature, whereas a bare "50 C" in running text could be anything. Checked
+# against every step description in the database - it matches this one form and
+# nothing else.
+# Also "(80 -C)" / "(80 *C)" - the degree sign itself mangled by the export.
+# Still parenthesised and still guarded against a letter-corrupted number, so
+# "(B0 *C)" stays rejected: there it is the FIGURE that is unreadable, and a
+# wrong temperature is worse than none.
+DEG_BARE_PAREN_RE = re.compile(
+    r"\((?<![A-Za-z])\s*(\d+(?:[.,]\d+)?)\s*[-*·°]?\s*[cC]\s*\)")
+# Parenthesised asides, for keeping a temperature word out of them.
+PAREN_RE = re.compile(r"\([^()]*\)")
+_DEG_NUM = r"\d+(?:[.,]\d+)?"
+# "70 °C to 80 °C" - both ends carry the unit.
+DEG_RANGE_RE = re.compile(
+    rf"(?<![A-Za-z0-9])({_DEG_NUM})\s*{_DEG_UNIT}\s*(?:to|[-–])\s*({_DEG_NUM})\s*{_DEG_UNIT}")
+# "40-55 deg C" - one unit for both ends - and the plain "80 °C".
+DEG_RE = re.compile(
+    rf"(?<![A-Za-z0-9])({_DEG_NUM}(?:\s*[-–]\s*{_DEG_NUM})?)\s*{_DEG_UNIT}")
+
+# A duration. Numbers may carry a EUROPEAN DECIMAL COMMA ("1,5 - 2,5 hours"),
+# a vulgar fraction ("2½ hours") or a written one ("1/2 - 1 hour"), and the
+# range may be joined by a dash, "to" or "till". The old pattern excluded
+# commas and full stops from the phrase it captured, so a comma-decimal range
+# never matched and a fallback grabbed the tail of it instead: every
+# "1,5 - 2,5 hours" in the Drew Ameroid guide was stored as "5 hours", which is
+# not an imprecise reading of the source but a wrong one.
+_DUR_NUM = r"\d+(?:[.,]\d+)?|\d+\s*/\s*\d+"
+DURATION_RE = re.compile(
+    rf"(?P<qual>minimum|min\.?|at\s+least|maximum|max\.?|about|approx(?:imately)?\.?)?\s*"
+    rf"(?P<lo>{_DUR_NUM})\s*(?:(?:-|–|—|to|till)\s*(?P<hi>{_DUR_NUM}))?\s*"
+    rf"(?P<unit>hours?|hrs?|minutes?|mins?)\b", re.I)
+
+FRACTIONS = {"½": ".5", "¼": ".25", "¾": ".75"}
+
+# "warm sea or fresh water" names TWO media, but "sea water" never appears as a
+# contiguous string - the guide elides the first "water". Expanded before the
+# MEDIA scan so both are seen.
+ELIDED_WATER_RE = re.compile(r"\b(sea|fresh)\s+or\s+(sea|fresh)\s+water\b", re.I)
 
 
 def _cap(text: str) -> str:
     return text[:1].upper() + text[1:] if text else text
 
 
+def _defraction(text: str) -> str:
+    """"2½ hours" -> "2.5 hours"; a standalone "½ hour" -> "0.5 hour".
+
+    Converted only where the glyph joins a digit or stands on its own. One
+    source carries OCR damage ("1%½", "l½") where the leading figure is lost;
+    those are left untouched so the loose fallback below keeps the raw phrase
+    rather than this inventing a number out of the surviving half.
+    """
+    out = []
+    for i, ch in enumerate(text):
+        if ch in FRACTIONS:
+            prev = text[i - 1] if i else ""
+            if prev.isdigit():
+                out.append(FRACTIONS[ch])
+                continue
+            if not prev.isalnum() and prev != "%":
+                out.append("0" + FRACTIONS[ch])
+                continue
+        out.append(ch)
+    return "".join(out)
+
+
+def _dur_num(token: str) -> str:
+    """One duration figure as a plain number: "1,5" -> 1.5, "1/2" -> 0.5."""
+    token = token.strip().replace(",", ".")
+    if "/" in token:
+        num, den = [x.strip() for x in token.split("/")]
+        return f"{float(num) / float(den):g}"
+    return f"{float(token):g}"
+
+
 def extract_temperature(step: str) -> Optional[str]:
-    """Explicit "NN °C" (range aware) wins; otherwise a qualitative word."""
-    m = DEG_RE.search(step)
+    """The figure the source prints, and the word it prints beside it.
+
+    Both are kept ("Warm (40-55°C)") rather than one replacing the other: the
+    word is how the guide's own matrix refers to the step, and the range is
+    what a reader needs to actually run it.
+    """
+    rng = None
+    m = DEG_RANGE_RE.search(step)
     if m:
-        val = re.sub(r"\s*[-–]\s*", "-", m.group(1).strip())
-        return f"{val}°C"
-    low = step.lower()
-    for word, canon in TEMP_WORDS:
-        if word in low:
-            return canon
-    return None
+        rng = f"{m.group(1).replace(',', '.')}-{m.group(2).replace(',', '.')}"
+    else:
+        m = DEG_RE.search(step)
+        if m:
+            rng = re.sub(r"\s*[-–]\s*", "-", m.group(1).strip()).replace(",", ".")
+        else:
+            m = DEG_BARE_PAREN_RE.search(step)
+            if m:
+                rng = m.group(1).replace(",", ".")
+    # A qualitative word inside parentheses is usually an ASIDE about something
+    # else, not the wash temperature: "at 55 °C to 60 °C ... (Moderate
+    # temperature to avoid high boiling residues)" is not a boiling wash, and
+    # "(Ventilate tank after hot wash and ...)" describes the previous step.
+    # So the word is taken from outside the parentheses, and the bracketed text
+    # is consulted only when the step states no figure at all - there the
+    # parenthetical is the instruction ("Fill (Fill slowly 5 m3 cold fresh
+    # water ...)") and its word is all there is.
+    outside = PAREN_RE.sub(" ", step).lower()
+    word = next((canon for term, canon in TEMP_WORDS if term in outside), None)
+    if word is None and rng is None:
+        low = step.lower()
+        word = next((canon for term, canon in TEMP_WORDS if term in low), None)
+    if rng and word:
+        return f"{word} ({rng}°C)"
+    if rng:
+        return f"{rng}°C"
+    return word
 
 
 def extract_medium(step: str) -> Optional[str]:
-    low = step.lower()
+    """Every medium the step names, joined the way the source joins them.
+
+    Returning only the first match dropped the alternative a step offers -
+    "cold sea or fresh water" became just "Fresh Water", which reads as an
+    instruction the source never gave. The connector is taken from the text
+    between the two mentions, so "sea or fresh" stays an alternative and
+    "fresh water and Steam" stays a sequence.
+    """
+    low = ELIDED_WATER_RE.sub(lambda m: f"{m.group(1)} water or {m.group(2)} water",
+                              step.lower())
+    hits: list = []
+    seen = set()
     for term, canon in MEDIA:
-        if term in low:
-            return canon
-    return None
+        i = low.find(term)
+        if i >= 0 and canon not in seen:
+            seen.add(canon)
+            hits.append((i, canon))
+    if not hits:
+        return None
+    if len(hits) > 1:                      # "Water" is the generic fallback
+        hits = [h for h in hits if h[1] != "Water"] or hits
+    hits.sort()
+    if len(hits) == 1:
+        return hits[0][1]
+    out = hits[0][1]
+    for (pos_a, _), (pos_b, name_b) in zip(hits, hits[1:]):
+        gap = low[pos_a:pos_b]
+        joiner = " or " if re.search(r"\bor\b", gap) else (
+                 " and " if re.search(r"\band\b", gap) else ", ")
+        out += joiner + name_b
+    return out
 
 
 def extract_duration(step: str) -> Optional[str]:
-    low = step.lower()
-    m = re.search(r"for\s+(about\s+)?([^;:,.\n]*?hours?)", low)
+    """The period the step runs for, as a number and a unit."""
+    step = _defraction(step)
+    m = DURATION_RE.search(step)
     if m:
-        phrase = ((m.group(1) or "") + m.group(2))
-        return _cap(re.sub(r"\s+", " ", phrase).strip())
-    m = re.search(r"until\s+[^;:,.\n]+", low)
+        lo, hi = _dur_num(m.group("lo")), m.group("hi")
+        unit = "hours" if m.group("unit").lower().startswith(("hour", "hr")) else "minutes"
+        value = f"{lo}-{_dur_num(hi)} {unit}" if hi else f"{lo} {unit}"
+        if not hi and lo == "1":
+            value = f"1 {unit[:-1]}"
+        qual = (m.group("qual") or "").strip().lower().rstrip(".")
+        if qual in ("minimum", "min", "at least"):
+            value = f"Minimum {value}"
+        elif qual in ("maximum", "max"):
+            value = f"Maximum {value}"
+        elif qual:
+            value = f"About {value}"
+        return _cap(value)
+    low = step.lower()
+    m = re.search(r"until+\s+[^;:,.\n]+", low)     # "untill" is in one source
     if m:
         return _cap(m.group(0).strip())
     if "without interruption" in low:
         return "Without interruption"
-    m = re.search(r"(?:\d+\s*)?[½¼¾]?\s*hours?", low)  # standalone "½ hour"
-    if m and re.search(r"[½¼¾\d]", m.group(0)):
-        return _cap(re.sub(r"\s+", " ", m.group(0)).strip())
+    # Nothing parsed as a figure. Keep whatever phrase the source put after
+    # "for", so a step that had a duration - even a malformed one - never
+    # loses it to this rewrite.
+    m = re.search(r"for\s+(about\s+)?([^;:\n]*?hours?)", low)
+    if m:
+        return _cap(re.sub(r"\s+", " ", (m.group(1) or "") + m.group(2)).strip())
     return None
 
 

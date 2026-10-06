@@ -43,7 +43,7 @@ printf '%s=== ETL: cargo_chemical branch ===%s\n' "$Y" "$N"
 #    cargo_synonym / import_synonyms scripts are not needed here.
 run "master_loader (LARS)        -> cargo_chemical, synonyms, props" python3 etl/chemical/master_loader.py "$INPUTS/Lars Stole Birkeland - Chemical Cargo specifications - 2002.xlsx - CGOSPEC.csv"
 run "master_loader (CHEM)        -> cargo, properties"          python3 etl/chemical/master_loader.py "$INPUTS/Unknown - Products CHEM - 1996.XLS"
-run "master_loader (USCG)        -> cargo, hazard, properties"  python3 etl/chemical/master_loader.py "$INPUTS/USCG Chemical Data Guide For Bulk Shipment By Water [7th Edition 1990]_reviewed.csv"
+run "master_loader (USCG)        -> cargo, hazard, properties"  python3 etl/chemical/master_loader.py "$INPUTS/USCG Chemical Data Guide For Bulk Shipment By Water [7th Edition 1990]_reviewed.csv" --source-name "USCG CHRIS Chemical Data Guide"
 run "master_loader (IBC Code)    -> cargo (identity/carriage)"  python3 etl/chemical/master_loader.py "$INPUTS/IBC Code.xlsx"
 run "master_loader (Miracle)     -> cargo, cleaning_process"    python3 etl/chemical/master_loader.py
 
@@ -59,7 +59,7 @@ run "sittig_handbook             -> cargo, properties, synonyms" python3 etl/che
 #    group_details FKs to reactive_groups.group_code, so it must run AFTER them.
 run "reactive_group              -> reactive_groups"            python3 etl/chemical/reactive_group.py
 run "cargo_compatibility         -> compatibility"              python3 etl/chemical/cargo_compatibility.py
-run "compatibility_exceptions    -> compatibility_exception"    python3 etl/chemical/compatibility_exception_loader.py
+run "compatibility_exceptions    -> compatibility_exception"    python3 etl/chemical/compatibility_exception_loader.py --all-under-source --source-name "USCG CHRIS Chemical Data Guide"
 run "link_cargo_reactive_groups  -> cargo_reactive_group"       python3 etl/chemical/link_cargo_reactive_groups.py
 run "group_details               -> master_cargo_chemical_group_details" python3 etl/chemical/master_cargo_chemical_group_details.py
 

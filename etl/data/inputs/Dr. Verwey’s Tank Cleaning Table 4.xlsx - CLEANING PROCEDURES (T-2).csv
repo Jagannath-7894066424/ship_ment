@@ -92,14 +92,14 @@ H,"1. Butterworthing with cold seawater for about 2 hours;
 "
 HH,"1. Butterworthing with warm seawater (50 °C) for about 1 hour;
 2. Butterworthing with hot seawater and 0,05% liquid detergent (Teepol) for about 2½ hours;
-3. Butterworthing with freshwater for about l½ hour;
+3. Butterworthing with freshwater for about 1½ hour;
 4. Steaming:
 5. Draining of tank, line and pump:
 6. Drying
 "
 J,"1. Butterworthing with abundant cold seawater for 2 hours:
 2. Butterworthing with hot water (80 °C) and 0.05% liquid detergent (Teepol) for about 1 hour;
-3. Butterworthing with hot freshwater (80 °C) for * hour;
+3. Butterworthing with hot freshwater (80 °C) for 1 hour;
 4. Steaming;
 5. Draining of tank, line and pump;
 6. Drying.
@@ -110,7 +110,7 @@ JJ,"1. Butterworthing with hot freshwater (80 °C) for about 2 hours;
 4. Drying.
 "
 K,"1. Butterworthing with luke warm (20 - 30 °C) seawater for about 2 hours:
-2. Butterworthing with hot water (B0 *C) for about 1 hour;
+2. Butterworthing with hot water (80 °C) for about 1 hour;
 3. Steaming:
 4. Draining of tank, ne and pump;
 5. Drying"
@@ -120,10 +120,10 @@ KK,"1. Butterworthing with cold freshwater for 1 hour;
 4. Drying.
 "
 L,"1. Butterworthing with cold seawater for about 2 hours:
-2. Butterworthing with hot water (8D °C) and 0.05% liquid detergent (Teepol) for about 1 hour,
-3. Butterworthing with warm water tor about le hour;
+2. Butterworthing with hot water (80 °C) and 0.05% liquid detergent (Teepol) for about 1 hour,
+3. Butterworthing with warm water for about 1 hour;
 4. Steaming with toluene (check the L.E.L.):
-5. Butlerworthing with warm freshwater for about Is hour:
+5. Butlerworthing with warm fresh water for about 1 hour:
 6. Draining of tank. line and pump:
 7. Drying.
 NOTE:
@@ -137,7 +137,7 @@ M,"1. Do not allow the latex to dry. Apply shortly live steam in the tank at the
 2. Butlerworthing with abundant cold water for 1 hour;
 3. Butterworthing with cold water and 0.05 % detergent (Teepol) for 2 hours;
 4. Continue butterworthing if latex is still visible,
-5. Butterworthing with hot fresh water (80 °C) for M hour;
+5. Butterworthing with hot fresh water (80 °C) for 1 hour;
 6. Draining of tank, line and pump;
 7, Drying.
 "
@@ -147,13 +147,13 @@ MM,"1. Butterworthing with cold freshwater for about 1 hour,
 4. Draining of lank, line and pump:
 5. Drying
 "
-N,"1. Butterworthing with warm Ireshwater (50 °C) for 1 hour;
+N,"1. Butterworthing with warm Fresh water (50 °C) for 1 hour;
 2. Draining of tank, line and pump:
 3. Drying.
 "
 NN,"1. Butterworthing with luke warm (20 - 30° C) seawater for about 2 hours;
 2. Butterworthing with hot water (50 °C) and 0.05 % detergent (Teepol) for 1 hour;
-3. Butterworthing with hot freshwater for % hour;
+3. Butterworthing with hot freshwater for 20 minutes;
 4. Steaming;
 5. Draining of tank, line and pump;
 6. Drying.
@@ -162,11 +162,15 @@ O,"1. Butterworthing with warm freshwater (50) for about 2 hours;
 2. Draining of tank, line and pump.
 3. Drying
 "
-OO,"in the case of unleaded gasoline use procedure E
-In the case of leaded gasoline it is not advisable, sometimes not even allowed, to load vegetable or animal oils and fats or naphtha.
-An extra cleaning step after hot water washing in procedure E with a buffered acetic acid solution pH 5.5 or a commercial ""lead cleaning” product will lower the actual lead content of the tank.
-"
-P,"1. Butterworthing with warm water (50 C) for about t hour;
+OO,"1 . Butterworthing with cold seawater for 1 hour (Both Unleaded and Leaded Gasoline)
+
+2. Butterworthing with hot seawater for 2 hours (Both Unleaded and Leaded Gasoline)
+3. Additional cleaning with buffered acetic acid solution (pH 5.5) or a commercial lead-cleaning product (Leaded Gasoline only)
+4. Flushing with freshwater (Both Unleaded and Leaded Gasoline)
+5. Steaming (Both Unleaded and Leaded Gasoline)
+6. Draining of tank, line, and pump (Both Unleaded and Leaded Gasoline)
+7. Drying (Both Unleaded and Leaded Gasoline)"
+P,"1. Butterworthing with warm water (50 C) for about 1 hour;
 2. Flushing with fresh water:
 3. Steaming:
 4. Draining of tank, line and pump;
@@ -179,22 +183,25 @@ R,"1. Butterworthing with fuke wan fresh- or seawater 20 - 30 °C) for about 2 h
 5. Drying
 "
 S,"1. Butterworthing with warm seawater (50 °C) for about 1 hour;
-2. Butterworthing with hot seawater (B0 °C) for about 1 hour:
-3. Butterworthing with freshwater for about Ys hour;
+2. Butterworthing with hot seawater (80 °C) for about 1 hour:
+3. Butterworthing with freshwater for about 1 hour;
 4. Steaming;
 5. Draining of tank, line and pump;
 6. Drying
 "
-T,"1. Butterworthing with warm seawater (50 °C) for about 1 hour;
-2. Butterworthing with hot seawater (80 °C) and 0,05% liquid detergent (Teepol) for about 1 hour;
-3. Butterworthing with freshwater for about hour;
-4. Steaming;
-5. Draining of tank, line and pump;
-6. Drying.
-"
+T,"1. Butterworth with sea water at 55 °C to 60 °C for 2 hours (Moderate temperature to avoid
+high boiling residues)
+2. Butterworth with sea water at 70 °C to 80 °C for 2 hours
+3. Recirculation in sea water or fresh water at 70 °C to 80 °C for 2 hours and use one of
+these cleaners:
+- Solvent cleaner (hydrocarbon)
+(Follow the manufacturer's usage instructions and flush afterwards sufficiently to remove
+cleaner residues)
+4. Rinse with ambient temperature fresh water for 20 minutes
+5. Vent, mop and dry"
 U,"1. Butterworking with hot seawater (80 °C) for about 1 hour;
-2. Butterworthing with hot water and 0.05% liquid detergent (Teepol) for about 1%½ hours;
-9. Butterworthing with freshwater for about e hour;
+2. Butterworthing with hot water and 0.05% liquid detergent (Teepol) for about 1½ hours;
+3 Butterworthing with freshwater for about 1 hour;
 4. Draining of tank, line and pump:
 5. Drying
 "
@@ -212,7 +219,7 @@ W,"1. Butterworthing with hot seawater (80 °C) for about 2 hours;
 "
 Y,"1. Butlerworthing with hot seawater (80 °C) for about 2 hours:
 2. Butterworthing with hot water and 0.05% liquid detergent (Teepol) for 1 hour.
-3. Butterworthing with hot water tor about I hour,
+3. Butterworthing with hot water for about 1 hour,
 4. Draining of tank, line and pump;
 5. Drying
 "

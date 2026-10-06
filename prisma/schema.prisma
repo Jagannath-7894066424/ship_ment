@@ -42,13 +42,9 @@ model source {
 
   compatibilityExceptions compatibility_exception[]
 
-
-
   procedureTemplates procedure_templates[]
 
   procedureNotes procedure_note[]
-
-
 
   operationalRequirements operational_requirement[]
 
@@ -70,12 +66,68 @@ model source {
 
   // Gas branch. Same rule as crude oil: its own master + its own property
   // table, no FK to either of the other two masters.
-  cargoGases             cargo_gas[]
-  cargoGasPropertyValues cargo_gas_property_values[]
+  cargoGases                 cargo_gas[]
+  cargoGasPropertyValues     cargo_gas_property_values[]
+  cargoGasThermodynamicProps cargo_gas_thermodynamic_property[]
+  cargoGasSynonyms           cargo_gas_synonym[]
 
   crudeOilSynonyms crude_oil_synonym[]
 
   crudeOilCompatibilities crude_oil_compatibility[]
+
+  crudeOilCompatibilityExceptions crude_oil_compatibility_exception[]
+
+  cargoGasCompatibilities cargo_gas_compatibility[]
+
+  referenceData reference_data[]
+}
+
+/// Cargo-to-cargo compatibility for the GAS branch.
+///
+/// Exists for the same reason crude_oil_compatibility does: `compatibility` FKs
+/// reactive_groups (a verdict about classes of chemistry, not named cargoes),
+/// compatibility_exception FKs cargo_chemical, and cargo_gas is a third master
+/// with no FK to either.
+///
+/// SYMMETRIC, unlike the oil twin. crude_oil_compatibility is directional
+/// because a cleaning verdict depends on which cargo left the residue. This
+/// table answers a different question - may two substances CO-EXIST - which is
+/// a fact about the pair and not about an order of events. The source matrix is
+/// provably symmetric: all 289 cells of its 17x17 grid agree with their
+/// transpose.
+///
+/// So a pair is stored ONCE in canonical order gas_a_id <= gas_b_id, the same
+/// arrangement `compatibility` uses. A CHECK constraint in
+/// 20260910000000_cargo_gas_compatibility enforces the ordering, so there is no
+/// row for the reverse pair - normalise before looking one up.
+///
+/// Says nothing about what to DO between two cargoes; that is cleaning_process.
+model cargo_gas_compatibility {
+  id         Int     @id @default(autoincrement())
+  gas_a_id   Int
+  gas_b_id   Int
+  compatible Boolean
+  source_id  Int
+
+  /// The mark the source printed ('X', 'Y'), kept verbatim beside the boolean
+  /// it was read as, so the reading stays checkable against the legend.
+  raw_value       String?
+  source_page_ref String?
+  notes           String?
+  created_at      DateTime @default(now())
+  updated_at      DateTime @default(now())
+
+  gas_a  cargo_gas @relation("gas_compat_a", fields: [gas_a_id], references: [id], onDelete: Cascade)
+  gas_b  cargo_gas @relation("gas_compat_b", fields: [gas_b_id], references: [id], onDelete: Cascade)
+  source source    @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  // One answer per pair per source, so two guides may disagree and each keeps
+  // its own.
+  @@unique([gas_a_id, gas_b_id, source_id], map: "cargo_gas_compatibility_pair_source_key")
+  @@index([gas_a_id])
+  @@index([gas_b_id])
+  @@index([source_id])
+  @@index([compatible])
 }
 
 /// Cargo-to-cargo compatibility for the OIL branch.
@@ -117,6 +169,35 @@ model crude_oil_compatibility {
   @@index([to_crude_oil_id])
   @@index([source_id])
   @@index([compatible])
+}
+
+/// An oil-side counterpart to `compatibility_exception` (which FKs
+/// cargo_chemical and so cannot reference crude_oil). Unlike the chemical
+/// case, there is no group-level baseline above crude_oil_compatibility for
+/// this to override - it just flags that a specific directed pair is called
+/// out as an exception in the source (e.g. an aviation cargo allowed only
+/// conditionally), alongside the same pair's row in crude_oil_compatibility.
+model crude_oil_compatibility_exception {
+  id                Int      @id @default(autoincrement())
+  from_crude_oil_id Int
+  to_crude_oil_id   Int
+  compatible        Boolean
+  source_id         Int
+  /// Verbatim, same convention as crude_oil_compatibility.procedure_code.
+  procedure_code    String?
+  notes             String?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @default(now())
+
+  from_crude_oil crude_oil @relation("compat_exception_from", fields: [from_crude_oil_id], references: [id], onDelete: Cascade)
+  to_crude_oil   crude_oil @relation("compat_exception_to", fields: [to_crude_oil_id], references: [id], onDelete: Cascade)
+  source         source    @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  // One exception per directed pair per source.
+  @@unique([from_crude_oil_id, to_crude_oil_id, source_id], map: "crude_oil_compatibility_exception_pair_source_key")
+  @@index([from_crude_oil_id])
+  @@index([to_crude_oil_id])
+  @@index([source_id])
 }
 
 /// What class of material a source describes. `gas` is defined for future gas
@@ -166,6 +247,9 @@ model crude_oil {
 
   compatibilitiesFrom crude_oil_compatibility[] @relation("compat_from")
   compatibilitiesTo   crude_oil_compatibility[] @relation("compat_to")
+
+  compatibilityExceptionsFrom crude_oil_compatibility_exception[] @relation("compat_exception_from")
+  compatibilityExceptionsTo   crude_oil_compatibility_exception[] @relation("compat_exception_to")
 
   source source @relation(fields: [source_id], references: [id], onDelete: Cascade)
 
@@ -219,17 +303,6 @@ model crude_oil_property_values {
   @@index([crude_oil_id, field_name])
 }
 
-/// Gas cargo master record.
-///
-/// Third master entity, a sibling of cargo_chemical and crude_oil - NOT a
-/// subtype of either. Shaped on crude_oil because the two share the same
-/// pattern (a named product, sourced, with all measured quantities pushed into
-/// a property-value table) rather than because a gas is a kind of oil.
-///
-/// No gas source has been loaded yet; the table exists so cleaning_process and
-/// procedure_templates have a real GAS master to point at. Columns are limited
-/// to what identity requires - do NOT add assay columns here, they belong in
-/// cargo_gas_property_values.
 model cargo_gas {
   id                Int      @id @unique @default(autoincrement())
   gas_name          String
@@ -238,21 +311,19 @@ model cargo_gas {
   created_at        DateTime @default(now())
   updated_at        DateTime @updatedAt
 
-  properties cargo_gas_property_values[]
+  properties              cargo_gas_property_values[]
+  thermodynamicProperties cargo_gas_thermodynamic_property[]
+  synonymLinks            cargo_gas_synonym[]
+  compatibilitiesAsA cargo_gas_compatibility[] @relation("gas_compat_a")
+  compatibilitiesAsB cargo_gas_compatibility[] @relation("gas_compat_b")
 
   source source @relation(fields: [source_id], references: [id], onDelete: Cascade)
-
-  // Per-source identity, same reasoning as crude_oil: two sources describing
-  // the same gas keep their own rows and their own values.
   @@unique([gas_name, source_id])
   @@index([gas_name])
   @@index([source_id])
 }
 
-/// Source-aware property values for gases.
-///
-/// Mirrors crude_oil_property_values exactly, min/max included: gas
-/// specifications are quoted as ranges at least as often as crude assays are.
+
 model cargo_gas_property_values {
   id           Int    @id @unique @default(autoincrement())
   cargo_gas_id Int
@@ -289,6 +360,48 @@ model cargo_gas_property_values {
   @@index([field_name])
   @@index([cargo_gas_id, source_id])
   @@index([cargo_gas_id, field_name])
+}
+model cargo_gas_thermodynamic_property {
+  id           Int @id @default(autoincrement())
+  cargo_gas_id Int
+  source_id    Int
+  property_type GasThermoPropertyType
+
+  temperature      Float
+  temperature_unit String  @default("°C")
+  pressure         Float?
+  pressure_unit    String?
+  phase         GasPhase @default(NONE)
+  property_name String
+  value     Float
+  raw_value String
+  unit      String
+
+  source_page_ref String?
+  notes           String?
+  created_at      DateTime @default(now())
+  updated_at      DateTime @default(now())
+
+  cargo_gas cargo_gas @relation(fields: [cargo_gas_id], references: [id], onDelete: Cascade)
+  source    source    @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  @@index([cargo_gas_id])
+  @@index([source_id])
+  @@index([property_name])
+  @@index([property_type])
+  @@index([cargo_gas_id, property_type, property_name, temperature])
+}
+
+/// Which thermodynamic table a reading came from.
+enum GasThermoPropertyType {
+  SATURATED
+  SUPERHEATED
+}
+
+enum GasPhase {
+  VAPOUR
+  LIQUID
+  NONE
 }
 
 model cargo_family_group {
@@ -376,14 +489,11 @@ model cargo_chemical {
 
   uscg_compatibility_group String?
 
-  // Identity / descriptive fields (ChemServe + SDS profiles)
   molecular_formula   String?
   appearance          String?
   product_description String?
 
-  // Heating requirements. Each source cell is "N" (not required), "Y" (required,
-  // no temperature) or a number (required, with the minimum/maximum temperature
-  // in °C). Stored as a boolean flag + an optional temperature per stage.
+ 
   heat_adjacent_required        Boolean?
   heat_adjacent_temperature     Decimal? @db.Decimal(5, 2)
   heating_required_voyage       Boolean?
@@ -407,11 +517,6 @@ model cargo_chemical {
   cargoReactiveGroups       cargo_reactive_group[]
   compatibilityExceptions_a compatibility_exception[] @relation("cargo_a_id")
   compatibilityExceptions_b compatibility_exception[] @relation("cargo_b_id")
-
-
-  // NOTE: cleaning_process no longer relates to cargo_chemical by FK - its
-  // cargo columns are polymorphic (see cleaning_process). Query them with
-  // cargo_type: CHEMICAL + the cargo id; see src/cargo-type.ts.
 
 
 
@@ -510,6 +615,7 @@ model synonyms {
 
   cargoSynonyms    cargo_synonym[]
   crudeOilSynonyms crude_oil_synonym[]
+  cargoGasSynonyms cargo_gas_synonym[]
 
   source source? @relation(fields: [source_id], references: [id], onDelete: SetNull)
 
@@ -568,6 +674,50 @@ model cargo_synonym {
   source         source?        @relation(fields: [source_id], references: [id], onDelete: Cascade)
 
   @@unique([cargo_id, synonym_id]) // link a chemical to a synonym at most once
+}
+
+/// Joins cargo_gas to the shared `synonyms` table.
+///
+/// The third of three link tables, after cargo_synonym and crude_oil_synonym:
+/// `synonyms` is owner-agnostic, so each master needs its own. Deliberately the
+/// same shape as crude_oil_synonym - it answers the same question about a
+/// different master, and divergence between the three would be an accident.
+///
+/// See prisma/migrations/20260904000000_cargo_gas_synonym.
+model cargo_gas_synonym {
+  id           Int @id @default(autoincrement())
+  cargo_gas_id Int
+  synonym_id   Int
+
+  /// What kind of name this is in the source's own terms: "abbreviation" for a
+  /// short code (IMO Cargo.XLSX heads a column "Synonyms" and fills it with
+  /// three-letter codes), leaving room for trade names and true alternative
+  /// chemical names. Storing the kind is what keeps a code from being served
+  /// back as the cargo's name.
+  relationship_type    String
+  /// True when this text names more than one cargo within the same source -
+  /// IMO Cargo.XLSX gives both Butane-n and Butane-i the code "BUT", so a
+  /// lookup on it cannot resolve to a single gas.
+  ambiguity_flag       Boolean  @default(false)
+  /// The source that applied this name to THIS cargo. cargo_gas is already
+  /// per-source, but the `synonyms` row is shared across all three branches and
+  /// keeps whoever first published the text, so attribution of the LINK lives
+  /// here.
+  source_id            Int?
+  preferred_for_search Boolean?
+  notes                String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  cargo_gas cargo_gas @relation(fields: [cargo_gas_id], references: [id], onDelete: Cascade)
+  synonyms  synonyms  @relation(fields: [synonym_id], references: [id], onDelete: Cascade)
+  source    source?   @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  @@unique([cargo_gas_id, synonym_id]) // link a gas to a name at most once
+  @@index([cargo_gas_id])
+  @@index([synonym_id])
+  @@index([source_id])
 }
 
 model reactive_groups {
@@ -652,9 +802,6 @@ model compatibility_exception {
   group_b_id     Int?
   compatible     Boolean // the Appendix outcome for this specific chemical pair
   exception_type CompatibilityExceptionType
-  appendix       String? // e.g. "I"
-  section        String? // e.g. "I(a)" / "I(b)"
-  reason         String?
   notes          String?
   source_id      Int
   created_at     DateTime                   @default(now())
@@ -1097,9 +1244,55 @@ model cargo_dot_hazad {
   @@index([entry_type])
 }
 
+/// Reference numbers published by a source: a clause, table, paragraph or chart
+/// number as the source prints it, with the caption beside it.
+///
+/// The number columns are TEXT, not Int. Published reference numbers are dotted
+/// ("4.2.1"), lettered ("17a"), prefixed ("Table 3", "Annex II") and sometimes
+/// ranged ("15-17"); parsing them into integers would lose the form a reader
+/// has to be shown back, and nothing here does arithmetic on them.
+///
+/// source_id is mandatory. A reference number detached from the document that
+/// numbered it is unusable rather than merely incomplete - "4.2" is a different
+/// clause in every source.
+///
+/// There is deliberately NO unique key. The natural one,
+/// (source_id, reference_no, sub_reference_no), has a nullable last column, and
+/// PostgreSQL treats NULLs as distinct - so it would neither block duplicate
+/// top-level entries nor serve as an ON CONFLICT target for them. See
+/// 20260916000000_reference_data.
+model reference_data {
+  id Int @id @default(autoincrement())
+
+  /// The number as printed: "4.2.1", "Table 3", "Annex II".
+  reference_no String
+  /// The sub-division under reference_no when the source splits one.
+  sub_reference_no String?
+  /// The caption or heading the source prints beside the number.
+  description String?
+  /// A cross-reference the source itself points at from this entry.
+  additional_reference_no String?
+
+  /// The document that numbered this reference.
+  source_id Int
+  /// The source's own grouping for the entry, in the source's words.
+  category String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  source source @relation(fields: [source_id], references: [id], onDelete: Cascade)
+
+  @@index([source_id])
+  // The query this table exists for: "what is reference 4.2 in this document?"
+  @@index([source_id, reference_no])
+  @@index([category])
+}
+
 enum ReactiveGroupType {
   REACTIVE // groups 1–22
   CARGO // groups 30–43
+  UNASSIGNED // group 0: no chart row; compatibility only via Appendix I exceptions
 }
 
 enum CompatibilityExceptionType {
@@ -1211,4 +1404,16 @@ enum CleaningStepType {
   SPECIAL_CLEANING
   TEMPERATURE
   NITROGEN
+
+  // BP extract vocabulary, added by
+  // 20261005000000_cleaning_step_type_bp_extract_values. PURGE, GAS_FREE and DRY
+  // duplicate PURGING, GAS_FREEING and DRYING in meaning; treat each pair alike.
+  STRIP
+  BLOW
+  WASH
+  PURGE
+  GAS_FREE
+  DRY
+  DRAIN
+  LOAD
 }

@@ -61,7 +61,7 @@ import re
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Set, Dict, List, Optional, Tuple
 
 import psycopg2
 from psycopg2.extras import execute_values
@@ -159,6 +159,7 @@ COLUMN_TO_FIELD: Dict[str, str] = {
     "medical_surveillance":           "medical_surveillance",
     "first_aid":                      "first_aid",
     "personal_protective_methods":    "personal_protective_methods",
+    "decontamination":                "decontamination",
     "respirator_selection":           "respirator_selection",
     "storage":                        "storage",
     "shipping":                       "shipping",
@@ -246,6 +247,7 @@ SITTIG_FIELDS: List[dict] = [
     _F("medical_surveillance",      "Medical Surveillance",       "text",   None, "Health"),
     _F("first_aid",                 "First Aid",                  "text",   None, "Health"),
     _F("personal_protective_methods", "Personal Protective Methods", "text", None, "Health"),
+    _F("decontamination",           "Decontamination",            "text",   None, "Health"),
     _F("respirator_selection",      "Respirator Selection",       "text",   None, "Health"),
     # ---- Environmental water-quality criteria ----------------------------
     _F("freshwater_aquatic_life_acute",   "Freshwater Aquatic Life (Acute)",   "text", None, "Health"),
@@ -277,13 +279,46 @@ FIELD_META: Dict[str, Tuple[str, Optional[str]]] = {
 # CSV repair (see the ⚠ note in the module docstring)
 # ---------------------------------------------------------------------------
 BOOLS = {"TRUE", "FALSE"}
-# Anchor columns used both by repair_row and by misalignment().
+# The entry_complete cell: TRUE/FALSE in the original export, Yes/No in the newer one.
+DONE_VALUES = BOOLS | {"YES", "NO"}
+# Anchor columns used both by repair_row and by misalignment(). They number the
+# ORIGINAL 73-column layout, which is what the CSV header names.
 I_RISK, I_SAFETY, I_SPILL, I_ENTRY = 65, 66, 67, 72
-N_COLS = 73
+N_COLS_HEADER = 73
+# The newer rows carry one more column than the header names: a decontamination
+# column sits between first_aid and personal_protective_methods, so every field
+# from personal_protective_methods on is one column to the right of its header.
+# Reading those rows by the 73-name header put each value under the wrong field
+# (protective-clothing advice under respirator_selection, the respirator text
+# under storage, ...). The column is named here and the header is widened.
+I_DECON = 58
+DECON_COLUMN = "decontamination"
+N_COLS = N_COLS_HEADER + 1
 
 
 def repair_row(row: List[str]) -> List[str]:
-    """Undo the recoverable unquoted-comma splits; return exactly N_COLS fields."""
+    """Undo the recoverable unquoted-comma splits; return exactly N_COLS fields.
+
+    Two layouts exist in the file. The newer rows are N_COLS wide and end in
+    Yes/No; the original rows are N_COLS_HEADER wide and end in TRUE/FALSE. The
+    original rows get an empty decontamination cell so both come out the same.
+    """
+    # A correctly quoted export: N_COLS cells ending in the entry_complete value.
+    # Nothing to repair, and rejoining "fragments" would risk merging real cells.
+    trimmed = list(row)
+    while trimmed and not trimmed[-1].strip():
+        trimmed.pop()
+    if len(trimmed) == N_COLS and trimmed[-1].strip().upper() in DONE_VALUES:
+        return trimmed
+    fields = _repair_original(row)
+    if len(fields) == N_COLS and fields[-1].strip().upper() in {"YES", "NO"}:
+        return fields
+    return fields[:I_DECON] + [""] + fields[I_DECON:]
+
+
+def _repair_original(row: List[str]) -> List[str]:
+    """repair_row for the original layout (N_COLS_HEADER fields); a row already
+    in the newer layout is returned as joined, unpadded and untruncated."""
     # 1. ", " joins: a continuation field starts with a space and has content.
     fields: List[str] = []
     for cell in row:
@@ -294,8 +329,10 @@ def repair_row(row: List[str]) -> List[str]:
 
     while fields and fields[-1].strip() == "":     # drop the writer's padding
         fields.pop()
-    if len(fields) <= N_COLS:
-        return fields + [""] * (N_COLS - len(fields))
+    if len(fields) == N_COLS and fields[-1].strip().upper() in {"YES", "NO"}:
+        return fields                               # newer layout: nothing to repair
+    if len(fields) <= N_COLS_HEADER:
+        return fields + [""] * (N_COLS_HEADER - len(fields))
 
     # 2. Still too wide: the surplus is an R-/S-phrase list written without
     #    spaces. entry_complete (TRUE/FALSE) anchors the tail, so everything
@@ -304,7 +341,7 @@ def repair_row(row: List[str]) -> List[str]:
                  default=-1)
     tail_len = I_ENTRY - I_SPILL + 1
     if anchor < I_ENTRY or anchor - tail_len < I_RISK:
-        return fields[:N_COLS]                      # unrecoverable: truncate
+        return fields[:N_COLS_HEADER]               # unrecoverable: truncate
     head = fields[:I_RISK]
     tail = fields[anchor - tail_len + 1:anchor + 1]
     middle = [f for f in fields[I_RISK:anchor - tail_len + 1] if f.strip()]
@@ -316,9 +353,16 @@ def repair_row(row: List[str]) -> List[str]:
 
 # Anchor columns whose shape is known; a value that no longer fits means the row
 # is still shifted and every column after that point is untrustworthy.
-_HAZARD_CLASS_RE = re.compile(r"^\d")                       # 3, 6.1, "8 (solution)"
+_HAZARD_CLASS_RE = re.compile(r"\d")                        # 3, 6.1, "8 (solution)", "o-DCB: 6.1; p-DCB: 9"
 _PACKING_GROUP_RE = re.compile(r"^(I{1,3}|\d)\b", re.I)     # I / II / III / "II or III"
 _PAGE_RE = re.compile(r"\d")
+# A short "nothing to report" answer is a real value, not a shifted one:
+# hazard_class = "Not regulated (no UN/NA number)" / "FORBIDDEN", packing_group =
+# "None cited" / "Not assigned". Shifted cells are sentences, so only a SHORT
+# answer that opens with one of these words is let through.
+_NO_ANSWER_RE = re.compile(r"^(not\b|none\b|forbidden|n/?a\b|no\b|unknown|see\b|"
+                           r"combustible|flammable|corrosive|oxidi[sz]|poison|toxic|explosive)", re.I)
+_NO_ANSWER_MAX_LEN = 60
 
 
 def misalignment(rec: Dict[str, str]) -> Optional[str]:
@@ -331,10 +375,24 @@ def misalignment(rec: Dict[str, str]) -> Optional[str]:
     for col, pattern in checks:
         val = rec.get(col, "").strip()
         if val and not pattern.search(val):
+            if col != "page_number" and len(val) <= _NO_ANSWER_MAX_LEN and _NO_ANSWER_RE.match(val):
+                continue
             return f"{col}={val[:60]!r}"
-    if rec.get("entry_complete", "").strip().upper() not in BOOLS | {""}:
+    if rec.get("entry_complete", "").strip().upper() not in DONE_VALUES | {""}:
         return f"entry_complete={rec['entry_complete'][:60]!r}"
     return None
+
+
+# Header cells typed by hand drift: "Common Formula", "clean_ water_act",
+# "safety-phrases", "rtecs_number Number". Names are matched after lower-casing and
+# turning spaces/hyphens into single underscores; the rest are listed here.
+HEADER_ALIASES = {"rtecs_number_number": "rtecs_number"}
+
+
+def normalize_header(cell: str) -> str:
+    name = re.sub(r"[\s\-]+", "_", cell.strip().lower())
+    name = re.sub(r"_+", "_", name).strip("_")
+    return HEADER_ALIASES.get(name, name)
 
 
 def read_rows(path: Path) -> Tuple[List[str], List[Dict[str, str]]]:
@@ -343,7 +401,14 @@ def read_rows(path: Path) -> Tuple[List[str], List[Dict[str, str]]]:
         raw = list(csv.reader(fh))
     if not raw:
         sys.exit(f"Error: {path} is empty.")
-    header = [c.strip() for c in raw[0][:N_COLS]]
+    header = [normalize_header(c) for c in raw[0]]
+    while header and not header[-1]:
+        header.pop()
+    if len(header) == N_COLS_HEADER and DECON_COLUMN not in header:
+        # Older export: the decontamination column exists in the data but is unnamed.
+        header = header[:I_DECON] + [DECON_COLUMN] + header[I_DECON:]
+    if len(header) != N_COLS:
+        sys.exit(f"Error: expected {N_COLS} header columns, found {len(header)}.")
     if header[0] != NAME_COLUMN:
         sys.exit(f"Error: expected first column {NAME_COLUMN!r}, got {header[0]!r}.")
     missing = [c for c in COLUMN_TO_FIELD if c not in header]
@@ -378,7 +443,7 @@ def parse_number(raw: str, unit: Optional[str]) -> Optional[float]:
 
 def parse_bool(raw: str) -> Optional[bool]:
     v = raw.strip().upper()
-    return True if v == "TRUE" else False if v == "FALSE" else None
+    return True if v in {"TRUE", "YES"} else False if v in {"FALSE", "NO"} else None
 
 
 def normalize_synonym(text: str) -> str:
@@ -597,7 +662,7 @@ def main() -> None:
     if not path.is_file():
         sys.exit(f"File not found: {path}")
 
-    _, records = read_rows(path)
+    header, records = read_rows(path)
 
     # First pass: a synonym shared by more than one chemical is ambiguous.
     chemicals_per_syn: Dict[str, set] = {}
@@ -626,6 +691,13 @@ def main() -> None:
             n_cargo = n_skip_noname = n_skip_shift = n_shifted = 0
             seen_names: Dict[str, int] = {}
 
+            # Names that have at least one properly aligned row: a column-shifted
+            # row for the same name must not overwrite it.
+            aligned_names = {r[NAME_COLUMN].strip().lower() for r in records
+                             if r[NAME_COLUMN].strip() and not misalignment(r)}
+            aligned_ids: Set[int] = set()
+            n_skip_dupe_shift = 0
+
             for idx, rec in enumerate(records):
                 line = idx + 2                       # header + 1-based
                 name = rec[NAME_COLUMN].strip()
@@ -635,6 +707,11 @@ def main() -> None:
                     continue
 
                 reason = misalignment(rec)
+                if reason and name.lower() in aligned_names:
+                    n_skip_dupe_shift += 1
+                    log.warning("✗ row %d SKIP (column-shifted duplicate of an aligned row): "
+                                "%s | %s", line, name, reason)
+                    continue
                 if reason:
                     n_shifted += 1
                     if args.strict:
@@ -657,6 +734,8 @@ def main() -> None:
                     seen_names[key] = cargo_id
                     n_cargo += 1
 
+                if not reason and cargo_id > 0:
+                    aligned_ids.add(cargo_id)
                 for row in build_property_rows(rec, cargo_id, source_id, now):
                     prop_rows[(row[0], row[2])] = row   # last write wins on dupes
 
@@ -671,6 +750,17 @@ def main() -> None:
                     )
 
             if not args.dry_run:
+                # Earlier loads put values under the wrong field (and the source file
+                # has been corrected since). Clear every field this loader maps, for
+                # every cargo read from an aligned row, so an old value cannot survive
+                # where the correct cell is empty.
+                block = sorted(set(COLUMN_TO_FIELD.values()))
+                if aligned_ids and block:
+                    cur.execute("DELETE FROM cargo_property_values WHERE source_id = %s "
+                                "AND cargo_id = ANY(%s) AND field_name = ANY(%s)",
+                                (source_id, sorted(aligned_ids), block))
+                    log.info("cleared %d old value(s) across %d mapped field(s) "
+                             "for %d aligned cargo(s)", cur.rowcount, len(block), len(aligned_ids))
                 if prop_rows:
                     flush_properties(cur, list(prop_rows.values()))
                 if link_rows:
@@ -685,6 +775,7 @@ def main() -> None:
             log.info("  cargo_synonym links        : %d", len(link_rows))
             log.info("  field_definitions seeded   : %d", n_fields)
             log.info("  rows w/ no chemical_name   : %d", n_skip_noname)
+            log.info("  shifted dupes skipped      : %d", n_skip_dupe_shift)
             log.info("  column-shifted rows        : %d (%s)", n_shifted,
                      f"{n_skip_shift} skipped" if args.strict else "loaded, flagged in notes")
             log.info("=" * 64)

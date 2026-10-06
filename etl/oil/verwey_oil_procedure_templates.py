@@ -22,22 +22,24 @@ INPUTS
 
 The step sheet carries no step_order; `source_method_id` is the guide's own
 method number within a code and is used as the order. `source_value` is the raw
-matrix cell the step was read from ("Butterworth Cold - source value: SW") and
-is kept as step_description, because it is the only record of what the printed
-matrix actually said.
+matrix cell the step was read from ("Butterworth Cold - source value: SW"), kept
+in the input sheet for traceability but not stored as step_description: it only
+ever restates medium/temperature/duration/mandatory, and for most rows it's bare
+"y" ("this step applies", already captured by the step existing + mandatory=true).
 
 TWO KNOWN DEFECTS IN THE EXTRACT, NEITHER PAPERED OVER
 ------------------------------------------------------
-1. STALE LABELS. Codes I and II were renamed J and JJ, but only in
+1. STALE LABELS. Codes I and II were renamed J and JJ, but at first only in
    procedure_code - template_name and description still read "Cleaning Code I"
-   and "Source cleaning code I.". The sheet's text is stored VERBATIM anyway,
+   and "Source cleaning code I." (now corrected in the sheet; the check stays
+   for any future code whose label disagrees). The sheet's text is stored VERBATIM anyway,
    because rewriting a source's own wording to match what it probably meant is
    how a transcription error becomes indistinguishable from the source. The
    mismatch is recorded in `notes` and warned about, so it is visible and
    fixable by re-running once the sheet is corrected.
 
 2. UNDEFINED CODE. The steps and the matrix both use `U`, which the template
-   sheet does not define. procedure_template_steps.procedure_templates_id is a
+   sheet at first did not define (now added to the sheet). procedure_template_steps.procedure_templates_id is a
    NOT NULL foreign key, so U's steps CANNOT be stored without inventing a
    template for it. They are skipped and reported by name; define U in the
    template sheet and re-run and they load, since every write here is an upsert.
@@ -230,7 +232,12 @@ def build_steps(rows: List[dict], known: set) -> Tuple[Dict[str, List[dict]], Li
             "method_id": order,
             "step_name": name,
             "step_type": step_type,
-            "step_description": clean(r["source_value"]),
+            # source_value is the raw matrix cell ("Butterworth Cold — source
+            # value: SW"), but it only ever restates what medium/temperature/
+            # duration/mandatory already capture structured — for the common
+            # case it's bare "y" ("this step applies", already mandatory=true)
+            # with no information of its own. Not stored.
+            "step_description": None,
             "medium": clean(r["medium"]),
             "temperature": clean(r["temperature"]),
             "duration": clean(r["duration"]),

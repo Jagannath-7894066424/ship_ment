@@ -1,0 +1,43 @@
+Product Name,Formula,UN number,Molecular weight (Kg/Kmole),Boiling point at Atm.pres. (C°),Specific Gravity at Boiling point,Flash point (C°),Flammabale limits (%Vol),TLV (ppm),Odour threshold (ppm)
+Acetaldehyde(ammonia),CH3CHO,1089,44.05,21°,0.7827,-27°,4-57%,50,0.21
+Ammonia (anhydrous),NH3,1005,17.03,-33°,0.6814,-57°,15-30%,25,20
+Butadiene (inhibited),C4H6,1010,54.10,-5°,0.6511,-85°,"1-12,5%",10,1000
+n-Butane,C4H10,1011,58.12,-0.5°,0.6008,-60°,"1,5-9%",600,5000
+iso-Butane,C4H10,1011,58.12,-12°,0.5933,-60°,"1,5-9%",600,5000
+Butene-1 (Butylene),C4H8,1012,56.10,-6°,0.6280,-12°,"1,5-9%",800,Odourless
+Carbonmonoxid,CO,,28.01,,,,,25,
+Crude C4,composition,1965,,-8C to 4C,"0,6**",-18°,"1,5-10%",,
+Chlorine,Cl2,1017,70.91,-34.5°,"1,468*",n/a,n/a,0.5,3.5
+Diethyl ether,C2H5OC2H5,1155,72.12,34°,"0,714***",-40°,"1,7-48%",400,1
+Dimethylamine,C2H7N,1032,45.09,7°,"0,6615*",-30°,"2,8-14,4%",10,less than 1
+Dry air,,,28.96,,,,,,
+Ethane,C2H6,1961,30.07,-89°,"0,446*",-125°,3-16%,1000,too high
+Ethyl Alcohol,C2H6OH,1170,46.01,78°,"0,789***",12°,3-19%,1000,350
+Ethylamine,C2H5NH2,1036,45.09,17°,"0,69***",-18°,"3,5-14%",10,1
+Ethyl chloride,C2H5Cl,1037,64.52,12°,0.9000,-50°,"3,5-15%",1000,n/a
+Ethylene,C2H4,1038,28.05,-103.8°,0.5680,-150°,"2,5-34%",1000,n/a
+Ethylene oxide,C2H4O,1040,44.05,11°,0.8823,-18°,"2,5-100%",5,50
+Isoprene (ihibited),CH2:C(CH3)CH:CH2,1218,68.12,34°,"0,68***",-50°,2-10%,n/a,less than 1
+Isopropylamine,(CH3)2CHNH2,1221,59.11,32°,"0,69***",-37°,2-12%,5,n/a
+LPG,composition,Mix.,depends on composition,,,,,as per data sheet,
+Methane/LNG,CH4,1971,16.04,-161°,see graph A1.2.,-175°,5-16%,1000,200
+Methyl alcohol,CH4O,1230,32.04,64°,"0,79***",16°,5-44%,200,up to 2000
+Methylacetylene/ Propadiene mix.,CH3.C:C.H+CH2:C:CH2,1060,40.10,-38°,as per shipper`s information,,3-11%,1000,100
+Methyl bromide,CH3Br,1062,94.95,4°,"1,73*",-15°,9-20%,5,n/a
+Methyl chloride,CH3Cl,1063,50.49,-24°,"0,92***",24°,7-20%,50,100
+Nitrogen,N2,1977,28.01,-196°,"0,970",n/a,n/a,n/a,n/a
+Oxygen,O2,,31.9988,,,,,,
+Pentanes (all isomers),CH3(CH2)3CH3,1265,depends on composition,36°,"0,63***",-50°,1-8%,600,10
+Pentene (all isomers),C5H10,1108,depends on composition,36°,"0,65***",-20°,1-9%,n/a,n/a
+Propane,C3H8,1978,44.09,-42.2°,0.5814,-105°,2-10%,1000,n/a
+Propylene,C3H6,1077,42.08,-47.5°,0.6088,-108°,2-12%,1000,n/a
+Propylene Oxide,C3H6O,1280,58.08,34.2°,"0,8286***",-44°,2-22%,50,200
+Refregerant gases,R12-CF2Cl2 R22-CHF2Cl2,1028 1018,"120,9
+86,5","-30°
+-41°","1,33***
+1,21***",n/a,n/a,1000,n/a
+Sulphur dioxide,SO2,1079,64.06,-10°,"1,38***",n/a,n/a,2,1
+Vinyl chloride (VCM),C2H3CL,1086,62.50,-14°,0.9723,-77°,4-31%,2,250
+Vinyl ethyl ether (stbl),CH2:CH.O. CH2.CH3,1302,71.11,36.0°,"0,76***",-45°,"1,7-28%",n/a,n/a
+Vinylidene chloride (stbl),CH2:CCl2,1303,96.95,32.0°,"1,22***",-10°,"5,6-16%",10,1000
+* Specific gravity at 0°C,,,** Specific gravity at +15°C,,,*** Specific gravity at +20°C,,,

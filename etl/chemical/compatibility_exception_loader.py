@@ -5,7 +5,7 @@ Load 46 CFR Part 150 Appendix I chemical-pair exceptions into compatibility_exce
 Input CSV columns (appendix_I_b_cargo_exceptions.csv):
 
     id, cargo_a_name, group__a_name, group_a_id, cargo_b_name, group_b_name,
-    group_b_id, compatible, exception_type, appendix, section
+    group_b_id, compatible, exception_type
 
 Mapping into the table:
     cargo_a_name  -> cargo_a_id   (resolved via cargo_chemical: canonical + synonyms)
@@ -14,7 +14,6 @@ Mapping into the table:
     group_b_id    -> group_b_id
     compatible    -> compatible   ("✅ TRUE"/"TRUE" -> true, "FALSE" -> false)
     exception_type-> exception_type (enum: Compatible | Incompatible)
-    appendix, section -> as-is
 
 Rows keep the file's order (cargo_a_id = cargo_a_name, cargo_b_id = cargo_b_name).
 Chemicals that cannot be matched are logged for manual review and skipped (never
@@ -86,26 +85,35 @@ def as_group_code(value) -> Optional[str]:
 
 
 def resolve_or_create(cur, resolver, cache: dict, name: str, source_id: int,
-                      create: bool) -> Tuple[Optional[int], bool]:
+                      create: bool, own_source: bool = False) -> Tuple[Optional[int], bool]:
     """Return (cargo_id, created?). Resolve via cargo_chemical; optionally create a
-    minimal row (canonical_name + source) when the chemical is not found."""
+    minimal row (canonical_name + source) when the chemical is not found.
+    own_source: resolver is scoped to source_id; unmatched names are created there."""
     cid = resolver.resolve(name)
     if cid is not None:
         return cid, False
     key = name.strip().lower()
     if key in cache:
         return cache[key], False
-    if not create or not key:
+    if not key:
+        return None, False
+    if not create and own_source:
+        # Dry run: placeholder id so the would-create row is counted.
+        cache[key] = -(len(cache) + 1)
+        log.info("  would create under source_id=%s: %r", source_id, name.strip())
+        return cache[key], True
+    if not create:
         return None, False
     cur.execute(
         "INSERT INTO cargo_chemical (canonical_name, source_id, date_added, "
         "date_last_updated, created_at, updated_at) VALUES (%s, %s, now(), now(), now(), now()) "
-        "ON CONFLICT (source_id, canonical_name) DO UPDATE SET updated_at = now() RETURNING id",
+        "ON CONFLICT (source_id, canonical_name) DO UPDATE SET updated_at = now() "
+        "RETURNING id, (xmax = 0) AS inserted",
         (name.strip(), source_id),
     )
-    cid = cur.fetchone()[0]
+    cid, inserted = cur.fetchone()
     cache[key] = cid
-    return cid, True
+    return cid, inserted
 
 
 def pick_rg_source(cur, forced: Optional[int]) -> int:
@@ -133,12 +141,20 @@ def main() -> None:
                         help="path to the exceptions CSV")
     parser.add_argument("--source-id", type=int, default=None,
                         help="force the exception rows' source_id (default: match by file name)")
+    parser.add_argument("--source-name", default=None,
+                        help="use the source with exactly this name (default: match by file name)")
     parser.add_argument("--rg-source-id", type=int, default=None,
                         help="source whose reactive_groups map the group codes (default: auto)")
     parser.add_argument("--wipe", action="store_true",
                         help="delete existing exceptions first")
     parser.add_argument("--create-missing", action="store_true",
                         help="create a cargo_chemical row for names not found, then insert the exception")
+    parser.add_argument("--all-under-source", action="store_true",
+                        help="map EVERY chemical in the file to a cargo_chemical row under the exception "
+                             "source (reuse a matching row of that source, else create)")
+    parser.add_argument("--replace-source-id", type=int, action="append", default=[],
+                        help="also delete existing exception rows of this source_id before loading "
+                             "(repeatable)")
     parser.add_argument("--show-unmatched", action="store_true",
                         help="print the pairs whose chemicals couldn't be matched")
     parser.add_argument("--dry-run", action="store_true",
@@ -174,6 +190,13 @@ def main() -> None:
                 source_id, source_name = row
                 log.info("Exception source (forced): id=%s (%r)",
                          source_id, source_name)
+            elif args.source_name:
+                cur.execute("SELECT id FROM source WHERE name=%s", (args.source_name,))
+                row = cur.fetchone()
+                if row is None:
+                    sys.exit(f"Error: source {args.source_name!r} not found.")
+                source_id = row[0]
+                log.info("Exception source (by name): id=%s (%r)", source_id, args.source_name)
             else:
                 # find_source partial match -> reuse
                 source_id = get_or_create_source(cur, path)
@@ -186,26 +209,45 @@ def main() -> None:
                 "SELECT group_code, id FROM reactive_groups WHERE source_id=%s", (rg_source,))
             code_to_rg: Dict[str, int] = {
                 code: rid for code, rid in cur.fetchall()}
-            resolver = CargoResolver(cur)
+            resolver = CargoResolver(cur, source_id if args.all_under_source else None)
             log.info("group codes mapped via reactive_groups source_id=%s (%d groups)",
                      rg_source, len(code_to_rg))
 
             if args.wipe and not args.dry_run:
                 cur.execute("DELETE FROM compatibility_exception")
                 log.info("Deleted %d existing exception rows", cur.rowcount)
+            replace_ids = sorted(set(args.replace_source_id))
+            if replace_ids and not args.wipe:
+                cur.execute(
+                    "SELECT source_id, count(*) FROM compatibility_exception "
+                    "WHERE source_id = ANY(%s) GROUP BY source_id", (replace_ids,))
+                counts = dict(cur.fetchall())
+                for sid in replace_ids:
+                    log.info("%s %d existing exception rows of source_id=%s",
+                             "Would delete" if args.dry_run else "Deleting",
+                             counts.get(sid, 0), sid)
+                if not args.dry_run:
+                    cur.execute("DELETE FROM compatibility_exception WHERE source_id = ANY(%s)",
+                                (replace_ids,))
 
             # Existing rows -> idempotent skip. Chemical-pair rows key on (a,b);
-            # cargo->group rows (cargo_b_id NULL) key on (a, group_a_id, group_b_id).
+            # cargo->group rows (cargo_b_id NULL) key on (a, group_b_id). group_a_id only
+            # describes cargo_a, so a row stored with it NULL is still the same rule.
             existing: Set[tuple] = set()
+            null_groups: Set[tuple] = set()     # existing rows with a group id still NULL
             if not args.wipe:
                 cur.execute(
-                    "SELECT cargo_a_id, cargo_b_id, group_a_id, group_b_id FROM compatibility_exception"
+                    "SELECT cargo_a_id, cargo_b_id, group_a_id, group_b_id FROM compatibility_exception "
+                    "WHERE NOT (source_id = ANY(%s))", (replace_ids,)
                 )
                 for a, b, ga_, gb_ in cur.fetchall():
-                    existing.add(("pair", a, b) if b is not None else (
-                        "grp", a, ga_, gb_))
+                    k = ("pair", a, b) if b is not None else ("grp", a, gb_)
+                    existing.add(k)
+                    if ga_ is None or (b is not None and gb_ is None):
+                        null_groups.add(k)
 
             to_insert = []
+            to_fill = []                        # (group_a_id, group_b_id, cargo_a_id, cargo_b_id)
             seen: Set[tuple] = set()
             unmatched = []
             created_cache: dict = {}
@@ -216,7 +258,8 @@ def main() -> None:
 
                 # cargo_a is required (NOT NULL) -> resolve, or create it (--create-missing).
                 a_id, made = resolve_or_create(cur, resolver, created_cache, a_name,
-                                               source_id, args.create_missing and not args.dry_run)
+                                               source_id, (args.create_missing or args.all_under_source) and not args.dry_run,
+                                               own_source=args.all_under_source)
                 n_created += made
                 if a_id is None:
                     unmatched.append(
@@ -227,7 +270,8 @@ def main() -> None:
                 #          named but not in DB -> resolve or create it.
                 if b_name:
                     b_id, made = resolve_or_create(cur, resolver, created_cache, b_name,
-                                                   source_id, args.create_missing and not args.dry_run)
+                                                   source_id, (args.create_missing or args.all_under_source) and not args.dry_run,
+                                               own_source=args.all_under_source)
                     n_created += made
                     if b_id is None:
                         unmatched.append(
@@ -252,8 +296,6 @@ def main() -> None:
 
                 ga = code_to_rg.get(as_group_code(r.get("group_a_id")))
                 gb = code_to_rg.get(as_group_code(r.get("group_b_id")))
-                appendix = _text(r.get("appendix")) or None
-                section = _text(r.get("section")) or None
 
                 if b_id is None:
                     # cargo->group exception: need a group on the b side to be meaningful.
@@ -261,21 +303,24 @@ def main() -> None:
                         unmatched.append(
                             f"{a_name!r} <> (group {as_group_code(r.get('group_b_id'))})  [group_b not in reactive_groups]")
                         continue
-                    key = ("grp", a_id, ga, gb)
+                    key = ("grp", a_id, gb)
                 else:
                     # Keep the file's order: cargo_a_id = cargo_a_name, cargo_b_id = cargo_b_name.
                     key = ("pair", a_id, b_id)
 
+                if key in null_groups and (ga is not None or (b_id is not None and gb is not None)):
+                    to_fill.append((ga, gb if b_id is not None else None, a_id, b_id))
+                    null_groups.discard(key)
                 if key in existing or key in seen:
                     continue
                 seen.add(key)
-                to_insert.append((a_id, b_id, ga, gb, compatible, etype, appendix, section,
-                                  None, None, source_id))
+                to_insert.append((a_id, b_id, ga, gb, compatible, etype, None, source_id))
 
             n_pair = sum(1 for row in to_insert if row[1] is not None)
             n_grp = len(to_insert) - n_pair
             log.info("Matched: %d (chemical-pair %d, cargo->group %d) | created chemicals: %d | skipped: %d",
                      len(to_insert), n_pair, n_grp, n_created, len(unmatched))
+            log.info("Existing rows with a NULL group id to fill: %d", len(to_fill))
             if args.show_unmatched:
                 for u in unmatched:
                     log.warning("  UNMATCHED: %s", u)
@@ -285,14 +330,22 @@ def main() -> None:
                 conn.rollback()
                 return
 
+            for ga, gb, a, b in to_fill:
+                cur.execute(
+                    "UPDATE compatibility_exception SET group_a_id = COALESCE(group_a_id, %s), "
+                    "group_b_id = COALESCE(group_b_id, %s), updated_at = now() "
+                    "WHERE cargo_a_id = %s AND cargo_b_id IS NOT DISTINCT FROM %s",
+                    (ga, gb, a, b),
+                )
+
             # Insert one row at a time.
             n_ins = 0
             for row in to_insert:
                 cur.execute(
                     "INSERT INTO compatibility_exception "
                     "(cargo_a_id, cargo_b_id, group_a_id, group_b_id, compatible, exception_type, "
-                    "appendix, section, reason, notes, source_id, created_at, updated_at) "
-                    "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now(), now()) "
+                    "notes, source_id, created_at, updated_at) "
+                    "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, now(), now()) "
                     "ON CONFLICT (cargo_a_id, cargo_b_id) DO NOTHING",
                     row,
                 )
